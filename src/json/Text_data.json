@@ -1,0 +1,90 @@
+{
+  "BEHEMOTH_OPTIONS": {
+    "english": ["Agarus", "Chronovore", "Malkarion", "Thrax", "Torgadoro", "Urska"],
+    "spanish": ["Agarus", "Cronóvoro", "Malkarion", "Thrax", "Torgadoro", "Urska"],
+    "german": ["Agarus", "Chronovore", "Malkarion", "Thrax", "Torgadoro", "Urska"]
+  },
+  "WEAPONS_OPTIONS": {
+    "english": ["Aether Strikers", "Axe", "Chain Blades", "Hammer", "Repeater", "Sword", "War Pike"],
+    "spanish": ["Golpeadores de Aether", "Hacha", "Hojas Encadenadas", "Martillo", "Repetidores", "Espada", "Pica de Guerra"],
+    "german": ["Ätherstürmer", "Axt", "Kettenklingen", "Hammer", "Repetierpistolen", "Schwert", "Kriegsspeer"]
+  },
+  "LANTERNS_OPTIONS": {
+    "english": ["Broadsides Lantern", "Drask's Eye", "Embermane's Rapture", "Koshai's Bloom", "Pangar's Shine", "Recruit's Lantern", "Shrike's Zeal", "Skarn's Defiance"],
+    "spanish": ["Farol de Andanada", "Ojo de Drask", "Bravura de Embermane", "Florecimiento de Koshai", "Brillo de Pangar", "Linterna de Reclutamiento", "Fervor de Shrike", "Rebeldía de Skarn"],
+    "german": ["Breitseitenlaterne", "Drasks Auge", "Embermanes Rausch", "Koshais Blüte", "Pangars Glanz", "Rekrutenlaterne", "Shrikes Eifer", "Skarns Trotz"]
+  },
+  "OMNICELLS": {
+    "english": ["Revenant", "Discipline", "Bastion", "Tempest", "Artificer", "Iceborne"],
+    "spanish": ["Aparición", "Disciplina", "Bastión", "Tempestad", "Artífice","Glacial"],
+    "german": ["Wiedergänger", "Disziplin", "Bastion", "Sturm", "Handwerker","Eisgeboren"]
+  },
+  "WEAPON_MODS": {
+    "english": {
+      "Aether Strikers": ["Cyclonic Strikeplate", "Echo Bracedriver", "Inertial Fistguard"],
+      "Axe": ["Furious Axecore", "Lightweight Haft", "Overcharged Cylinder", "Railsplitters Canteen", "Volatile Axecore"],
+      "Chain Blades": ["DemolitionBlades", "HurricaneBlades", "LightweightChain", "MomentumBlades", "SerratedBlades"],
+      "Hammer": ["AntiqueClip", "ExtendedClip", "ImpulseCrown", "TurbineTrigger", "WeightedCrown"],
+      "Repeater": ["CapacitiveMagazine", "DemolitionSights", "ExtractionCatalyst", "LightweightFrame", "LuckyMagazine", "PrecisionSights", "ScopedSights", "TacticiansMagazine"],
+      "Sword": ["ChargedSwordfocus", "DynamicBladecore", "KeenEdge", "MendingBladecore", "RecursiveHilt"],
+      "War Pike": ["BalancedSpearhead", "BarbedSpearhead", "ExecutionersSpearhead", "LightweightShaft", "MunitionsAmplifier"]
+    },
+    "spanish": {
+      "Golpeadores de Aether": ["Placa de Golpe Ciclónica", "Brazaletes de Eco", "Gurdamanos de Inercia"],
+      "Axe": ["Núcleo de Hacha Furioso", "Empuñadura Ligera", "Cilindro Sobrecargado", "Cantimplora de leñador", "Núcleo Volátil de Hacha"],
+      "Chain Blades": ["Cuchillas de Demolición", "Hojas de Huracán", "Cadena Ligera", "Hojas de Impulso", "Cuchillas Serradas"],
+      "Hammer": ["Cargador Antiguo", "Cargador Extendido", "Corona de Impulso", "Gatillo turbina", "Corona Pesada"],
+      "Repeater": ["Cargador Capacitivo", "Mira Demoledora", "Catalizador de Extracción", "Armazón Ligero", "Cargador Afortunado", "Miras de Precisión", "Mira Telescópica", "Cargador Táctico"],
+      "Sword": ["Concentrador de Espada Cargado", "Núcleo de Hoja Dinámico", "Filo Afilado", "Núcleo de Hoja Curativo", "Empuñadura Recursiva"],
+      "War Pike": ["Punta Equilibrada", "Punta Cruel", "Cabeza de Lanza de Verdugo", "Asta Ligera", "Aplificador de Municiones"]
+    },
+    "german": {
+      "Ätherstürmer": ["Zyklonale Schlagplatte", "Schallende Bohrwinde", "Träge Faustdeckung"],
+      "Axe": ["Zorniger Axtkern", "Flüchtiger Axtkern", "Überladener Zylinder", "Feldflasche des Holzfällers", "Leichtes Heft"],
+      "Chain Blades": ["Zerstörungsklingen", "Orkanklingen", "Leichte Kette", "Momentum Klingen", "Gezackte Klingen"],
+      "Hammer": ["Antikes Magazin", "Erweitertes Magazin", "Impulskrone", "Turbinenabzug", "Gewichtete Krone"],
+      "Repeater": ["Kapitänsmagazin", "Zerstörungsvisier", "Extraktionskatalysator", "Leichter Rahmen", "Glückliches Magazin", "Präzisionsvisier", "Zielfernrohr", "Taktikermagazin"],
+      "Sword": ["Geladener Schwertfokus", "Dynamischer Klingenkern", "Scharfe Klinge", "Verheilender Klingenkern", "Rekursiver Griff"],
+      "War Pike": ["Ausgewogene Speerspitze", "Stachelige Speerspitze", "Speerspitze des Henkers", "Leichter Schaft", "Munitionsamplifikator"]
+    }
+  },
+  "WEAPON_SPECIALS": {
+    "english": {
+      "Aether Strikers": ["AdamantBolt", "TitansCrash"],
+      "Axe": ["FlightOfRuin", "GrimOnslaught", "RelentlessOnslaught"],
+      "Chain Blades": ["CruelRiftstrike", "InsatiableDance", "ReapersDance"],
+      "Hammer": ["ConcussiveSalvo", "IronheartLandbreaker", "MightyLandbreaker"],
+      "Repeater": ["Marksman Chamber", "FullBore Chamber", "Salvo Chamber", "Captains Grip", "Saboteurs Grip"],
+      "Sword": ["ArdentCyclone", "AvengingOverdrive", "ValiantOverdrive"],
+      "War Pike": ["ConcussivePayload", "RecklessLeap", "SavageWellspring"]
+    },
+    "spanish": {
+      "Aether Strikers": ["Rayo Adamante", "Choque del Titán"],
+      "Axe": ["Vuelo de la Ruina", "Embate Siniestro", "Embate Incesante"],
+      "Chain Blades": ["Ataque Cruel de Fisuras", "Danza Insaciable", "Danza del Segador"],
+      "Hammer": ["Salva Conmocionante", "Rompetierras Acorazado", "Rompetierras Poderoso"],
+      "Repeater": ["Cámara de Tirador", "Cámara de Calibre Grueso", "Cámara de Salva", "Empuñadura de Capitán", "Empuñadura de Saboteador"],
+      "Sword": ["Ciclón Ardiente", "Sobrecarga Vengadora", "Sobrecarga Valerosa"],
+      "War Pike": ["Carga Conmocionante", "Salto Imprudente", "Manantial Salvaje"]
+    },
+    "german": {
+      "Ätherstürmer": ["Eisenblitz", "Krachen des Titanen"],
+      "Axe": ["Ruinierungsflug", "Finsterer Ansturm", "Unerbittlicher Ansturm"],
+      "Chain Blades": ["Grausamer Kluftschlag", "Unstillbarer Tanz", "Tanz des Schnitters"],
+      "Hammer": ["Erschütternde Salve", "Eisenherzlandbrecher", "Mächtiger Landbrecher"],
+      "Repeater": ["Schützenkammer", "Hochgeschwindigkeitskammer", "Salvenkammer", "Kapitänsgriff", "Saboteursgriff"],
+      "Sword": ["Glühender Zyklon", "Rächende Überladung", "Kühne Überladung"],
+      "War Pike": ["Erschütternde Ladung", "Tollkühner Sprung", "Grausamer Ursprung"]
+    }
+  },
+  "Cells_1": {
+    "english": ["Adrenaline", "Berserker", "Cascade", "Catalyst", "Conduit", "Conservation", "Cunning", "Endurance", "Engineer", "Galvanized", "Impulse", "Molten", "Overpower", "Parasitic", "Predator", "Pulse", "Recycle", "Reuse", "Sharpened", "Tenacious"],
+    "spanish": ["Adrenalina", "Frenética", "Cascada", "Catalizador", "Conducto", "Conservación", "Astucia", "Aguante", "Ingeniero", "Galvanizada", "Impulso", "Fundida", "Dominación", "Parasitaria", "Depredador", "Pulso", "Reciclaje", "Reutilización", "Afilada", "Tenaz"],
+    "german": ["Adrenalin", "Berserker", "Kaskade", "Katalysator", "Leitung", "Erhaltung", "Gerissenheit", "Ausdauer", "Ingenieur", "Schnellstart", "Impuls", "Geschmolzen", "Überwältigung", "Parasitär", "Raubtier", "Puls", "Recyceln", "Wiederverwenden", "Geschärft", "Zäh"]
+  },
+  "Cells_2": {
+    "english": ["Assassin's Frenzy", "FleetFooted", "Invigorated", "Fire", "Savagery", "Tactician", "Tough", "Energized", "Drop", "Aetherhunter", "Bladestorm", "WeightedStrikes", "Guardian", "Acidic", "Aegis", "Aetheric Attunement", "Medic", "KnockoutKing", "Rage", "EvasiveFury"],
+    "spanish": ["Frenesí Asesino", "Paso Ligero", "Vigor", "Fuego", "Crueldad", "Táctica", "Duro", "Energizada", "Afán", "Cazadora de Aether", "Tormenta de Espadas", "Golpes Pesados", "Guardian", "Acida", "Egida", "Afinación Aethérica", "Médico", "Noqueadora", "Iracunda", "Furia Evasiva"],
+    "german": ["Assassinraserei", "Leichtfüßig", "Gekräftigt", "Feuer", "Grausamkeit", "Taktiker", "Widerstandsfähig", "Energiegeladen", "Fallen", "Ätherjäger", "Klingensturm", "Gewichtete Treffer", "Wächter", "Säure", "Aegis", "Aetherische Regulation", "Sanitäter", "Knockout-König", "Wut", "Wendige Wut"]
+  }
+}

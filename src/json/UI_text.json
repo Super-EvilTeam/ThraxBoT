@@ -1,0 +1,38 @@
+{
+  "english": {
+    "createBuild": "Create Build by simply selecting cells you want",
+    "selectLanguage": "Select your Language",
+    "selectWeaponType": "Select Weapon Type",
+    "selectWeapon": "Select Weapon",
+    "selectOmnicell": "Select Omnicell",
+    "selectLantern": "Select Lantern",
+    "noBuildFound": "No build found for selected cells, 'Reset' and select new cells",
+    "findBuild": "Find Build",
+    "reset": "Reset",
+    "totalCombinations": "Total Combinations"
+  },
+  "spanish": {
+    "createBuild": "Crea tu Build simplemente escogiendo las células que quieras",
+    "selectLanguage": "Selecciona tu lenguaje",
+    "selectWeaponType": "Selecciona el tipo de arma",
+    "selectWeapon": "Elige un arma",
+    "selectOmnicell": "Elige una Omnicélula",
+    "selectLantern": "Elige un farol",
+    "noBuildFound": "No se ha encontrado una Build con las células seleccionadas, 'Reiniciar' y elige otras células",
+    "findBuild": "Encontrar Build",
+    "reset": "Reiniciar",
+    "totalCombinations": "Combinaciones totales"
+  },
+  "german": {
+    "createBuild": "Erstelle ein Build, indem du Zellen auswählst",
+    "selectLanguage": "Wähle deine Sprache",
+    "selectWeaponType": "Wähle Waffenklasse",
+    "selectWeapon": "Wähle Waffe",
+    "selectOmnicell": "Wähle Omnizelle",
+    "selectLantern": "Wähle Laterne",
+    "noBuildFound": "Kein Build für ausgwählte Zellen möglich, drücke 'Zurücksetzen' und fange neu an",
+    "checkBuildFeasibility": "Überprüfe Erstellbarkeit des Builds",
+    "reset": "Zurücksetzen",
+    "buildVariants": "Build-Varianten"
+  }
+}
