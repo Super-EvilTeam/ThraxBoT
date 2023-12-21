@@ -2573,3 +2573,9 @@ venv/Scripts/pythonw.exe
 __pycache__/build_finder.cpython-311.pyc
 __pycache__/keep_alive.cpython-311.pyc
 __pycache__/server.cpython-311.pyc
+__pycache__/simple_view.cpython-311.pyc
+__pycache__/post_build.cpython-311.pyc
+UI/__pycache__/post_build.cpython-311.pyc
+UI/__pycache__/simple_view.cpython-311.pyc
+UI/__pycache__/select_language.cpython-311.pyc
+UI/__pycache__/select_menu.cpython-311.pyc
