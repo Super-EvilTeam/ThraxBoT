@@ -1,24 +1,28 @@
 import os
+import asyncio
 import discord
+import itertools
+from discord.interactions import Interaction
 from UI.select_language import SelectLanguage
-from discord.ext import commands
+from discord.ext import commands,tasks
 from server import keep_alive
 from dotenv import load_dotenv
-
+# permission_integer = "174416301136"
 user_id = None
 mods = None
 
-# class Recruitment(discord.ui.View):
-#   def __init__(self):
-#     super().__init__()
+class RecruitForm(discord.ui.Modal, title="Recruitment Form"):
+  basic = discord.ui.TextInput(row=0,label= "IGN/Platform/Region",placeholder='eg. SuperEvilTeam/PC/SEA',required=True,style=discord.TextStyle.short)
+  playtime = discord.ui.TextInput(label= "How many hours you have in game?",placeholder='eg. 100+, 500+, 1000+, 2000+',required=True,style=discord.TextStyle.short)
+  Hesca = discord.ui.TextInput(label= "Can you Solo Heroic Escalation under 30 min?",placeholder='Yes/No',required=True,style=discord.TextStyle.short)
+  Titles = discord.ui.TextInput(label= "Which Trials/Gauntlet Titles you have?",placeholder='eg. The Dauntless,The Gauntless, Trials Champion, Hammer Champion etc',required=False,style=discord.TextStyle.long)
 
-#   reply_message = "Are you looking to join? Fill out the form!"
-#   embed = discord.Embed(description=reply_message, color=0x7289DA)
-#   button = discord.ui.Button(label="Click me!", url="https://www.example.com")
-#   # Create an action row and add the button to it
-#   action_row = discord.ui.ActionRow()
-#   action_row.add_button(button)
-
+  async def on_submit(self, interaction: discord.Interaction):
+    await interaction.response.send_message(f"Thank you for Applying to Guild {interaction.user.mention}, Officers will check it and reach out to you!",ephemeral=True)
+    channel = discord.utils.get(interaction.guild.channels,name = "recruitment-applications")
+    await channel.send(
+      f"Application submitted by {interaction.user.mention} \n\nBasic Info: {self.basic} \nPlaytime: {self.playtime} \nHesca Under 30: {self.Hesca} \nTitles: {self.Titles}"
+    )
 
 if __name__ == '__main__':
   load_dotenv()
@@ -29,16 +33,25 @@ if __name__ == '__main__':
   @bot.event
   async def on_ready():
     print('We have logged in as {0.user}'.format(bot))
+    
     try:
-      synced = await bot.tree.sync()
-      print(f"Synced {len(synced)} application (/) commands.")
+        synced = await bot.tree.sync()
+        print(f"Synced {len(synced)} application (/) commands.")
     except Exception as e:
-      print(e)
-    activity = discord.CustomActivity(name='Laughing at Void Runners')
-    await bot.change_presence(activity=activity)
-    # channel_id = 1163338804820721684
-    # channel = bot.get_channel(channel_id)
-    # await channel.send("<:devastated:1065643480879222846>")
+        print(e)
+    activities = ["Laughing at Void Runners","Thraxx in Thraxx enjoyer was originally meant to be as Weed!"]
+    while True:
+      for i in range(len(activities)):
+        activity = discord.CustomActivity(name=activities[i])
+        await bot.change_presence(activity=activity)
+        await asyncio.sleep(5)
+
+  #   channel_id = 1163338804820721684
+  #   channel = bot.get_channel(channel_id)
+  #   await channel.send(
+  #     "Guess what!\n\nIt's Time to purge some sleeping warriors into the void!\n\n*Thrax laughing noises*"
+  #   )
+
 
   @bot.event
   async def on_message(message):
@@ -62,11 +75,33 @@ if __name__ == '__main__':
     view_menu = SelectLanguage(user_id)
     await interaction.response.send_message(embed=embed,view=view_menu,ephemeral=True)
 
-  # @bot.tree.command(name="recruit")
-  # async def recruit(interaction: discord.Interaction):
-  #   Username = interaction.user.name
-  #   modal = RecruitForm(Username)
-  #   await interaction.response.send_modal(modal)
+  @bot.tree.command(name="join_guild")
+  async def recruit(interaction: discord.Interaction):
+    modal = RecruitForm()
+    await interaction.response.send_modal(modal)
 
-  keep_alive()
+  @bot.event
+  async def on_reaction_add(reaction, user):
+      # Check if the reaction is a tick mark emoji and if the message is in the 'recruitment-application' channel
+      if str(reaction.emoji) == '✅' and reaction.message.channel.name == 'recruitment-applications':
+          role_name = ["Scout",'WARRIORS']  # Replace with the actual name of the role
+          roles = [discord.utils.get(reaction.message.guild.roles, name=role_name) for role_name in role_name]
+
+          if all(roles):  # Check if all roles are found
+              # Get the user mentioned in the message
+              mentioned_user = reaction.message.mentions[0] if reaction.message.mentions else None
+
+              if mentioned_user and not any(role in mentioned_user.roles for role in roles):
+                  # Check if the user doesn't already have any of the roles
+                  await mentioned_user.add_roles(*roles)
+                  await reaction.message.channel.send(f'{mentioned_user.mention} has been invited to the guild by {user.mention}')
+
+
+
+  # @bot.tree.command(name="assign")
+  # async def assign_role(interaction: discord.Interaction, member: discord.Member, role: discord.Role):
+  #   await member.add_roles(role)
+  #   await interaction.response.send_message(f'{member.mention} has been assigned the {role.name} role.')
+
+  # keep_alive()
   bot.run(my_secret)
