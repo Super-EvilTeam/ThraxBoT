@@ -77,15 +77,26 @@ if __name__ == '__main__':
 
   @bot.tree.command(name="join_guild")
   async def recruit(interaction: discord.Interaction):
-    modal = RecruitForm()
-    await interaction.response.send_modal(modal)
+      # Check if the member has a specific role (e.g., "Admin")
+      required_role_name = "Scout"
+      required_role = discord.utils.get(interaction.guild.roles, name=required_role_name)
+
+      if required_role and required_role in interaction.user.roles:
+          # The member has the required role, send the modal
+          modal = RecruitForm()
+          await interaction.response.send_modal(modal)
+      else:
+          # The member doesn't have the required role, send a message or take other action
+          await interaction.response.send_message("Testing feature")
+
+
 
   @bot.event
   async def on_reaction_add(reaction, user):
       # Check if the reaction is a tick mark emoji and if the message is in the 'recruitment-application' channel
       if str(reaction.emoji) == '✅' and reaction.message.channel.name == 'recruitment-applications':
-          role_name = ["Scout",'WARRIORS']  # Replace with the actual name of the role
-          roles = [discord.utils.get(reaction.message.guild.roles, name=role_name) for role_name in role_name]
+          role_names = ["Scout", 'WARRIORS']  # Replace with the actual names of the roles
+          roles = [discord.utils.get(reaction.message.guild.roles, name=role_name) for role_name in role_names]
 
           if all(roles):  # Check if all roles are found
               # Get the user mentioned in the message
@@ -95,6 +106,22 @@ if __name__ == '__main__':
                   # Check if the user doesn't already have any of the roles
                   await mentioned_user.add_roles(*roles)
                   await reaction.message.channel.send(f'{mentioned_user.mention} has been invited to the guild by {user.mention}')
+
+                  # Send a message in the 'recruitment' channel
+                  recruitment_channel = discord.utils.get(reaction.message.guild.channels, name='recruitment')
+                  if recruitment_channel:
+                      congrats_emoji = '🎉'
+                      welcome_message = f'\n {congrats_emoji} Welcome to Guild {mentioned_user.mention}! {congrats_emoji}\n\nYour application has been verified, and a Guild invite has been sent to you by {user.mention}'
+                      await recruitment_channel.send(welcome_message)
+                  else:
+                      print("Recruitment channel not found.")
+
+                  # Send a message in the 'guild-members' channel
+                  guild_members_channel = discord.utils.get(reaction.message.guild.channels, name='guild-members')
+                  if guild_members_channel:
+                      await guild_members_channel.send(f'{mentioned_user.mention}')
+                  else:
+                      print("Guild Members channel not found.")
 
 
 

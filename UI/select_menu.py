@@ -1,13 +1,9 @@
 import discord
-import json
 from UI.simple_view import SimpleView
-def load_json(filename):
-  with open(filename, 'r') as file:
-      data = json.load(file)
-      return data
-  
-text_data = load_json('src\\json\\Text_data.json')
-ui_text = load_json('src\\json\\UI_text.json')
+from build_finder import load_json
+
+text_data = load_json('Text_data.json')
+ui_text = load_json('UI_text.json')
 
 EMOJI = {"weapon_type":['<:AetherStrikers:1171706545323651083>',
                    '<:Axe:1171720563207708733>',

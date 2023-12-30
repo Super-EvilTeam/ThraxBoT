@@ -4,7 +4,17 @@ import copy
 from PIL import Image, ImageDraw, ImageFont
 import json
 
-input_folder = 'src\\Icons'
+def get_path(filename):
+   # Get the current directory
+    current_directory = os.getcwd()
+    # Recursively search for the file in the current directory and its subdirectories
+    for root, dirs, files in os.walk(current_directory):
+        if filename in files:
+            file_path = os.path.join(root, filename)
+            return file_path
+
+ 
+input_folder = "src/Icons"
 output_path = 'build_img.png'
 insight = ['Aetherborne','Aetheric Attunement','Aetheric Evasion','Cascade','Catalyst','Conduit','Drop','Molten','Medic',
            'Energized','Engineer','Lucent','Mender','Omnisurge','Packcaller','Reuse','Zeal']
@@ -30,6 +40,21 @@ Builds = ["Assassin's Frenzy",'FleetFooted',"Invigorated",'Fire','Savagery',
           'Bladestorm','WeightedStrikes','Guardian','Acidic','Aegis',]
 
 prismatic = insight + brutality + alacrity + finese + fortitude
+
+def load_json(file_name):
+    # Get the current directory
+    current_directory = os.getcwd()
+    # Recursively search for the file in the current directory and its subdirectories
+    for root, dirs, files in os.walk(current_directory):
+        if file_name in files:
+            file_path = os.path.join(root, file_name)
+            
+            # Load and return the JSON data
+            with open(file_path, 'r') as file:
+                data = json.load(file)
+            return data
+    # If the file is not found, return None or handle the error as needed
+    return None
 
 def list_gen(perk_list):
   new_list = []
@@ -86,8 +111,7 @@ def load_combinations_from_file(filename):
         return data
 
 def translate_to_english(perks_list,language,to_language= "english"):
-  with open('src\\json\\Text_data.json', 'r') as file:
-    data = json.load(file)
+  data = load_json('Text_data.json')
   # Create a dictionary to map Spanish to English for each category
   translation_dict = {"Cells_1": {language: to_language},"Cells_2": {language: to_language}}
   # Translate each item in the perks_list
@@ -120,7 +144,7 @@ def img_generator(build_icon_names,Perks_list,Build,counter):
   x_offset = 10
   y_offset = 128
   font_size = 17 
-  font = ImageFont.truetype("src\\Font\\OpenSans-Bold.ttf", font_size)
+  font = ImageFont.truetype(get_path("OpenSans-Bold.ttf"), font_size)
   combined_image.paste(images[0].convert("RGBA"), ((total_width//2) - 64, 0), images[0].convert("RGBA"))
   images.remove(images[0])
 
@@ -160,8 +184,8 @@ def img_generator(build_icon_names,Perks_list,Build,counter):
 
 
 def Build_finder(Perks_list,language,weapon_type,weapon_filter,lantern,omnicell,counter):
-  weapons= load_combinations_from_file('src\\json\\weapons.json')
-  armors = load_combinations_from_file('src\\json\\armors.json')
+  weapons= load_json('weapons.json')
+  armors = load_json('armors.json')
   total_combination = 0
   Build = []
   Perks_list = translate_to_english(Perks_list,language)

@@ -3,13 +3,8 @@ import json
 from build_finder import *
 from UI.post_build import PostBuild
 
-def load_json(filename):
-  with open(filename, 'r') as file:
-      data = json.load(file)
-      return data
-  
-text_data = load_json('src\\json\\Text_data.json')
-ui_text = load_json('src\\json\\UI_text.json')
+text_data = load_json('Text_data.json')
+ui_text = load_json('UI_text.json')
 
 
 class SimpleView(discord.ui.View):

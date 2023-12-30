@@ -1,14 +1,10 @@
 import discord
 from UI.select_menu import SelectMenu
-import json
+from build_finder import load_json
 
-def load_json(filename):
-  with open(filename, 'r') as file:
-      data = json.load(file)
-      return data
-  
-text_data = load_json('src\\json\\Text_data.json')
-ui_text = load_json('src\\json\\UI_text.json')
+
+text_data = load_json('Text_data.json')
+ui_text = load_json('UI_text.json')
 
 class SelectLanguage(discord.ui.View):
   def __init__(self,user_id):
