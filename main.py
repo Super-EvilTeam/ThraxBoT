@@ -2,14 +2,24 @@ import os
 import asyncio
 import discord
 import itertools
+import re
 from discord.interactions import Interaction
 from UI.select_language import SelectLanguage
 from discord.ext import commands,tasks
 from server import keep_alive
 from dotenv import load_dotenv
-# permission_integer = "174416301136"
 user_id = None
 mods = None
+
+def validate_basic_input(basic_input):
+    # Define the pattern for the format "string/string/string"
+    pattern = re.compile(r'^\s*\w+(\s*\w*)*/\s*\w+\s*/\s*\w+\s*$')  # This pattern assumes alphanumeric characters and underscores
+
+    # Check if the input matches the pattern
+    if pattern.match(basic_input):
+        return True
+    else:
+        return False
 
 class RecruitForm(discord.ui.Modal, title="Recruitment Form"):
   basic = discord.ui.TextInput(row=0,label= "IGN/Platform/Region",placeholder='eg. SuperEvilTeam/PC/SEA',required=True,style=discord.TextStyle.short)
@@ -18,6 +28,12 @@ class RecruitForm(discord.ui.Modal, title="Recruitment Form"):
   Titles = discord.ui.TextInput(label= "Which Trials/Gauntlet Titles you have?",placeholder='eg. The Dauntless,The Gauntless, Trials Champion, Hammer Champion etc',required=False,style=discord.TextStyle.long)
 
   async def on_submit(self, interaction: discord.Interaction):
+    # Validate the 'basic' input format
+    basic_input = self.basic.value
+    if not validate_basic_input(basic_input):
+        # If the input is not in the proper format, send an error message to the user
+        await interaction.response.send_message(f"   {self.basic.value}           <------\n\nError: Please enter the 'IGN/Platform/Region' in the correct format (e.g., SuperEvilTeam/PC/SEA).", ephemeral=True)
+        return
     await interaction.response.send_message(f"Thank you for Applying to Guild {interaction.user.mention}, Officers will check it and reach out to you!",ephemeral=True)
     channel = discord.utils.get(interaction.guild.channels,name = "recruitment-applications")
     await channel.send(
@@ -39,12 +55,14 @@ if __name__ == '__main__':
         print(f"Synced {len(synced)} application (/) commands.")
     except Exception as e:
         print(e)
-    activities = ["Laughing at Void Runners","Thraxx in Thraxx enjoyer was originally meant to be as Weed!"]
+    activities = ["It's All Shits & Giggles Until You Start Hearing Baby Arm!Baby Arm! in VC",
+                  "Thraxx in Thraxx enjoyer actually means Weed not Behemoth itself!",
+                  "Laughing at Void Runners"]
     while True:
       for i in range(len(activities)):
         activity = discord.CustomActivity(name=activities[i])
         await bot.change_presence(activity=activity)
-        await asyncio.sleep(5)
+        await asyncio.sleep(60*5)
 
   #   channel_id = 1163338804820721684
   #   channel = bot.get_channel(channel_id)
@@ -64,33 +82,22 @@ if __name__ == '__main__':
       msg ="Looking to join Guild? Apply on below link \nOfficer's will check your application and reach out to you!"
       await message.channel.send(msg, view=view)
 
+  @bot.event
+  async def on_message_delete(message):
+      # Check if the deleted message is from the "guild_members" channel
+      if message.channel.name == 'guild-members':
+          mentioned_members = message.mentions
 
-  @bot.tree.command(name="build_finder")
-  async def hello(interaction: discord.Interaction):
-    user_id = interaction.user.id
-    embed = discord.Embed(
-        colour=0xC934EB,
-        title='Build Finder',
-        description='Select your Language')
-    view_menu = SelectLanguage(user_id)
-    await interaction.response.send_message(embed=embed,view=view_menu,ephemeral=True)
+          for member in mentioned_members:
+              # Assuming 'Scout' and 'Warrior' are the role names you want to remove
+              scout_role = discord.utils.get(message.guild.roles, name='Scout')
+              warrior_role = discord.utils.get(message.guild.roles, name='WARRIORS')
 
-  @bot.tree.command(name="join_guild")
-  async def recruit(interaction: discord.Interaction):
-      # Check if the member has a specific role (e.g., "Admin")
-      required_role_name = "Scout"
-      required_role = discord.utils.get(interaction.guild.roles, name=required_role_name)
-
-      if required_role and required_role in interaction.user.roles:
-          # The member has the required role, send the modal
-          modal = RecruitForm()
-          await interaction.response.send_modal(modal)
-      else:
-          # The member doesn't have the required role, send a message or take other action
-          await interaction.response.send_message("Testing feature")
-
-
-
+              if scout_role and warrior_role:
+                  # Remove roles from the mentioned member
+                  await member.remove_roles(scout_role, warrior_role)
+                  print(f'Removed roles from {member.display_name}: Scout, WARRIORS')
+                  
   @bot.event
   async def on_reaction_add(reaction, user):
       # Check if the reaction is a tick mark emoji and if the message is in the 'recruitment-application' channel
@@ -101,10 +108,19 @@ if __name__ == '__main__':
           if all(roles):  # Check if all roles are found
               # Get the user mentioned in the message
               mentioned_user = reaction.message.mentions[0] if reaction.message.mentions else None
-
               if mentioned_user and not any(role in mentioned_user.roles for role in roles):
                   # Check if the user doesn't already have any of the roles
                   await mentioned_user.add_roles(*roles)
+
+                  # Extract the IGN (In-Game Name) from the message content
+                  content = reaction.message.content
+                  ign_start = content.find("Basic Info:") + len("Basic Info:")
+                  ign_end = content.find("/", ign_start)
+                  ign = content[ign_start:ign_end].strip()
+
+                  # Set the nickname for the mentioned user
+                  await mentioned_user.edit(nick=ign)
+
                   await reaction.message.channel.send(f'{mentioned_user.mention} has been invited to the guild by {user.mention}')
 
                   # Send a message in the 'recruitment' channel
@@ -123,12 +139,29 @@ if __name__ == '__main__':
                   else:
                       print("Guild Members channel not found.")
 
+  @bot.tree.command(name="build_finder")
+  async def hello(interaction: discord.Interaction):
+    user_id = interaction.user.id
+    embed = discord.Embed(
+        colour=0xC934EB,
+        title='Build Finder',
+        description='Select your Language')
+    view_menu = SelectLanguage(user_id)
+    await interaction.response.send_message(embed=embed,view=view_menu,ephemeral=True)
 
+  @bot.tree.command(name="join_guild")
+  async def recruit(interaction: discord.Interaction):
+      # Check if the member has a specific role (e.g., "Admin")
+      required_role_name = "LFG"
+      required_role = discord.utils.get(interaction.guild.roles, name=required_role_name)
 
-  # @bot.tree.command(name="assign")
-  # async def assign_role(interaction: discord.Interaction, member: discord.Member, role: discord.Role):
-  #   await member.add_roles(role)
-  #   await interaction.response.send_message(f'{member.mention} has been assigned the {role.name} role.')
+      if required_role and required_role in interaction.user.roles:
+          # The member has the required role, send the modal
+          modal = RecruitForm()
+          await interaction.response.send_modal(modal)
+      else:
+          # The member doesn't have the required role, send a message or take other action
+          await interaction.response.send_message("Test feature not fully implemented yet", ephemeral=True)
 
   # keep_alive()
   bot.run(my_secret)
