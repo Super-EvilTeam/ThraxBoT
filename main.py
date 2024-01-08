@@ -8,6 +8,7 @@ from UI.select_language import SelectLanguage
 from discord.ext import commands,tasks
 from server import keep_alive
 from dotenv import load_dotenv
+from build_finder import img_generator,load_json
 user_id = None
 mods = None
 
@@ -20,6 +21,34 @@ def validate_basic_input(basic_input):
         return True
     else:
         return False
+    
+weapon_emoji =['<:as:1192842658343817226>',
+        '<:axe:1192852193229934663>',
+        '<:cb:1192850297563914271>',
+        '<:hammer:1192852188767195237>',
+        '<:repeater:1192852181683019907>',
+        '<:sword:1192846249804697692>',
+        '<:pike:1192852184245751808>']
+
+element_emoji = ["<:blaze:1192869335987925202>",
+                "<:frost:1192869317251956886>",
+                "<:shock:1192868564227596440>",
+                "<:terra:1192869323841208461>",
+                "<:umbral:1192869332225622166>",
+                "<:radiant:1192869315251294301>"]
+
+meta_builds_data = load_json("Meta_builds.json")
+def generate_weapon_options(weapon,emoji):
+    options = [
+        discord.SelectOption(
+            label=weapon,
+            value=weapon, 
+            emoji=emoji[index]
+        ) for index, weapon in enumerate(weapon)
+    ]
+    return options
+
+
 
 class RecruitForm(discord.ui.Modal, title="Recruitment Form"):
   basic = discord.ui.TextInput(row=0,label= "IGN/Platform/Region",placeholder='eg. SuperEvilTeam/PC/SEA',required=True,style=discord.TextStyle.short)
@@ -39,6 +68,88 @@ class RecruitForm(discord.ui.Modal, title="Recruitment Form"):
     await channel.send(
       f"Application submitted by {interaction.user.mention} \n\nBasic Info: {self.basic} \nPlaytime: {self.playtime} \nHesca Under 30: {self.Hesca} \nTitles: {self.Titles}"
     )
+
+class MetaBuilds(discord.ui.View):
+    def __init__(self,embed):
+        super().__init__()
+        self.embed = embed
+        self.selected_weapon = None
+        self.selected_element = None
+        self.weapons = ["Aether Strikers", "Axe", "Chain Blades", "Hammer", "Repeater", "Sword", "War Pike"]
+        self.select_weapon_type.options=generate_weapon_options(self.weapons,weapon_emoji) 
+        self.element = ["Blaze","Frost","Shock","Terra","Umbral","Radiant"]
+
+    async def button_click(self,button):
+       if self.embed.description == "Select Weapon":
+        self.embed.description = "Select Element"
+        self.selected_weapon = button.custom_id
+        print(self.selected_weapon)
+        self.remove_item(self.children[6])
+        for i in range(6):
+            self.children[i].emoji = self.element[i]
+       else:
+          self.selected_element = button.label
+          data = meta_builds_data["Aether Strikers"]["Blaze"]
+          img_generator(data["icon"],data["Perks"],0,0)
+          channel_id = 1192516992985485353
+          channel = bot.get_channel(channel_id)
+          message = await channel.send(file=discord.File("build_img.png"))
+          self.embed.set_image(url=message.attachments[0].url)
+          
+    
+    @discord.ui.select(placeholder="Select Weapon")
+    async def select_weapon_type(self, interaction, select):
+        if self.children[0].placeholder != "Select Element":
+            self.selected_weapon = select.values[0]
+            self.children[0].placeholder = "Select Element"
+            self.children[0].options=generate_weapon_options(self.element,element_emoji)
+        else:
+           self.selected_element = select.values[0]
+           data = meta_builds_data["Aether Strikers"]["Blaze"]
+           img_generator(data["icon"],data["Perks"],0,0)
+           channel_id = 1192516992985485353
+           channel = bot.get_channel(channel_id)
+           message = await channel.send(file=discord.File("build_img.png"))
+           self.embed.set_image(url=message.attachments[0].url)
+
+        await interaction.response.edit_message(embed=self.embed,view =self)
+    
+
+    # @discord.ui.button(custom_id="Aether Strikers",style=discord.ButtonStyle.secondary,row=0,emoji="<:as:1192842658343817226>")
+    # async def button_1(self, interaction: discord.Interaction,button: discord.ui.Button):
+    #     await self.button_click(self.children[0])
+    #     await interaction.response.edit_message(embed=self.embed,view=self)
+    
+    # @discord.ui.button(custom_id="Axe", style=discord.ButtonStyle.secondary,row=0,emoji="<:axe:1192852193229934663>")
+    # async def button_2(self, interaction: discord.Interaction,button: discord.ui.Button):
+    #     self.button_click(self.children[1])
+    #     await interaction.response.edit_message(embed=self.embed,view=self)
+    
+    # @discord.ui.button(custom_id="Chain Blades", style=discord.ButtonStyle.secondary,row=0,emoji="<:cb:1192850297563914271>")
+    # async def button_3(self, interaction: discord.Interaction,button: discord.ui.Button):
+    #     self.button_click(self.children[2])
+    #     await interaction.response.edit_message(embed=self.embed,view=self)
+    
+    # @discord.ui.button(custom_id="Hammer", style=discord.ButtonStyle.secondary,row=0,emoji="<:hammer:1192852188767195237>")
+    # async def button_4(self, interaction: discord.Interaction,button: discord.ui.Button):
+    #     self.button_click(self.children[3])
+    #     await interaction.response.edit_message(embed=self.embed,view=self)
+
+    # @discord.ui.button(custom_id="Repeater", style=discord.ButtonStyle.secondary,row=0,emoji="<:repeater:1192852181683019907>")
+    # async def button_5(self, interaction: discord.Interaction,button: discord.ui.Button):
+    #     self.button_click(self.children[4])
+    #     await interaction.response.edit_message(embed=self.embed,view=self)
+
+    # @discord.ui.button(custom_id="Sword", style=discord.ButtonStyle.secondary,row=1,emoji="<:sword:1192846249804697692>")
+    # async def button_6(self, interaction: discord.Interaction,button: discord.ui.Button):
+    #     self.button_click(self.children[5])
+    #     await interaction.response.edit_message(embed=self.embed,view=self)
+    
+    # @discord.ui.button(custom_id="War Pike", style=discord.ButtonStyle.secondary,row=1,emoji='<:pike:1192852184245751808>')
+    # async def button_7(self, interaction: discord.Interaction,button: discord.ui.Button):
+    #     self.button_click(self.children[6])
+    #     await interaction.response.edit_message(embed=self.embed,view=self)
+
 
 if __name__ == '__main__':
   load_dotenv()
@@ -70,6 +181,15 @@ if __name__ == '__main__':
   #     "Guess what!\n\nIt's Time to purge some sleeping warriors into the void!\n\n*Thrax laughing noises*"
   #   )
 
+#   @bot.tree.command(name="meta_builds")
+#   async def meta_builds(interaction: discord.Interaction):
+#      embed = discord.Embed(
+#         colour=0xC934EB,
+#         title=f"🛠️⚙️  Meta Builds  🛠️⚙️",
+#         )
+#      embed.set_image(url="https://cdn.discordapp.com/attachments/1192516992985485353/1193084081240559666/AllWeapons7.png?ex=65ab6d23&is=6598f823&hm=acc83cac6dce0e0b206006e7737176874d4e5e6bfee0cf316180a1117604a445&")
+#      view_menu = MetaBuilds(embed)
+#      await interaction.response.send_message(embed=embed,view=view_menu,ephemeral=True)
 
   @bot.event
   async def on_message(message):
@@ -102,7 +222,7 @@ if __name__ == '__main__':
   async def on_reaction_add(reaction, user):
       # Check if the reaction is a tick mark emoji and if the message is in the 'recruitment-application' channel
       if str(reaction.emoji) == '✅' and reaction.message.channel.name == 'recruitment-applications':
-          role_names = ["Scout", 'WARRIORS']  # Replace with the actual names of the roles
+          role_names = ["Scout", 'Warriors']  # Replace with the actual names of the roles
           roles = [discord.utils.get(reaction.message.guild.roles, name=role_name) for role_name in role_names]
 
           if all(roles):  # Check if all roles are found
@@ -140,8 +260,7 @@ if __name__ == '__main__':
                       print("Guild Members channel not found.")
 
   @bot.tree.command(name="build_finder")
-  async def hello(interaction: discord.Interaction):
-    user_id = interaction.user.id
+  async def build_finder(interaction: discord.Interaction):
     embed = discord.Embed(
         colour=0xC934EB,
         title='Build Finder',
@@ -152,7 +271,7 @@ if __name__ == '__main__':
   @bot.tree.command(name="join_guild")
   async def recruit(interaction: discord.Interaction):
       # Check if the member has a specific role (e.g., "Admin")
-      required_role_name = "LFG"
+      required_role_name = "Guest"
       required_role = discord.utils.get(interaction.guild.roles, name=required_role_name)
 
       if required_role and required_role in interaction.user.roles:

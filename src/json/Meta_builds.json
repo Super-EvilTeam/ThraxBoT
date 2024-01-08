@@ -1,0 +1,6 @@
+{
+    "Aether Strikers":{
+        "Blaze":{"icon":[["Bastion.png", "ColdHell.png", "AdversarysGuile.png", "SkraevwingJacket.png", "FieryGauntlets.png", "SkraevwingBoots.png", "PangarsShine.png"]],
+                 "Perks":["Adrenaline", "Adrenaline", "Berserker", "Conservation", "Cascade", "Cascade", "Catalyst", "Catalyst", "Galvanized", "Galvanized", "Endurance", "Endurance"]}
+    }
+}

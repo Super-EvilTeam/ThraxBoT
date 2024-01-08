@@ -33,6 +33,6 @@
     "noBuildFound": "Kein Build für ausgwählte Zellen möglich, drücke 'Zurücksetzen' und fange neu an",
     "checkBuildFeasibility": "Überprüfe Erstellbarkeit des Builds",
     "reset": "Zurücksetzen",
-    "buildVariants": "Build-Varianten"
+    "totalCombinations": "Build-Varianten"
   }
 }

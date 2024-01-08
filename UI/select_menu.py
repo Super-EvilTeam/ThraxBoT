@@ -5,13 +5,13 @@ from build_finder import load_json
 text_data = load_json('Text_data.json')
 ui_text = load_json('UI_text.json')
 
-EMOJI = {"weapon_type":['<:AetherStrikers:1171706545323651083>',
-                   '<:Axe:1171720563207708733>',
-                   '<:ChainBlades:1171720566839971910>',
-                   '<:Hammer:1171720570711330876>',
-                   '<:Repeater:1171720590135132172>',
-                   '<:Sword:1171720593767403520>',
-                   '<:WarPike:1171720599823990824>'],
+EMOJI = {"weapon_type":['<:as:1192842658343817226>',
+                        '<:axe:1192852193229934663>',
+                        '<:cb:1192850297563914271>',
+                        '<:hammer:1192852188767195237>',
+                        '<:repeater:1192852181683019907>',
+                        '<:sword:1192846249804697692>',
+                        '<:pike:1192852184245751808>'],
         "omnicell":["<:RevenantAbility:1174970642316136528>",
                     "<:DisciplineAbility:1174970622812631041>",
                     "<:BastionAbility:1174970614000390216>",

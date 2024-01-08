@@ -128,8 +128,8 @@ def img_generator(build_icon_names,Perks_list,Build,counter):
     elif Perks_list.count(i) == 1 and f"+3 {i}" not in new_list:
       new_list.append(f"+3 {i}")
   render_perks = sorted(new_list,reverse=True)
-  print(Perks_list)
-  print(render_perks)
+  # print(Perks_list)
+  # print(render_perks)
   image_files = build_icon_names[counter]
   # Open each image and get its dimensions
   images = [Image.open(os.path.join(input_folder, img)) for img in image_files]
