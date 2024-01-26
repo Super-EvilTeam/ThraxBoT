@@ -2,6 +2,7 @@ import os
 import asyncio
 import discord
 import itertools
+import json
 import re
 from discord.interactions import Interaction
 from UI.select_language import SelectLanguage
@@ -21,7 +22,19 @@ def validate_basic_input(basic_input):
         return True
     else:
         return False
-    
+
+def convert_to_build(build_code):
+    with open('src\\json\\names.json') as json_file:
+     json_data = json.load(json_file)
+    build_list = [json_data["Omnicells"][build_code[0]].replace(' ', '').replace("'", '') + '.png',
+                  json_data["Weapons"][build_code[1]].replace(' ', '').replace("'", '') + '.png',
+                  json_data["Armours"][build_code[2]].replace(' ', '').replace("'", '') + '.png',
+                  json_data["Armours"][build_code[3]].replace(' ', '').replace("'", '') + '.png',
+                  json_data["Armours"][build_code[4]].replace(' ', '').replace("'", '') + '.png',
+                  json_data["Armours"][build_code[5]].replace(' ', '').replace("'", '') + '.png',
+                  json_data["Lanterns"][build_code[6]].replace(' ', '').replace("'", '') + '.png']
+    return build_list
+
 weapon_emoji =['<:as:1192842658343817226>',
         '<:axe:1192852193229934663>',
         '<:cb:1192850297563914271>',
@@ -30,24 +43,35 @@ weapon_emoji =['<:as:1192842658343817226>',
         '<:sword:1192846249804697692>',
         '<:pike:1192852184245751808>']
 
-element_emoji = ["<:blaze:1192869335987925202>",
-                "<:frost:1192869317251956886>",
+element_emoji = ["<:frost:1192869317251956886>",
+                "<:blaze:1192869335987925202>",
                 "<:shock:1192868564227596440>",
                 "<:terra:1192869323841208461>",
-                "<:umbral:1192869332225622166>",
-                "<:radiant:1192869315251294301>"]
+                "<:radiant:1192869315251294301>",
+                "<:umbral:1192869332225622166>"]
+
+omnicell_emoji = ["<:RevenantAbility:1174970642316136528>",
+                "<:DisciplineAbility:1174970622812631041>",
+                "<:BastionAbility:1174970614000390216>",
+                "<:TempestAbility:1174970651656847450>",
+                "<:ArtificerAbility:1174970606605840444>",
+                "<:IceborneAbility:1174970634242105364>"]
 
 meta_builds_data = load_json("Meta_builds.json")
-def generate_weapon_options(weapon,emoji):
+def generate_options(weapon,emoji):
     options = [
         discord.SelectOption(
             label=weapon,
-            value=weapon, 
+            value=weapon,
+            default = False, 
             emoji=emoji[index]
         ) for index, weapon in enumerate(weapon)
     ]
     return options
 
+weapons = ["Aether Strikers", "Axe", "Chain Blades", "Hammer", "Repeater", "Sword", "War Pike"]
+omnicell = ["Revenant", "Discipline", "Bastion", "Tempest", "Artificer", "Iceborne"]
+element = ["Frost","Blaze","Shock","Terra","Radiant","Umbral"]
 
 
 class RecruitForm(discord.ui.Modal, title="Recruitment Form"):
@@ -74,82 +98,109 @@ class MetaBuilds(discord.ui.View):
         super().__init__()
         self.embed = embed
         self.selected_weapon = None
+        self.selected_omnicell = None
         self.selected_element = None
-        self.weapons = ["Aether Strikers", "Axe", "Chain Blades", "Hammer", "Repeater", "Sword", "War Pike"]
-        self.select_weapon_type.options=generate_weapon_options(self.weapons,weapon_emoji) 
-        self.element = ["Blaze","Frost","Shock","Terra","Umbral","Radiant"]
+        # self.SelectWeapon.options=generate_options(self.weapons,weapon_emoji)
+        # self.SelectOmnicell.options = generate_options(self.omnicell,omnicell_emoji)
+        # self.SelectElement.options = generate_options(self.element,element_emoji)
 
-    async def button_click(self,button):
-       if self.embed.description == "Select Weapon":
-        self.embed.description = "Select Element"
-        self.selected_weapon = button.custom_id
-        print(self.selected_weapon)
-        self.remove_item(self.children[6])
-        for i in range(6):
-            self.children[i].emoji = self.element[i]
-       else:
-          self.selected_element = button.label
-          data = meta_builds_data["Aether Strikers"]["Blaze"]
-          img_generator(data["icon"],data["Perks"],0,0)
-          channel_id = 1192516992985485353
-          channel = bot.get_channel(channel_id)
-          message = await channel.send(file=discord.File("build_img.png"))
-          self.embed.set_image(url=message.attachments[0].url)
+    # async def button_click(self,button):
+    #    if self.embed.description == "Select Weapon":
+    #     self.embed.description = "Select Omnicell"
+    #     self.selected_weapon = button.label
+    #     print(self.selected_weapon)
+    #     self.remove_item(self.children[6])
+    #     for i in range(6):
+    #         self.children[i].emoji = self.omnicell[i]
+    #    elif self.embed.description == "Select Omnicell":
+    #       self.selected_omnicell = button.label
+    #       data = meta_builds_data["Aether Strikers"]["Blaze"]
+    #       img_generator(data["icon"],data["Perks"],0,0)
+    #       channel_id = 1192516992985485353
+    #       channel = bot.get_channel(channel_id)
+    #       message = await channel.send(file=discord.File("build_img.png"))
+    #       self.embed.set_image(url=message.attachments[0].url)
           
-    
-    @discord.ui.select(placeholder="Select Weapon")
-    async def select_weapon_type(self, interaction, select):
-        if self.children[0].placeholder != "Select Element":
-            self.selected_weapon = select.values[0]
-            self.children[0].placeholder = "Select Element"
-            self.children[0].options=generate_weapon_options(self.element,element_emoji)
-        else:
-           self.selected_element = select.values[0]
-           data = meta_builds_data["Aether Strikers"]["Blaze"]
-           img_generator(data["icon"],data["Perks"],0,0)
-           channel_id = 1192516992985485353
-           channel = bot.get_channel(channel_id)
-           message = await channel.send(file=discord.File("build_img.png"))
-           self.embed.set_image(url=message.attachments[0].url)
 
-        await interaction.response.edit_message(embed=self.embed,view =self)
-    
+    # @discord.ui.select(placeholder="Select Weapon")
+    # async def select_weapon_type(self, interaction, select):
+    #     if self.children[0].placeholder == "Select Weapon":
+    #         self.children[0].placeholder = "Select Omnicell"
+    #         self.selected_weapon = select.values[0]
+    #         self.children[0].options=generate_weapon_options(self.omnicell,omnicell_emoji)
+    #     elif self.children[0].placeholder == "Select Omnicell":
+    #        self.selected_omnicell = select.values[0]
+    #        for i in range(1, 7):
+    #         label = f"Button {i}"
+    #         style = discord.ButtonStyle.primary
+    #         button = discord.ui.Button(label=label, style=style, custom_id=f"button_{i}")
+    #         self.add_item(button)
+        #    data = meta_builds_data[self.selected_weapon][self.selected_omnicell]["Blaze"]
+        #    img_generator([convert_to_build(data["Icon"])],data["Perks"],0,0)
+        #    channel_id = 1192516992985485353
+        #    channel = bot.get_channel(channel_id)
+        #    message = await channel.send(file=discord.File("build_img.png"))
+        #    self.embed.set_image(url=message.attachments[0].url)
 
-    # @discord.ui.button(custom_id="Aether Strikers",style=discord.ButtonStyle.secondary,row=0,emoji="<:as:1192842658343817226>")
+    #     await interaction.response.edit_message(embed=self.embed,view =self)
+    
+    async def callback(self,interaction):
+       if self.selected_element != None and self.selected_omnicell != None and self.selected_weapon != None:
+        data = meta_builds_data[self.selected_weapon][self.selected_omnicell][self.selected_element]
+        img_generator([convert_to_build(data["Icon"])],data["Perks"],0,0)
+        channel_id = 1192516992985485353
+        channel = bot.get_channel(channel_id)
+        message = await channel.send(file=discord.File("build_img.png"))
+        self.embed.set_image(url=message.attachments[0].url)
+        await interaction.response.edit_message(embed=self.embed)
+        return True
+       return False
+
+    @discord.ui.select(placeholder="Select Weapon",options=generate_options(weapons,weapon_emoji))
+    async def SelectWeapon(self, interaction, select):
+       self.selected_weapon = select.values[0]
+       print(select.options[0])
+       print(self.selected_weapon)
+       if not await self.callback(interaction):
+          await interaction.response.defer()
+
+    @discord.ui.select(placeholder="Select Omnicell",options=generate_options(omnicell,omnicell_emoji))
+    async def SelectOmnicell(self, interaction, select):
+       self.selected_omnicell = select.values[0]
+       print(self.selected_omnicell)
+       if not await self.callback(interaction):
+          await interaction.response.defer()
+    
+    @discord.ui.select(placeholder="Select Element",options=generate_options(element,element_emoji))
+    async def SelectElement(self, interaction, select):
+       self.selected_element = select.values[0]
+       print(self.selected_element)
+       if not await self.callback(interaction):
+          await interaction.response.defer()
+
+    # @discord.ui.button(custom_id="Frost",style=discord.ButtonStyle.secondary,row=2,emoji="<:frost:1192869317251956886>",)
     # async def button_1(self, interaction: discord.Interaction,button: discord.ui.Button):
-    #     await self.button_click(self.children[0])
-    #     await interaction.response.edit_message(embed=self.embed,view=self)
-    
-    # @discord.ui.button(custom_id="Axe", style=discord.ButtonStyle.secondary,row=0,emoji="<:axe:1192852193229934663>")
+    #     await interaction.response.defer()
+
+    # @discord.ui.button(custom_id="Blaze", style=discord.ButtonStyle.secondary,row=2,emoji="<:blaze:1192869335987925202>")
     # async def button_2(self, interaction: discord.Interaction,button: discord.ui.Button):
-    #     self.button_click(self.children[1])
-    #     await interaction.response.edit_message(embed=self.embed,view=self)
+    #     await interaction.response.defer()
     
-    # @discord.ui.button(custom_id="Chain Blades", style=discord.ButtonStyle.secondary,row=0,emoji="<:cb:1192850297563914271>")
+    # @discord.ui.button(custom_id="Shock", style=discord.ButtonStyle.secondary,row=2,emoji="<:shock:1192868564227596440>")
     # async def button_3(self, interaction: discord.Interaction,button: discord.ui.Button):
-    #     self.button_click(self.children[2])
-    #     await interaction.response.edit_message(embed=self.embed,view=self)
+    #     await interaction.response.defer()
     
-    # @discord.ui.button(custom_id="Hammer", style=discord.ButtonStyle.secondary,row=0,emoji="<:hammer:1192852188767195237>")
+    # @discord.ui.button(custom_id="Terra", style=discord.ButtonStyle.secondary,row=3,emoji="<:terra:1192869323841208461>")
     # async def button_4(self, interaction: discord.Interaction,button: discord.ui.Button):
-    #     self.button_click(self.children[3])
-    #     await interaction.response.edit_message(embed=self.embed,view=self)
+    #     await interaction.response.defer()
 
-    # @discord.ui.button(custom_id="Repeater", style=discord.ButtonStyle.secondary,row=0,emoji="<:repeater:1192852181683019907>")
+    # @discord.ui.button(custom_id="Radiant", style=discord.ButtonStyle.secondary,row=3,emoji="<:radiant:1192869315251294301>")
     # async def button_5(self, interaction: discord.Interaction,button: discord.ui.Button):
-    #     self.button_click(self.children[4])
-    #     await interaction.response.edit_message(embed=self.embed,view=self)
+    #     await interaction.response.defer()
 
-    # @discord.ui.button(custom_id="Sword", style=discord.ButtonStyle.secondary,row=1,emoji="<:sword:1192846249804697692>")
+    # @discord.ui.button(custom_id="Umbral", style=discord.ButtonStyle.secondary,row=3,emoji="<:umbral:1192869332225622166>")
     # async def button_6(self, interaction: discord.Interaction,button: discord.ui.Button):
-    #     self.button_click(self.children[5])
-    #     await interaction.response.edit_message(embed=self.embed,view=self)
-    
-    # @discord.ui.button(custom_id="War Pike", style=discord.ButtonStyle.secondary,row=1,emoji='<:pike:1192852184245751808>')
-    # async def button_7(self, interaction: discord.Interaction,button: discord.ui.Button):
-    #     self.button_click(self.children[6])
-    #     await interaction.response.edit_message(embed=self.embed,view=self)
-
+    #     await interaction.response.defer()
 
 if __name__ == '__main__':
   load_dotenv()
@@ -181,15 +232,15 @@ if __name__ == '__main__':
   #     "Guess what!\n\nIt's Time to purge some sleeping warriors into the void!\n\n*Thrax laughing noises*"
   #   )
 
-#   @bot.tree.command(name="meta_builds")
-#   async def meta_builds(interaction: discord.Interaction):
-#      embed = discord.Embed(
-#         colour=0xC934EB,
-#         title=f"🛠️⚙️  Meta Builds  🛠️⚙️",
-#         )
-#      embed.set_image(url="https://cdn.discordapp.com/attachments/1192516992985485353/1193084081240559666/AllWeapons7.png?ex=65ab6d23&is=6598f823&hm=acc83cac6dce0e0b206006e7737176874d4e5e6bfee0cf316180a1117604a445&")
-#      view_menu = MetaBuilds(embed)
-#      await interaction.response.send_message(embed=embed,view=view_menu,ephemeral=True)
+  @bot.tree.command(name="meta_builds")
+  async def meta_builds(interaction: discord.Interaction):
+     embed = discord.Embed(
+        colour=0xC934EB,
+        title=f"🛠️⚙️  Meta Builds  🛠️⚙️",
+        )
+     embed.set_image(url="https://cdn.discordapp.com/attachments/1192516992985485353/1198515089842643034/All_weapons2.png?ex=65bf2f28&is=65acba28&hm=12fc801d17ceee4d0b56385ac8e573e7b96239d86ad3f762051d79475aeddc48&")
+     view_menu = MetaBuilds(embed)
+     await interaction.response.send_message(embed=embed,view=view_menu,ephemeral=True)
 
   @bot.event
   async def on_message(message):

@@ -1,6 +1,35 @@
 {
     "Aether Strikers":{
-        "Blaze":{"icon":[["Bastion.png", "ColdHell.png", "AdversarysGuile.png", "SkraevwingJacket.png", "FieryGauntlets.png", "SkraevwingBoots.png", "PangarsShine.png"]],
-                 "Perks":["Adrenaline", "Adrenaline", "Berserker", "Conservation", "Cascade", "Cascade", "Catalyst", "Catalyst", "Galvanized", "Galvanized", "Endurance", "Endurance"]}
+        "Discipline":{
+            "Frost":{
+                "Icon":["2", "155", "66", "75","84","120","7"],
+                "Perks":["Adrenaline", "Adrenaline", "Cunning", "Cunning", "Galvanized", "Galvanized", 
+                        "Predator", "Predator", "Assassin's Frenzy", "Berserker", "Overpower", "Reuse"]
+            },
+            "Blaze":{
+                "Icon":["2","137","109","75","89","93","7"],
+                "Perks":["Adrenaline","Adrenaline","Berserker","Berserker","Cunning","Cunning","Overpower","Overpower","Predator","Predator","Assassin's Frenzy","Reuse"]
+            },
+            "Shock":{
+                "Icon":["2","132","66", "75","84","120","7"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Predator","Predator","Pulse","Pulse","Assassin's Frenzy",
+                        "Berserker","Overpower","Reuse"]
+            },
+            "Terra":{
+                "Icon":["2","145","66", "75","84","120","7"],
+                "Perks":["Adrenaline","Adrenaline","Berserker","Berserker","Cunning","Cunning","Predator","Predator","Assassin's Frenzy",
+            "Bladestorm","Overpower","Reuse"]
+            },
+            "Radiant":{
+                "Icon":["2","157","66", "75","84","120","7"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Overpower","Overpower","Predator","Predator","Aetherhunter","Assassin's Frenzy",
+            "Endurance","Reuse"]
+            },
+            "Umbral":{
+                "Icon":["2","139","66", "75","89","93","7"],
+                "Perks":["Adrenaline","Adrenaline","Berserker","Berserker","Cunning","Cunning","Overpower","Overpower","Assassin's Frenzy",
+            "Predator","Predator","Reuse"]
+            }
+        }
     }
 }

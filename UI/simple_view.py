@@ -99,7 +99,12 @@ class SimpleView(discord.ui.View):
   def find_button(self):
     Perks_list = self.user_counter['Selected_Cells']
     Perks_list = [perk.strip() for perk in Perks_list]
-    # print(Perks_list)
+    print(Perks_list)
+    print(self.language)
+    print(self.weapon_type)
+    print(self.weapon_filter)
+    print(self.lantern)
+    print(self.omnicell)
     result = Build_finder(Perks_list,self.language,self.weapon_type, self.weapon_filter, self.lantern, self.omnicell, 0)
     if result:
         self.build_icon_names, self.Build, self.total_combinations = result
@@ -264,7 +269,7 @@ class SimpleView(discord.ui.View):
       Perks_list = self.user_counter['Selected_Cells']
       Perks_list = [perk.strip() for perk in Perks_list]
       view = PostBuild(self.build_icon_names,Perks_list,self.Build,self.total_combinations,self.language)
-      print(self.build_icon_names[0],Perks_list)
+      # print(self.build_icon_names[0],Perks_list)
       img_generator(self.build_icon_names,Perks_list,self.Build,0)
       await interaction.response.send_message(content=f"{ui_text[self.language]['totalCombinations']}: {1}-{self.total_combinations}",
         view=view, file=discord.File("build_img.png"),ephemeral=True)
@@ -279,17 +284,3 @@ class SimpleView(discord.ui.View):
   async def next(self, interaction: discord.Interaction,button: discord.ui.Button):
     self.next_button()
     await interaction.response.edit_message(view=self)
-
-class RecruitForm(discord.ui.Modal, title='Recruitment Form'):
-  def __init__(self,Username):
-    super().__init__()
-    self.discord_name = Username
-
-  ign = discord.ui.TextInput(label="What is your IGN?",style=discord.TextStyle.short)
-  platform = discord.ui.TextInput(label="What platform you play on?",style=discord.TextStyle.short)
-  region = discord.ui.TextInput(label="What is your Region?",style=discord.TextStyle.short)
-  requirnment = discord.ui.TextInput(label="Can you Solo Heroic Escalation under 30 min?",style=discord.TextStyle.short)
-
-  async def on_submit(self,interaction: discord.Interaction):
-    # print(self.discord_name)
-    await interaction.response.defer()
