@@ -163,7 +163,7 @@ def img_generator(build_icon_names,Perks_list,Build,counter):
   # Paste each image horizontally and add placeholder text below each image with padding
   x_offset = 10
   y_offset = 128
-  font_size = 17 
+  font_size = 20 
   font = ImageFont.truetype(get_path("OpenSans-Bold.ttf"), font_size)
   combined_image.paste(images[0].convert("RGBA"), ((total_width//2) - 64, 0), images[0].convert("RGBA"))
   images.remove(images[0])
