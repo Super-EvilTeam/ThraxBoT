@@ -47,8 +47,8 @@ element_emoji = ["<:frost:1192869317251956886>",
                 "<:blaze:1192869335987925202>",
                 "<:shock:1192868564227596440>",
                 "<:terra:1192869323841208461>",
-                "<:radiant:1192869315251294301>",
-                "<:umbral:1192869332225622166>"]
+                "<:umbral:1192869332225622166>",
+                "<:radiant:1192869315251294301>"]
 
 omnicell_emoji = ["<:RevenantAbility:1174970642316136528>",
                 "<:DisciplineAbility:1174970622812631041>",
@@ -62,8 +62,7 @@ def generate_options(weapon,emoji):
     options = [
         discord.SelectOption(
             label=weapon,
-            value=weapon,
-            default = False, 
+            value=weapon, 
             emoji=emoji[index]
         ) for index, weapon in enumerate(weapon)
     ]
@@ -71,7 +70,7 @@ def generate_options(weapon,emoji):
 
 weapons = ["Aether Strikers", "Axe", "Chain Blades", "Hammer", "Repeater", "Sword", "War Pike"]
 omnicell = ["Revenant", "Discipline", "Bastion", "Tempest", "Artificer", "Iceborne"]
-element = ["Frost","Blaze","Shock","Terra","Radiant","Umbral"]
+element = ["Frost","Blaze","Shock","Terra","Umbral","Radiant"]
 
 
 class RecruitForm(discord.ui.Modal, title="Recruitment Form"):
@@ -94,15 +93,15 @@ class RecruitForm(discord.ui.Modal, title="Recruitment Form"):
     )
 
 class MetaBuilds(discord.ui.View):
-    def __init__(self,embed):
+    def __init__(self,embed,):
         super().__init__()
         self.embed = embed
         self.selected_weapon = None
         self.selected_omnicell = None
         self.selected_element = None
-        # self.SelectWeapon.options=generate_options(self.weapons,weapon_emoji)
-        # self.SelectOmnicell.options = generate_options(self.omnicell,omnicell_emoji)
-        # self.SelectElement.options = generate_options(self.element,element_emoji)
+        self.SelectWeapon.options=generate_options(weapons,weapon_emoji)
+        self.SelectOmnicell.options = generate_options(omnicell,omnicell_emoji)
+        self.SelectElement.options = generate_options(element,element_emoji)
 
     # async def button_click(self,button):
     #    if self.embed.description == "Select Weapon":
@@ -143,41 +142,41 @@ class MetaBuilds(discord.ui.View):
         #    self.embed.set_image(url=message.attachments[0].url)
 
     #     await interaction.response.edit_message(embed=self.embed,view =self)
-    
+
     async def callback(self,select,interaction):
-       index = None
        for i in select.options:
+          if i.default == True:
+             i.default = False
           if i.label == select.values[0]:
-             index = select.options.index(i)
-       select.options[index].default = True
+             i.default = True
        print(select.options[0].default)
        print(self.selected_weapon)
        if self.selected_element != None and self.selected_omnicell != None and self.selected_weapon != None:
         data = meta_builds_data[self.selected_weapon][self.selected_omnicell][self.selected_element]
-        img_generator([convert_to_build(data["Icon"])],data["Perks"],0,0)
+        img_generator([data["Icon"]],data["Perks"],0,0)
         channel_id = 1192516992985485353
         channel = bot.get_channel(channel_id)
         message = await channel.send(file=discord.File("build_img.png"))
         self.embed.set_image(url=message.attachments[0].url)
         await interaction.response.edit_message(embed=self.embed,view = self)
-        select.options[index].default = False
+        # select.options[index].default = False
         return True
        return False
 
-    @discord.ui.select(placeholder="Select Weapon",options=generate_options(weapons,weapon_emoji))
+    @discord.ui.select(placeholder="Select Weapon")
     async def SelectWeapon(self, interaction, select):
        self.selected_weapon = select.values[0]
        if not await self.callback(select,interaction):
           await interaction.response.defer()
 
-    @discord.ui.select(placeholder="Select Omnicell",options=generate_options(omnicell,omnicell_emoji))
+    @discord.ui.select(placeholder="Select Omnicell")
     async def SelectOmnicell(self, interaction, select):
        self.selected_omnicell = select.values[0]
        print(self.selected_omnicell)
        if not await self.callback(select,interaction):
           await interaction.response.defer()
     
-    @discord.ui.select(placeholder="Select Element",options=generate_options(element,element_emoji))
+    @discord.ui.select(placeholder="Select Element")
     async def SelectElement(self, interaction, select):
        self.selected_element = select.values[0]
        print(self.selected_element)
