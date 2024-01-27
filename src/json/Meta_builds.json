@@ -248,28 +248,28 @@
         },
         "Revenant":{
             "Frost":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Revenant.png","PermanentFrost.png","DarkWatch.png","LightsVirtue.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Galvanized","Galvanized","Overpower","Overpower","Predator","Predator","Reuse","Reuse","Assassin's Frenzy","Recycle"]
             },
             "Blaze":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Revenant.png","IncineratorsSong.png","DarkWatch.png","LightsVirtue.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Reuse","Reuse","Assassin's Frenzy","Recycle"]
             },
             "Shock":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Revenant.png","TerminalVoltage.png","DarkWatch.png","LightsVirtue.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Reuse","Reuse","Assassin's Frenzy","Recycle"]
             },
             "Terra":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Revenant.png","MalignantScourge.png","DarkWatch.png","LightsVirtue.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Reuse","Reuse","Assassin's Frenzy","Deconstruction"]
             },
             "Umbral":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Revenant.png","Mindsplitter.png","DarkWatch.png","ThraxsShadow.png","MalkarionsGrasp.png","StrideOfThorns.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Reuse","Reuse","Assassin's Frenzy","Recycle"]
             },
             "Radiant":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Revenant.png","ExistentialCrisis.png","DarkWatch.png","MantleOfThorns.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Reuse","Reuse","Assassin's Frenzy","Recycle"]
             }
         },
         "Tempest":{

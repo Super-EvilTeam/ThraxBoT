@@ -240,10 +240,10 @@ if __name__ == '__main__':
   @bot.tree.command(name="meta_builds")
   async def meta_builds(interaction: discord.Interaction):
      embed = discord.Embed(
-        colour=0xC934EB,
-        title=f"🛠️⚙️  Meta Builds  🛠️⚙️",
+        colour=0x2B2D31,
+        # title=f"🛠️⚙️Meta Builds🛠️⚙️",
         )
-     embed.set_image(url="https://cdn.discordapp.com/attachments/1192516992985485353/1198515089842643034/All_weapons2.png?ex=65bf2f28&is=65acba28&hm=12fc801d17ceee4d0b56385ac8e573e7b96239d86ad3f762051d79475aeddc48&")
+     embed.set_image(url="https://cdn.discordapp.com/attachments/1192516992985485353/1200821487452565624/AllWeapons.png?ex=65c79328&is=65b51e28&hm=a30f8d7b060b8b805b643802d25d76b2cd9903d3aba570e85c135bd2f7999cc3&")
      view_menu = MetaBuilds(embed)
      await interaction.response.send_message(embed=embed,view=view_menu,ephemeral=True)
 
