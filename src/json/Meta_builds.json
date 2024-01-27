@@ -198,7 +198,7 @@
                 "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Endurance","Galvanized","Galvanized","Assassin's Frenzy","Berserker","Overpower","Reuse"]
             },
             "Blaze":{
-                "Icon":["Iceborne.png","FracturedRealities.png","DarkWatch.png","SkraevwingJacket.png","FieryGauntlets.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Icon":["Iceborne.png","TectonicFaults.png","DarkWatch.png","SkraevwingJacket.png","FieryGauntlets.png","BladedBoots.png","SkarnsDefiance.png"],
                 "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Endurance","Overpower","Overpower","Assassin's Frenzy","Berserker","Pulse","Reuse"]
             },
             "Shock":{
@@ -215,7 +215,7 @@
             },
             "Radiant":{
                 "Icon":["Iceborne.png","Chaos&Entropy.png","DarkWatch.png","SkraevwingJacket.png","FieryGauntlets.png","SkraevwingBoots.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Overpower","Overpower","Reuse","Aetherhunter","Berserker"]
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Endurance","Overpower","Overpower","Reuse","Reuse","Aetherhunter","Berserker"]
             }
         }
     },

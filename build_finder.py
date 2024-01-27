@@ -119,6 +119,25 @@ def translate_to_english(perks_list,language,to_language= "english"):
                      item in perks_list for category in translation_dict if item in data[category][language]]
   return translated_list
 
+def custom_sort(item):
+    # Split the item into two parts: the numeric part and the rest of the string
+    parts = item.split(' ', 1)
+    
+    # Extract the numeric part
+    num_part = parts[0]
+    
+    # Extract the non-numeric part
+    non_num_part = parts[1]
+    
+    # Assign higher priority to +6, then +3, and sort alphabetically within each group
+    if num_part == '+6':
+        return (0, non_num_part)
+    elif num_part == '+3':
+        return (1, non_num_part)
+    else:
+        # For other cases, return a high priority so that they come after +3 items
+        return (2, non_num_part)
+
 def img_generator(build_icon_names,Perks_list,Build,counter):
   new_list= []
   for i in Perks_list:
@@ -127,7 +146,8 @@ def img_generator(build_icon_names,Perks_list,Build,counter):
         new_list.append(f"+6 {i}")
     elif Perks_list.count(i) == 1 and f"+3 {i}" not in new_list:
       new_list.append(f"+3 {i}")
-  render_perks = sorted(new_list,reverse=True)
+  render_perks = sorted(new_list,key=custom_sort)
+  print(render_perks)
   # print(Perks_list)
   # print(render_perks)
   image_files = build_icon_names[counter]
