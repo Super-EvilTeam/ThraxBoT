@@ -10,10 +10,10 @@
    Refer to video below
    
    https://github.com/Super-EvilTeam/Thrax_bot/assets/99067991/e128e969-5587-4317-888d-b978e75adfee
-4. Create .env file and add following lines.
+4. Create `.env` file and add following lines.
 
    ```properties
    TOKEN = "add discord bot token here from previous step"
    FORM = "https://docs.google.com/forms/d/1JXLxeXnhAwWBADlC_yS9_IQY9gwb1Jg8RM79mAoLSVM/edit?usp=drivesdk"
    ```
-5. Run main.py to start application.
+5. Run `main.py` to start application.
