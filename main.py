@@ -144,7 +144,14 @@ class MetaBuilds(discord.ui.View):
 
     #     await interaction.response.edit_message(embed=self.embed,view =self)
     
-    async def callback(self,interaction):
+    async def callback(self,select,interaction):
+       index = None
+       for i in select.options:
+          if i.label == select.values[0]:
+             index = select.options.index(i)
+       select.options[index].default = True
+       print(select.options[0].default)
+       print(self.selected_weapon)
        if self.selected_element != None and self.selected_omnicell != None and self.selected_weapon != None:
         data = meta_builds_data[self.selected_weapon][self.selected_omnicell][self.selected_element]
         img_generator([convert_to_build(data["Icon"])],data["Perks"],0,0)
@@ -152,30 +159,29 @@ class MetaBuilds(discord.ui.View):
         channel = bot.get_channel(channel_id)
         message = await channel.send(file=discord.File("build_img.png"))
         self.embed.set_image(url=message.attachments[0].url)
-        await interaction.response.edit_message(embed=self.embed)
+        await interaction.response.edit_message(embed=self.embed,view = self)
+        select.options[index].default = False
         return True
        return False
 
     @discord.ui.select(placeholder="Select Weapon",options=generate_options(weapons,weapon_emoji))
     async def SelectWeapon(self, interaction, select):
        self.selected_weapon = select.values[0]
-       print(select.options[0])
-       print(self.selected_weapon)
-       if not await self.callback(interaction):
+       if not await self.callback(select,interaction):
           await interaction.response.defer()
 
     @discord.ui.select(placeholder="Select Omnicell",options=generate_options(omnicell,omnicell_emoji))
     async def SelectOmnicell(self, interaction, select):
        self.selected_omnicell = select.values[0]
        print(self.selected_omnicell)
-       if not await self.callback(interaction):
+       if not await self.callback(select,interaction):
           await interaction.response.defer()
     
     @discord.ui.select(placeholder="Select Element",options=generate_options(element,element_emoji))
     async def SelectElement(self, interaction, select):
        self.selected_element = select.values[0]
        print(self.selected_element)
-       if not await self.callback(interaction):
+       if not await self.callback(select,interaction):
           await interaction.response.defer()
 
     # @discord.ui.button(custom_id="Frost",style=discord.ButtonStyle.secondary,row=2,emoji="<:frost:1192869317251956886>",)
