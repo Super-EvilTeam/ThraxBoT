@@ -194,28 +194,28 @@
         },
         "Iceborne":{
             "Frost":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","IceBreakers.png","DarkWatch.png","SkraevwingJacket.png","FieryGauntlets.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Endurance","Galvanized","Galvanized","Assassin's Frenzy","Berserker","Overpower","Reuse"]
             },
             "Blaze":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","FracturedRealities.png","DarkWatch.png","SkraevwingJacket.png","FieryGauntlets.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Endurance","Overpower","Overpower","Assassin's Frenzy","Berserker","Pulse","Reuse"]
             },
             "Shock":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","MistralCurrents.png","DarkWatch.png","SkraevwingJacket.png","FieryGauntlets.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Endurance","Pulse","Pulse","Assassin's Frenzy","Berserker","Overpower","Reuse"]
             },
             "Terra":{
-                "Icon":[],
-                "Perks":[]
-            },
-            "Radiant":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","AgentsOfDecay.png","DarkWatch.png","SkraevwingJacket.png","FieryGauntlets.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Endurance","Pulse","Pulse","Assassin's Frenzy","Berserker","Bladestorm","Reuse"]
             },
             "Umbral":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","FracturedRealities.png","DarkWatch.png","SkraevwingJacket.png","FieryGauntlets.png","VolcanicTreads.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Endurance","Overpower","Overpower","Tenacious","Tenacious","Assassin's Frenzy","Reuse"]
+            },
+            "Radiant":{
+                "Icon":["Iceborne.png","Chaos&Entropy.png","DarkWatch.png","SkraevwingJacket.png","FieryGauntlets.png","SkraevwingBoots.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Overpower","Overpower","Reuse","Aetherhunter","Berserker"]
             }
         }
     },
@@ -237,11 +237,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -263,11 +263,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -289,11 +289,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -315,11 +315,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -341,11 +341,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -367,11 +367,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -395,11 +395,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -421,11 +421,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -447,11 +447,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -473,11 +473,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -499,11 +499,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -525,11 +525,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -553,11 +553,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -579,11 +579,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -605,11 +605,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -631,11 +631,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -657,11 +657,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -683,11 +683,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -711,11 +711,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -737,11 +737,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -763,11 +763,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -789,11 +789,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -815,11 +815,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -841,11 +841,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -869,11 +869,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -895,11 +895,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -921,11 +921,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -947,11 +947,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -973,11 +973,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -999,11 +999,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -1027,11 +1027,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -1053,11 +1053,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -1079,11 +1079,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -1105,11 +1105,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -1131,11 +1131,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
@@ -1157,11 +1157,11 @@
                 "Icon":[],
                 "Perks":[]
             },
-            "Radiant":{
+            "Umbral":{
                 "Icon":[],
                 "Perks":[]
             },
-            "Umbral":{
+            "Radiant":{
                 "Icon":[],
                 "Perks":[]
             }
