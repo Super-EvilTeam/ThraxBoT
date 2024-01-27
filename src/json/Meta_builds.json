@@ -326,54 +326,54 @@
         },
         "Artificer":{
             "Frost":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Artificer.png","PermanentFrost.png","EyeOfTheSwarm.png","TimeweaveRobes.png","MalkarionsGrasp.png","ThraxsGuile.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Galvanized","Galvanized","Overpower","Overpower","Predator","Predator","Assassin's Frenzy","Reuse"]
             },
             "Blaze":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Artificer.png","IncineratorsSong.png","EyeOfTheSwarm.png","TimeweaveRobes.png","MalkarionsGrasp.png","Chronotreads.png","PangarsShine.png"],
+                "Perks":["Adrenaline","Adrenaline","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Aetherhunter","Assassin's Frenzy"]
             },
             "Shock":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Artificer.png","TerminalVoltage.png","TimeweaveHelm.png","SkraevwingJacket.png","BorealMight.png","BladedBoots.png","PangarsShine.png"],
+                "Perks":["Adrenaline","Adrenaline","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Tenacious"]
             },
             "Terra":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Artificer.png","MalignantScourge.png","EyeOfTheSwarm.png","TimeweaveRobes.png","MalkarionsGrasp.png","Chronotreads.png","PangarsShine.png"],
+                "Perks":["Adrenaline","Adrenaline","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Deconstruction"]
             },
             "Umbral":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Artificer.png","Mindsplitter.png","TimeweaveHelm.png","SkraevwingJacket.png","TorgadorosBrawn.png","Chronotreads.png","PangarsShine.png"],
+                "Perks":["Adrenaline","Adrenaline","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Tenacious"]
             },
             "Radiant":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Artificer.png","ExistentialCrisis.png","EyeOfTheSwarm.png","TimeweaveRobes.png","MalkarionsGrasp.png","Chronotreads.png","PangarsShine.png"],
+                "Perks":["Adrenaline","Adrenaline","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Aetherhunter","Assassin's Frenzy"]
             }
         },
         "Iceborne":{
             "Frost":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","PermanentFrost.png","DarkWatch.png","LightsVirtue.png","BorealMight.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Galvanized","Galvanized","Overpower","Overpower","Reuse","Reuse","Tenacious","Tenacious","Assassin's Frenzy","Recycle"]
             },
             "Blaze":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","IncineratorsSong.png","DarkWatch.png","LightsVirtue.png","BorealMight.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Overpower","Overpower","Pulse","Pulse","Reuse","Reuse","Tenacious","Tenacious","Assassin's Frenzy","Recycle"]
             },
             "Shock":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","TerminalVoltage.png","DarkWatch.png","LightsVirtue.png","BorealMight.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Overpower","Overpower","Pulse","Pulse","Reuse","Reuse","Tenacious","Tenacious","Assassin's Frenzy","Recycle"]
             },
             "Terra":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","MalignantScourge.png","DarkWatch.png","LightsVirtue.png","BorealMight.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Overpower","Overpower","Pulse","Pulse","Reuse","Reuse","Tenacious","Tenacious","Assassin's Frenzy","Deconstruction"]
             },
             "Umbral":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","Mindsplitter.png","DarkWatch.png","LightsVirtue.png","BorealMight.png","BorealMarch.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Overpower","Overpower","Pulse","Pulse","Reuse","Reuse","Tenacious","Tenacious","Assassin's Frenzy","Recycle"]
             },
             "Radiant":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","ExistentialCrisis.png","DarkWatch.png","SkraevwingJacket.png","BorealMight.png","BorealMarch.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Overpower","Overpower","Pulse","Pulse","Reuse","Reuse","Tenacious","Tenacious","Adrenaline","Assassin's Frenzy"]
             }
         }
     },
