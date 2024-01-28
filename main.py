@@ -9,6 +9,7 @@ from UI.select_language import SelectLanguage
 from discord.ext import commands,tasks
 from server import keep_alive
 from dotenv import load_dotenv
+from PIL import Image
 from build_finder import img_generator,load_json
 user_id = None
 mods = None
@@ -34,6 +35,11 @@ def convert_to_build(build_code):
                   json_data["Armours"][build_code[5]].replace(' ', '').replace("'", '') + '.png',
                   json_data["Lanterns"][build_code[6]].replace(' ', '').replace("'", '') + '.png']
     return build_list
+
+def resize_image(input_path, output_path, new_size):
+    original_image = Image.open(input_path)
+    resized_image = original_image.resize(new_size, Image.BOX)
+    resized_image.save(output_path)
 
 weapon_emoji =['<:as:1192842658343817226>',
         '<:axe:1192852193229934663>',
@@ -93,9 +99,9 @@ class RecruitForm(discord.ui.Modal, title="Recruitment Form"):
     )
 
 class MetaBuilds(discord.ui.View):
-    def __init__(self,embed,):
+    def __init__(self):
         super().__init__()
-        self.embed = embed
+        # self.embed = embed
         self.selected_weapon = None
         self.selected_omnicell = None
         self.selected_element = None
@@ -154,11 +160,12 @@ class MetaBuilds(discord.ui.View):
        if self.selected_element != None and self.selected_omnicell != None and self.selected_weapon != None:
         data = meta_builds_data[self.selected_weapon][self.selected_omnicell][self.selected_element]
         img_generator([data["Icon"]],data["Perks"],0,0)
-        channel_id = 1192516992985485353
-        channel = bot.get_channel(channel_id)
-        message = await channel.send(file=discord.File("build_img.png"))
-        self.embed.set_image(url=message.attachments[0].url)
-        await interaction.response.edit_message(embed=self.embed,view = self)
+        # channel_id = 1192516992985485353
+        # channel = bot.get_channel(channel_id)
+        # message = await channel.send(file=discord.File("build_img.png"))
+        # self.embed.set_image(url=message.attachments[0].url)
+        resize_image("build_img.png", "build_img.png", (400,200))
+        await interaction.response.edit_message(attachments=[discord.File("build_img.png")],view = self)
         # select.options[index].default = False
         return True
        return False
@@ -244,8 +251,8 @@ if __name__ == '__main__':
         # title=f"🛠️⚙️Meta Builds🛠️⚙️",
         )
      embed.set_image(url="https://cdn.discordapp.com/attachments/1192516992985485353/1200821487452565624/AllWeapons.png?ex=65c79328&is=65b51e28&hm=a30f8d7b060b8b805b643802d25d76b2cd9903d3aba570e85c135bd2f7999cc3&")
-     view_menu = MetaBuilds(embed)
-     await interaction.response.send_message(embed=embed,view=view_menu,ephemeral=True)
+     view_menu = MetaBuilds()
+     await interaction.response.send_message(file=discord.File("src\\UI Images\\AllWeapons.png"),view=view_menu,ephemeral=True)
 
   @bot.event
   async def on_message(message):

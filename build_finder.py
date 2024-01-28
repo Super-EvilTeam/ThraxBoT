@@ -3,6 +3,8 @@ from itertools import product
 import copy
 from PIL import Image, ImageDraw, ImageFont
 import json
+from collections import Counter
+
 
 def get_path(filename):
    # Get the current directory
@@ -139,23 +141,17 @@ def custom_sort(item):
         return (2, non_num_part)
 
 def img_generator(build_icon_names,Perks_list,Build,counter):
-  new_list= []
-  for i in Perks_list:
-    if Perks_list.count(i) ==2:
-      if f"+6 {i}" not in new_list:
-        new_list.append(f"+6 {i}")
-    elif Perks_list.count(i) == 1 and f"+3 {i}" not in new_list:
-      new_list.append(f"+3 {i}")
-  render_perks = sorted(new_list,key=custom_sort)
-  print(render_perks)
-  # print(Perks_list)
-  # print(render_perks)
+  perk_counts = Counter(Perks_list)
+  render_perks = sorted([f"+6 {perk}" if count == 2 and f"+6 {perk}" not in Perks_list else f"+3 {perk}" for perk, count in perk_counts.items()], key=custom_sort)
   image_files = build_icon_names[counter]
+
   # Open each image and get its dimensions
   images = [Image.open(os.path.join(input_folder, img)) for img in image_files]
+
   # Calculate the total width and height for the combined image with padding
   total_width = (sum(img.width for img in images) + (len(images) - 1) * 10) - 128 
   max_height = (max(img.height for img in images)*2) + 30
+
   # Create a new RGBA image with a transparent background
   combined_image = Image.new('RGBA', (total_width, max_height + 20), (0, 0, 0, 0))
   draw = ImageDraw.Draw(combined_image)
@@ -165,21 +161,22 @@ def img_generator(build_icon_names,Perks_list,Build,counter):
   y_offset = 128
   font_size = 20 
   font = ImageFont.truetype(get_path("OpenSans-Bold.ttf"), font_size)
-  combined_image.paste(images[0].convert("RGBA"), ((total_width//2) - 64, 0), images[0].convert("RGBA"))
+  combined_image.paste(images[0].convert("RGBA"), box=((total_width // 2) - 64, 0))
   images.remove(images[0])
 
   for img, img_name in zip(images, image_files):
-      combined_image.paste(img.convert("RGBA"), (x_offset, y_offset), img.convert("RGBA"))
-      x_offset += img.width + 10
+    combined_image.paste(img.convert("RGBA"), (x_offset, y_offset))
+    x_offset += img.width + 10
 
   x_off = 10
   y_off = (128*2)+20
   x_off1 = 10
   y_off1 = (128*2)+30
   combined_image1 = Image.new('RGBA', (total_width, max_height + 60), (0, 0, 0, 0))
+  print(total_width,max_height)
 
   for i in render_perks:
-    if x_off > 700:
+    if x_off > 650:
         combined_image1.paste(combined_image)
         draw = ImageDraw.Draw(combined_image1)
         draw.text((x_off1+5, y_off1+20), f"{i}", font=font, fill=(255, 255, 255, 255))
