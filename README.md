@@ -17,3 +17,22 @@
    FORM = "https://docs.google.com/forms/d/1JXLxeXnhAwWBADlC_yS9_IQY9gwb1Jg8RM79mAoLSVM/edit?usp=drivesdk"
    ```
 5. Run `main.py` to start application.
+
+## Docker
+
+1. Make sure you are in the directory where your `Dockerfile` is located.
+2. Open a terminal and run the following command to build the Docker image.
+
+   ```shell
+   docker build -t thrax_bot .
+   ```
+
+   This command will build the Docker image using the `Dockerfile` present in the current directory (`.`).
+3. After the build completes, you can run your container with the following command:
+
+   ```shell
+   docker run -dp 8080:80 thrax_bot
+   ```
+
+   This command will run the container, mapping port 80 of the container to port 8080 of your host machine (adjust ports as necessary).
+4. Your app should be available at http://localhost:8080 if your Discord bot exposes any services on that port.
