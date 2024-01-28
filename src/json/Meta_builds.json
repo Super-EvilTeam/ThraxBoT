@@ -2,193 +2,194 @@
     "Aether Strikers":{
         "1":{
             "2":{
-                "Icon":["AdversarysDrive.png", "AdversarysGuile.png", "AdversarysPride.png", "AdversarysWrath.png", "AegisOfValour.png", "AetherStrikers.png", 
-                "AgaricBole.png", "AgaricBranches.png", "AgaricCanopy.png", "AgaricRoots.png", "AgentsOfDecay.png", "Arms.png", "ArmsOfIce.png", "Artificer.png", 
-                "ArtificerAbility.png", "Axe.png", "Bastion.png", "BastionAbility.png", "BladedBoots.png", "BladedGloves.png", "BladedJacket.png", "BladedMask.png", 
-                "BlizzardsTeeth.png", "BombCyclone.png", "BorealEpiphany.png", "BorealMarch.png", "BorealMight.png", "BorealResolve.png", "BrawlersOfBoreus.png", 
-                "BreakdownVoltage.png", "BreakOfDawn.png", "BroadsidesLantern.png", "BrowOfIce.png", "BrutalityOfBoreus.png", "CallOfDawn.png", "CallOfTheFirebird.png", 
-                "ChainBlades.png", "Chaos&Entropy.png", "CharredBlades.png", "CharredCleaver.png", "CharredCrusher.png", "CharredHands.png", "CharredPistols.png", 
-                "CharredSaber.png", "CharredSpear.png", "Chronogrips.png", "Chronohelm.png", "Chronoplate.png", "Chronotreads.png", "CircuitBreakers.png", 
-                "ClutchesOfTheSwarm.png", "ColdHell.png", "CoreOfIce.png", "CrestOfValour.png", "CryoCannons.png", "CryOfTheShrike.png", "CyclonicFury.png", 
-                "DanceOfTheSwarm.png", "DarkEmbrace.png", "DarkMarrow.png", "DarkPath.png", "DarkWatch.png", "Dawnstars.png", "DeathBlossoms.png", "DestinyOfBoreus.png", 
-                "Discipline.png", "DisciplineAbility.png", "DraskscaleGauntlets.png", "DraskscaleGreaves.png", "DraskscaleHelmet.png", "DraskscalePlate.png", 
-                "DrasksEye.png", "DynamicDeadlights.png", "EdgeOfDawn.png", "EdgeOfTomorrow.png", "EldritchTorments.png", "ElectricCruelties.png", 
-                "EmberBlades.png", "EmberCutlass.png", "EmberFists.png", "EmbermanesRapture.png", "EmberMaul.png", "EmberPike.png", "EmberScythe.png", 
-                "EmberShots.png", "ExistentialCrisis.png", "EyeOfTheSwarm.png", "EyesOfNight.png", "EyesOfTheFirebird.png", "EyesOfTheShrike.png", 
-                "FallOfNight.png", "FallOfTheShrike.png", "FangsOfDawn.png", "FateOfTheFirebird.png", "FeetOfIce.png", "FenroarsBlade.png", "FenroarsBranch.png", 
-                "FenroarsRoots.png", "FenroarsSpine.png", "FenroarsThistles.png", "FenroarsThorns.png", "FenroarsTrunk.png", "FieryBreastplate.png", 
-                "FieryGauntlets.png", "FieryGreaves.png", "FieryHelm.png", "FistsOfTheFirebird.png", "FistsOfTheShrike.png", "FlightOfTheShrike.png", 
-                "FracturedRealities.png", "FrostwulfsBite.png", "FrostwulfsChillers.png", "FrostwulfsChomp.png", "FrostwulfsRip.png", "FrostwulfsSkinners.png", 
-                "FrostwulfsSlam.png", "FrostwulfsTacklers.png", "FuriesOfTheNight.png", "GalvanicImpact.png", "GauntletsOfValour.png", "GlyphWeaverAxe.png", 
-                "GlyphWeaverBlades.png", "GlyphWeaverClaws.png", "GlyphWeaverEdge.png", "GlyphWeaverMaul.png", "GlyphWeaverPistols.png", "GlyphWeaverSpear.png", 
-                "GnasherCap.png", "GnasherCloak.png", "GnasherGrips.png", "GnasherTreads.png", "GraspOfThorns.png", "GreavesOfValour.png", "GuiseOfTheRift.png", 
-                "GyreOfNight.png", "Hammer.png", "HandsOfDawn.png", "HandsOfNight.png", "HandsOfTheRift.png", "Head.png", "HeartOfStone.png", "HellplateBracers.png", 
-                "HellplateCasque.png", "HellplateCuirass.png", "HellplateGreaves.png", "HistorysBurden.png", "Hypothermica.png", "Iceborne.png", "IceborneAbility.png", 
-                "IceBreakers.png", "IncineratorsSong.png", "InfernosArrow.png", "InfernosBurden.png", "InfernosDecree.png", "InfernosFangs.png", "InfernosFlames.png", 
-                "InfernosRazor.png", "InfernosRoar.png", "InversePolarity.png", "KharabaksClaw.png", "KharabaksJaw.png", "KharabaksLights.png", "KharabaksPincers.png", 
-                "KharabaksSpur.png", "KharabaksSting.png", "KharabaksWings.png", "KoshaisBloom.png", "Lantern.png", "Legs.png", "LightningBoots.png", 
-                "LightningGloves.png", "LightningHelm.png", "LightningPlate.png", "LightsCrown.png", "LightsRefuge.png", "LightsVirtue.png", "LightsWalk.png", 
-                "MagmaQuake.png", "MalignantScourge.png", "MalkarionsGrasp.png", "MalkarionsMarch.png", "MalkarionsSight.png", "MalkarionsSoul.png", 
-                "MantleOfTheRift.png", "MantleOfThorns.png", "MightOfStone.png", "MillenniumsEnd.png", "Mindsplitter.png", "MistralCurrents.png", "MoltenEdict.png", 
-                "NayzagasCharge.png", "NayzagasFang.png", "NayzagasRazor.png", "NayzagasReach.png", "NayzagasScythe.png", "NayzagasShockers.png", "NayzagasSpikes.png", 
-                "NightTerrors.png", "nope.png", "Omnicell.png", "OnusOfBoreus.png", "PangarsCall.png", "PangarsClaws.png", "PangarsGrace.png", "PangarsNightmares.png", 
-                "PangarsPunishers.png", "PangarsRampage.png", "PangarsShine.png", "PangarsTooth.png", "ParasiticCurse.png", "PermanentFrost.png", "PhaelanxsFirearms.png", "PhaelanxsHeatsinks.png", "PhaelanxsSpearhead.png", "PhaelanxsVanguard.png", "PillarsOfStone.png", "PoisonousThorn.png", "PrismaticGrace.png", "PyroclasticEnvoy.png", "QuillshotsBonehooks.png", "QuillshotsFury.png", "QuillshotsJavelin.png", "QuillshotsRoar.png", "QuillshotsShredders.png", "QuillshotsStingers.png", "QuillshotsTusk.png", "QuillspikeBoots.png", "QuillspikeGrips.png", "QuillspikeJacket.png", "QuillspikeMask.png", "RageOfTheFirebird.png", "RagingBite.png", "RagingBlade.png", "RagingCrash.png", "RagingCruelty.png", "RagingFists.png", "RagingRepeaters.png", "RagingTeeth.png", "ReaperOfNight.png", "RecruitsAxe.png", "RecruitsChainBlades.png", "RecruitsHammer.png", "RecruitsLantern.png", "RecruitsRepeaters.png", "RecruitsStrikers.png", "RecruitsSword.png", "RecruitsWarPike.png", "Repeater.png", "Revenant.png", "RevenantAbility.png", "RevolutionOfBoreus.png", "SahvytsAvengers.png", "SahvytsCleaver.png", "SahvytsCutlass.png", "SahvytsGrapplers.png", "SahvytsJavelin.png", "SahvytsMaul.png", "SahvytsPincers.png", "SanityCheck.png", "ScorchingAgonies.png", "ScreamOfTheShrike.png", "ShellOfTheSwarm.png", "ShockingGaze.png", "ShockingGrasp.png", "ShockingHeart.png", "ShockingStride.png", "ShriekOfTheFirebird.png", "ShrikedownGloves.png", "ShrikedownGreaves.png", "ShrikedownHelm.png", "ShrikedownPlate.png", "ShrikesZeal.png", "SightOfStone.png", "SilverSword.png", "SkarnsCalamities.png", "SkarnsDefiance.png", "SkarnsJudgment.png", "SkarnsMalice.png", "SkarnsRancor.png", "SkarnsSmashers.png", "SkarnsSpite.png", "SkarnsVengeance.png", "SkraevwingBoots.png", "SkraevwingGloves.png", "SkraevwingHelmet.png", "SkraevwingJacket.png", "SolidState.png", "SongOfTheShrike.png", "SovereignsDecrees.png", "SovereignsGrudge.png", "SovereignsLash.png", "SovereignsSceptres.png", "SovereignsSorrow.png", "SovereignsTorment.png", "SovereignsWrath.png", "SpellboundBoots.png", "SpellboundGauntlets.png", "SpellboundHood.png", "SpellboundWings.png", "SpireOfDawn.png", "StalkersCries.png", "StalkersMercy.png", "StalkersPrice.png", "StalkersScorn.png", "StalkersSpike.png", "StalkersStrike.png", "StalkersTrap.png", "StonewoodBoots.png", "StonewoodChestPlate.png", "StonewoodGauntlets.png", "StonewoodGreatHelm.png", "StormBlades.png", "StormBreakers.png", "StormCutter.png", "StormHammer.png", "StormPike.png", "StormShooters.png", "StormSword.png", "StrideOfThorns.png", "StridersOfTheRift.png", "SurgeProjectors.png", "Sword.png", "TaintedNeedles.png", "TalonsOfTheFirebird.png", "TectonicFaults.png", "Tempest.png", "TempestAbility.png", "TemporalMechanics.png", "TerminalVoltage.png", "TheApocalypseNeedle.png", "TheCauterizer.png", "TheConductor.png", "TheGodhand.png", "TheGoldenClaws.png", "TheGovernor.png", "TheHunger.png", "TheSkullforge.png", "TheTwinSuns.png", "TheWeepingHours.png", "ThraxsEmbrace.png", "ThraxsGuile.png", "ThraxsScream.png", "ThraxsShadow.png", "ThrowingSparks.png", "ThunderdeepsCapacitor.png", "ThunderdeepsDynamo.png", "ThunderdeepsRegulators.png", "ThunderdeepsTurbines.png", "ThunderingBlade.png", "ThunderingBolts.png", "ThunderingCutters.png", "ThunderingGuns.png", "ThunderingMaul.png", "ThunderingScythe.png", "ThunderingSpear.png", "TimeweaveGauntlets.png", "TimeweaveHelm.png", "TimeweaveLeggings.png", "TimeweaveRobes.png", "TorgadorosApex.png", "TorgadorosBrawn.png", "TorgadorosCore.png", "TorgadorosGait.png", "Torso.png", "TragicEcho.png", "TrainingSword.png", "TurmoilOfBoreus.png", "UnsteadyGround.png", "ValomyrsBurden.png", "ValomyrsDecree.png", "ValomyrsHope.png", "ValomyrsInstincts.png", "ValomyrsRegard.png", "ValomyrsRevenge.png", "ValomyrsVisions.png", "VergeOfNight.png", "VisageOfThorns.png", "VoiceOfBoreus.png", "Voidbane.png", "VolcanicAegis.png", "VolcanicEruptions.png", "VolcanicGrips.png", "VolcanicHelm.png", "VolcanicTreads.png", "WarPike.png", "Weapon.png", "WinterBlasts.png", "WinterGale.png", "WinterIce.png", "WinterSquall.png", "WinterVortex.png", "WinterWinds.png", "WinterWolves.png", "WulfClaws.png", "WulfMane.png", "WulfPaws.png", "WulfPlate.png"]
+                "Icon":["AdversarysDrive.png","AdversarysGuile.png","AdversarysPride.png","AdversarysWrath.png","AegisOfValour.png","AetherStrikers.png", 
+                "AgaricBole.png","AgaricBranches.png","AgaricCanopy.png","AgaricRoots.png","AgentsOfDecay.png","Arms.png","ArmsOfIce.png","Artificer.png", 
+                "ArtificerAbility.png","Axe.png","Bastion.png","BastionAbility.png","BladedBoots.png","BladedGloves.png","BladedJacket.png","BladedMask.png", 
+                "BlizzardsTeeth.png","BombCyclone.png","BorealEpiphany.png","BorealMarch.png","BorealMight.png","BorealResolve.png","BrawlersOfBoreus.png", 
+                "BreakdownVoltage.png","BreakOfDawn.png","BroadsidesLantern.png","BrowOfIce.png","BrutalityOfBoreus.png","CallOfDawn.png","CallOfTheFirebird.png", 
+                "ChainBlades.png","Chaos&Entropy.png","CharredBlades.png","CharredCleaver.png","CharredCrusher.png","CharredHands.png","CharredPistols.png", 
+                "CharredSaber.png","CharredSpear.png","Chronogrips.png","Chronohelm.png","Chronoplate.png","Chronotreads.png","CircuitBreakers.png", 
+                "ClutchesOfTheSwarm.png","ColdHell.png","CoreOfIce.png","CrestOfValour.png","CryoCannons.png","CryOfTheShrike.png","CyclonicFury.png", 
+                "DanceOfTheSwarm.png","DarkEmbrace.png","DarkMarrow.png","DarkPath.png","DarkWatch.png","Dawnstars.png","DeathBlossoms.png","DestinyOfBoreus.png", 
+                "Discipline.png","DisciplineAbility.png","DraskscaleGauntlets.png","DraskscaleGreaves.png","DraskscaleHelmet.png","DraskscalePlate.png", 
+                "DrasksEye.png","DynamicDeadlights.png","EdgeOfDawn.png","EdgeOfTomorrow.png","EldritchTorments.png","ElectricCruelties.png", 
+                "EmberBlades.png","EmberCutlass.png","EmberFists.png","EmbermanesRapture.png","EmberMaul.png","EmberPike.png","EmberScythe.png", 
+                "EmberShots.png","ExistentialCrisis.png","EyeOfTheSwarm.png","EyesOfNight.png","EyesOfTheFirebird.png","EyesOfTheShrike.png", 
+                "FallOfNight.png","FallOfTheShrike.png","FangsOfDawn.png","FateOfTheFirebird.png","FeetOfIce.png","FenroarsBlade.png","FenroarsBranch.png", 
+                "FenroarsRoots.png","FenroarsSpine.png","FenroarsThistles.png","FenroarsThorns.png","FenroarsTrunk.png","FieryBreastplate.png", 
+                "FieryGauntlets.png","FieryGreaves.png","FieryHelm.png","FistsOfTheFirebird.png","FistsOfTheShrike.png","FlightOfTheShrike.png", 
+                "FracturedRealities.png","FrostwulfsBite.png","FrostwulfsChillers.png","FrostwulfsChomp.png","FrostwulfsRip.png","FrostwulfsSkinners.png", 
+                "FrostwulfsSlam.png","FrostwulfsTacklers.png","FuriesOfTheNight.png","GalvanicImpact.png","GauntletsOfValour.png","GlyphWeaverAxe.png", 
+                "GlyphWeaverBlades.png","GlyphWeaverClaws.png","GlyphWeaverEdge.png","GlyphWeaverMaul.png","GlyphWeaverPistols.png","GlyphWeaverSpear.png", 
+                "GnasherCap.png","GnasherCloak.png","GnasherGrips.png","GnasherTreads.png","GraspOfThorns.png","GreavesOfValour.png","GuiseOfTheRift.png", 
+                "GyreOfNight.png","Hammer.png","HandsOfDawn.png","HandsOfNight.png","HandsOfTheRift.png","Head.png","HeartOfStone.png","HellplateBracers.png", 
+                "HellplateCasque.png","HellplateCuirass.png","HellplateGreaves.png","HistorysBurden.png","Hypothermica.png","Iceborne.png","IceborneAbility.png", 
+                "IceBreakers.png","IncineratorsSong.png","InfernosArrow.png","InfernosBurden.png","InfernosDecree.png","InfernosFangs.png","InfernosFlames.png", 
+                "InfernosRazor.png","InfernosRoar.png","InversePolarity.png","KharabaksClaw.png","KharabaksJaw.png","KharabaksLights.png","KharabaksPincers.png", 
+                "KharabaksSpur.png","KharabaksSting.png","KharabaksWings.png","KoshaisBloom.png","Lantern.png","Legs.png","LightningBoots.png", 
+                "LightningGloves.png","LightningHelm.png","LightningPlate.png","LightsCrown.png","LightsRefuge.png","LightsVirtue.png","LightsWalk.png", 
+                "MagmaQuake.png","MalignantScourge.png","MalkarionsGrasp.png","MalkarionsMarch.png","MalkarionsSight.png","MalkarionsSoul.png", 
+                "MantleOfTheRift.png","MantleOfThorns.png","MightOfStone.png","MillenniumsEnd.png","Mindsplitter.png","MistralCurrents.png","MoltenEdict.png", 
+                "NayzagasCharge.png","NayzagasFang.png","NayzagasRazor.png","NayzagasReach.png","NayzagasScythe.png","NayzagasShockers.png","NayzagasSpikes.png", 
+                "NightTerrors.png","nope.png","Omnicell.png","OnusOfBoreus.png","PangarsCall.png","PangarsClaws.png","PangarsGrace.png","PangarsNightmares.png", 
+                "PangarsPunishers.png","PangarsRampage.png","PangarsShine.png","PangarsTooth.png","ParasiticCurse.png","PermanentFrost.png","PhaelanxsFirearms.png",
+                "PhaelanxsHeatsinks.png","PhaelanxsSpearhead.png","PhaelanxsVanguard.png","PillarsOfStone.png","PoisonousThorn.png","PrismaticGrace.png",
+                "PyroclasticEnvoy.png","QuillshotsBonehooks.png","QuillshotsFury.png","QuillshotsJavelin.png","QuillshotsRoar.png","QuillshotsShredders.png",
+                "QuillshotsStingers.png","QuillshotsTusk.png","QuillspikeBoots.png","QuillspikeGrips.png","QuillspikeJacket.png","QuillspikeMask.png",
+                "RageOfTheFirebird.png","RagingBite.png","RagingBlade.png","RagingCrash.png","RagingCruelty.png","RagingFists.png","RagingRepeaters.png",
+                "RagingTeeth.png","ReaperOfNight.png","RecruitsAxe.png","RecruitsChainBlades.png","RecruitsHammer.png","RecruitsLantern.png",
+                "RecruitsRepeaters.png","RecruitsStrikers.png","RecruitsSword.png","RecruitsWarPike.png","Repeater.png","Revenant.png","RevenantAbility.png",
+                "RevolutionOfBoreus.png","SahvytsAvengers.png","SahvytsCleaver.png","SahvytsCutlass.png","SahvytsGrapplers.png","SahvytsJavelin.png",
+                "SahvytsMaul.png","SahvytsPincers.png","SanityCheck.png","ScorchingAgonies.png","ScreamOfTheShrike.png","ShellOfTheSwarm.png","ShockingGaze.png",
+                "ShockingGrasp.png","ShockingHeart.png","ShockingStride.png","ShriekOfTheFirebird.png","ShrikedownGloves.png","ShrikedownGreaves.png",
+                "ShrikedownHelm.png","ShrikedownPlate.png","ShrikesZeal.png","SightOfStone.png","SilverSword.png","SkarnsCalamities.png","SkarnsDefiance.png",
+                "SkarnsJudgment.png","SkarnsMalice.png","SkarnsRancor.png","SkarnsSmashers.png","SkarnsSpite.png","SkarnsVengeance.png","SkraevwingBoots.png",
+                "SkraevwingGloves.png","SkraevwingHelmet.png","SkraevwingJacket.png","SolidState.png","SongOfTheShrike.png","SovereignsDecrees.png",
+                "SovereignsGrudge.png","SovereignsLash.png","SovereignsSceptres.png","SovereignsSorrow.png","SovereignsTorment.png","SovereignsWrath.png",
+                "SpellboundBoots.png","SpellboundGauntlets.png","SpellboundHood.png","SpellboundWings.png","SpireOfDawn.png","StalkersCries.png",
+                "StalkersMercy.png","StalkersPrice.png","StalkersScorn.png","StalkersSpike.png","StalkersStrike.png","StalkersTrap.png","StonewoodBoots.png",
+                "StonewoodChestPlate.png","StonewoodGauntlets.png","StonewoodGreatHelm.png","StormBlades.png","StormBreakers.png","StormCutter.png",
+                "StormHammer.png","StormPike.png","StormShooters.png","StormSword.png","StrideOfThorns.png","StridersOfTheRift.png","SurgeProjectors.png",
+                "Sword.png","TaintedNeedles.png","TalonsOfTheFirebird.png","TectonicFaults.png","Tempest.png","TempestAbility.png","TemporalMechanics.png",
+                "TerminalVoltage.png","TheApocalypseNeedle.png","TheCauterizer.png","TheConductor.png","TheGodhand.png","TheGoldenClaws.png","TheGovernor.png",
+                "TheHunger.png","TheSkullforge.png","TheTwinSuns.png","TheWeepingHours.png","ThraxsEmbrace.png","ThraxsGuile.png","ThraxsScream.png",
+                "ThraxsShadow.png","ThrowingSparks.png","ThunderdeepsCapacitor.png","ThunderdeepsDynamo.png","ThunderdeepsRegulators.png","ThunderdeepsTurbines.png",
+                "ThunderingBlade.png","ThunderingBolts.png","ThunderingCutters.png","ThunderingGuns.png","ThunderingMaul.png","ThunderingScythe.png",
+                "ThunderingSpear.png","TimeweaveGauntlets.png","TimeweaveHelm.png","TimeweaveLeggings.png","TimeweaveRobes.png","TorgadorosApex.png",
+                "TorgadorosBrawn.png","TorgadorosCore.png","TorgadorosGait.png","Torso.png","TragicEcho.png","TrainingSword.png","TurmoilOfBoreus.png",
+                "UnsteadyGround.png","ValomyrsBurden.png","ValomyrsDecree.png","ValomyrsHope.png","ValomyrsInstincts.png","ValomyrsRegard.png",
+                "ValomyrsRevenge.png","ValomyrsVisions.png","VergeOfNight.png","VisageOfThorns.png","VoiceOfBoreus.png","Voidbane.png","VolcanicAegis.png",
+                "VolcanicEruptions.png","VolcanicGrips.png","VolcanicHelm.png","VolcanicTreads.png","WarPike.png","Weapon.png","WinterBlasts.png","WinterGale.png",
+                "WinterIce.png","WinterSquall.png","WinterVortex.png","WinterWinds.png","WinterWolves.png","WulfClaws.png","WulfMane.png","WulfPaws.png","WulfPlate.png"]
             }
         },
         "Discipline":{
             "Frost":{
                 "Icon":["Discipline.png","IceBreakers.png","DarkWatch.png","SkraevwingJacket.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline", "Adrenaline", "Cunning", "Cunning", "Galvanized", "Galvanized", 
-                        "Predator", "Predator", "Assassin's Frenzy", "Berserker", "Overpower", "Reuse"]
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Galvanized","Galvanized","Predator","Predator","Assassin's Frenzy","Berserker","Overpower","Reuse"]
             },
             "Blaze":{
                 "Icon":["Discipline.png","TectonicFaults.png","TimeweaveHelm.png","SkraevwingJacket.png","TorgadorosBrawn.png","ThraxsGuile.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Berserker","Berserker","Cunning","Cunning","Overpower","Overpower",
-                "Predator","Predator","Assassin's Frenzy","Reuse"]
+                "Perks":["Adrenaline","Adrenaline","Berserker","Berserker","Cunning","Cunning","Overpower","Overpower","Predator","Predator","Assassin's Frenzy","Reuse"]
             },
             "Shock":{
                 "Icon":["Discipline.png","MistralCurrents.png","DarkWatch.png","SkraevwingJacket.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Predator","Predator","Pulse","Pulse","Assassin's Frenzy",
-            "Berserker","Overpower","Reuse"]
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Berserker","Overpower","Reuse"]
             },
             "Terra":{
                 "Icon":["Discipline.png","AgentsOfDecay.png","DarkWatch.png","SkraevwingJacket.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Berserker","Berserker","Cunning","Cunning","Predator","Predator","Assassin's Frenzy",
-            "Bladestorm","Overpower","Reuse"]
+                "Perks":["Adrenaline","Adrenaline","Berserker","Berserker","Cunning","Cunning","Predator","Predator","Assassin's Frenzy","Bladestorm","Overpower","Reuse"]
             },
             "Umbral":{
                 "Icon":["Discipline.png","FracturedRealities.png","DarkWatch.png","SkraevwingJacket.png","TorgadorosBrawn.png","ThraxsGuile.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Berserker","Berserker","Cunning","Cunning","Overpower","Overpower","Assassin's Frenzy",
-                "Predator","Predator","Reuse"]
+                "Perks":["Adrenaline","Adrenaline","Berserker","Berserker","Cunning","Cunning","Overpower","Overpower","Assassin's Frenzy","Predator","Predator","Reuse"]
             },
             "Radiant":{
                 "Icon":["Discipline.png","Chaos&Entropy.png","DarkWatch.png","SkraevwingJacket.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Overpower","Overpower","Predator","Predator","Aetherhunter","Assassin's Frenzy",
-                "Endurance","Reuse"]
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Overpower","Overpower","Predator","Predator","Aetherhunter","Assassin's Frenzy","Endurance","Reuse"]
             }
         },
         "Revenant":{
             "Frost":{
-                "Icon":["Revenant.png", "IceBreakers.png", "DarkWatch.png", "SkraevwingJacket.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Galvanized","Galvanized","Overpower","Overpower",
-            "Predator","Predator","Assassin's Frenzy","Reuse"]
+                "Icon":["Revenant.png","IceBreakers.png","DarkWatch.png","SkraevwingJacket.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Galvanized","Galvanized","Overpower","Overpower","Predator","Predator","Assassin's Frenzy","Reuse"]
             },
             "Blaze":{
-                "Icon":["Revenant.png", "TectonicFaults.png", "DarkWatch.png", "SkraevwingJacket.png","FieryGauntlets.png","BladedBoots.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Endurance","Overpower","Overpower","Predator",
-            "Predator","Assassin's Frenzy","Reuse"]
+                "Icon":["Revenant.png","TectonicFaults.png","DarkWatch.png","SkraevwingJacket.png","FieryGauntlets.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Endurance","Overpower","Overpower","Predator","Predator","Assassin's Frenzy","Reuse"]
             },
             "Shock":{
-                "Icon":["Revenant.png", "MistralCurrents.png", "DarkWatch.png", "SkraevwingJacket.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Overpower","Overpower","Predator","Predator","Pulse",
-            "Pulse","Assassin's Frenzy","Reuse"]
+                "Icon":["Revenant.png","MistralCurrents.png","DarkWatch.png","SkraevwingJacket.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Reuse"]
             },
             "Terra":{
-                "Icon":["Revenant.png", "AgentsOfDecay.png", "DarkWatch.png", "SkraevwingJacket.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Predator","Predator","Overpower","Overpower","Assassin's Frenzy",
-            "Berserker","Bladestorm","Reuse"]
+                "Icon":["Revenant.png","AgentsOfDecay.png","DarkWatch.png","SkraevwingJacket.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Predator","Predator","Overpower","Overpower","Assassin's Frenzy","Berserker","Bladestorm","Reuse"]
             },
             "Umbral":{
-                "Icon":["Revenant.png", "FracturedRealities.png", "DarkWatch.png", "SkraevwingJacket.png","FieryGauntlets.png","BladedBoots.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Endurance","Overpower","Overpower","Predator",
-            "Predator","Assassin's Frenzy","Reuse"]
+                "Icon":["Revenant.png","FracturedRealities.png","DarkWatch.png","SkraevwingJacket.png","FieryGauntlets.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Endurance","Overpower","Overpower","Predator","Predator","Assassin's Frenzy","Reuse"]
             },
             "Radiant":{
-                "Icon":["Revenant.png", "Chaos&Entropy.png", "DarkWatch.png", "SkraevwingJacket.png","FieryGauntlets.png","BladedBoots.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Endurance","Overpower","Overpower","Predator",
-            "Predator","Assassin's Frenzy","Reuse"]
+                "Icon":["Revenant.png","Chaos&Entropy.png","DarkWatch.png","SkraevwingJacket.png","FieryGauntlets.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Endurance","Endurance","Overpower","Overpower","Predator","Predator","Assassin's Frenzy","Reuse"]
             }
         },
         "Tempest":{
             "Frost":{
-                "Icon":["Tempest.png", "IceBreakers.png","SpellboundHood.png", "MantleOfThorns.png", "MalkarionsGrasp.png","PhaelanxsHeatsinks.png","ShrikesZeal.png"],
-                "Perks":["Predator","Predator","Molten","Molten","Invigorated","Invigorated","Inertia","Inertia",
-                "Impulse","Impulse","Fleet Footed","Knockout King"]
+                "Icon":["Tempest.png","IceBreakers.png","SpellboundHood.png","MantleOfThorns.png","MalkarionsGrasp.png","PhaelanxsHeatsinks.png","ShrikesZeal.png"],
+                "Perks":["Predator","Predator","Molten","Molten","Invigorated","Invigorated","Inertia","Inertia","Impulse","Impulse","Fleet Footed","Knockout King"]
             },
             "Blaze":{
-                "Icon":["Tempest.png", "TectonicFaults.png","SpellboundHood.png", "MantleOfThorns.png", "MalkarionsGrasp.png","PhaelanxsHeatsinks.png","ShrikesZeal.png"],
-                "Perks":["Predator","Predator","Molten","Molten","Invigorated","Invigorated","Inertia","Inertia",
-                "Impulse","Impulse","Fleet Footed","Overpower"]
+                "Icon":["Tempest.png","TectonicFaults.png","SpellboundHood.png","MantleOfThorns.png","MalkarionsGrasp.png","PhaelanxsHeatsinks.png","ShrikesZeal.png"],
+                "Perks":["Predator","Predator","Molten","Molten","Invigorated","Invigorated","Inertia","Inertia","Impulse","Impulse","Fleet Footed","Overpower"]
             },
             "Shock":{
-                "Icon":["Tempest.png", "MistralCurrents.png","SpellboundHood.png", "MantleOfThorns.png", "MalkarionsGrasp.png","PhaelanxsHeatsinks.png","ShrikesZeal.png"],
-                "Perks":["Fleet Footed","Fleet Footed","Impulse","Impulse","Invigorated","Invigorated","Molten","Molten","Predator",
-            "Predator","Pulse","Pulse"]
+                "Icon":["Tempest.png","MistralCurrents.png","SpellboundHood.png","MantleOfThorns.png","MalkarionsGrasp.png","PhaelanxsHeatsinks.png","ShrikesZeal.png"],
+                "Perks":["Fleet Footed","Fleet Footed","Impulse","Impulse","Invigorated","Invigorated","Molten","Molten","Predator","Predator","Pulse","Pulse"]
             },
             "Terra":{
-                "Icon":["Tempest.png", "AgentsOfDecay.png","SpellboundHood.png", "MantleOfThorns.png", "MalkarionsGrasp.png","PhaelanxsHeatsinks.png","ShrikesZeal.png"],
-                "Perks":["Predator","Predator","Molten","Molten","Invigorated","Invigorated","Inertia","Inertia",
-                "Impulse","Impulse","Fleet Footed","Sharpened"]
+                "Icon":["Tempest.png","AgentsOfDecay.png","SpellboundHood.png","MantleOfThorns.png","MalkarionsGrasp.png","PhaelanxsHeatsinks.png","ShrikesZeal.png"],
+                "Perks":["Predator","Predator","Molten","Molten","Invigorated","Invigorated","Inertia","Inertia","Impulse","Impulse","Fleet Footed","Sharpened"]
             },
             "Umbral":{
-                "Icon":["Tempest.png", "FracturedRealities.png","SpellboundHood.png", "ThraxsShadow.png", "MalkarionsGrasp.png","Chronotreads.png","ShrikesZeal.png"],
-                "Perks":["Cunning","Cunning","Impulse","Impulse","Invigorated","Invigorated","Predator","Predator","Pulse","Pulse",
-            "Fire","Molten"]
+                "Icon":["Tempest.png","FracturedRealities.png","SpellboundHood.png","ThraxsShadow.png","MalkarionsGrasp.png","Chronotreads.png","ShrikesZeal.png"],
+                "Perks":["Cunning","Cunning","Impulse","Impulse","Invigorated","Invigorated","Predator","Predator","Pulse","Pulse","Fire","Molten"]
             },
             "Radiant":{
-                "Icon":["Tempest.png", "Chaos&Entropy.png","SpellboundHood.png", "MantleOfThorns.png", "MalkarionsGrasp.png","PhaelanxsHeatsinks.png","ShrikesZeal.png"],
-                "Perks":["Impulse","Impulse","Inertia","Inertia","Invigorated","Invigorated","Molten","Molten","Predator","Predator",
-            "Aetherhunter","Fleet Footed"]
+                "Icon":["Tempest.png","Chaos&Entropy.png","SpellboundHood.png","MantleOfThorns.png","MalkarionsGrasp.png","PhaelanxsHeatsinks.png","ShrikesZeal.png"],
+                "Perks":["Impulse","Impulse","Inertia","Inertia","Invigorated","Invigorated","Molten","Molten","Predator","Predator","Aetherhunter","Fleet Footed"]
             }
         },
         "Bastion":{
             "Frost":{
-                "Icon":["Bastion.png", "IceBreakers.png", "TimeweaveHelm.png", "SkraevwingJacket.png","TimeweaveGauntlets.png","ThraxsGuile.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Galvanized","Galvanized","Predator","Predator","Assassin's Frenzy",
-            "Berserker","Molten","Overpower"]
+                "Icon":["Bastion.png","IceBreakers.png","TimeweaveHelm.png","SkraevwingJacket.png","TimeweaveGauntlets.png","ThraxsGuile.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Galvanized","Galvanized","Predator","Predator","Assassin's Frenzy","Berserker","Molten","Overpower"]
             },
             "Blaze":{
-                "Icon":["Bastion.png", "TectonicFaults.png", "TimeweaveHelm.png", "SkraevwingJacket.png","TorgadorosBrawn.png","Chronotreads.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Berserker","Berserker","Overpower","Overpower","Predator","Predator",
-            "Pulse","Pulse","Assassin's Frenzy","Molten"]
+                "Icon":["Bastion.png","TectonicFaults.png","TimeweaveHelm.png","SkraevwingJacket.png","TorgadorosBrawn.png","Chronotreads.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Berserker","Berserker","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Molten"]
             },
             "Shock":{
-                "Icon":["Bastion.png", "MistralCurrents.png", "TimeweaveHelm.png", "TimeweaveRobes.png","TorgadorosBrawn.png","BladedBoots.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Berserker","Berserker","Overpower","Overpower","Predator","Predator","Pulse","Pulse",
-            "Assassin's Frenzy","Molten"]
+                "Icon":["Bastion.png","MistralCurrents.png","TimeweaveHelm.png","TimeweaveRobes.png","TorgadorosBrawn.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Berserker","Berserker","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Molten"]
             },
             "Terra":{
-                "Icon":["Bastion.png", "AgentsOfDecay.png", "TimeweaveHelm.png", "TimeweaveRobes.png","TorgadorosBrawn.png","Chronotreads.png","SkarnsDefiance.png"],
-                "Perks":["Berserker","Berserker","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Adrenaline",
-            "Assassin's Frenzy","Bladestorm","Molten"]
+                "Icon":["Bastion.png","AgentsOfDecay.png","TimeweaveHelm.png","TimeweaveRobes.png","TorgadorosBrawn.png","Chronotreads.png","SkarnsDefiance.png"],
+                "Perks":["Berserker","Berserker","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Adrenaline","Assassin's Frenzy","Bladestorm","Molten"]
             },
             "Umbral":{
-                "Icon":["Bastion.png", "FracturedRealities.png", "TimeweaveHelm.png", "TimeweaveRobes.png","TorgadorosBrawn.png","Chronotreads.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Berserker","Berserker","Overpower","Overpower","Predator","Predator","Pulse","Pulse",
-            "Assassin's Frenzy","Molten"]
+                "Icon":["Bastion.png","FracturedRealities.png","TimeweaveHelm.png","TimeweaveRobes.png","TorgadorosBrawn.png","Chronotreads.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Berserker","Berserker","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Molten"]
             },
             "Radiant":{
-                "Icon":["Bastion.png", "Chaos&Entropy.png", "TimeweaveHelm.png", "SkraevwingJacket.png","TorgadorosBrawn.png","Chronotreads.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Aetherhunter",
-            "Assassin's Frenzy","Berserker","Molten"]
+                "Icon":["Bastion.png","Chaos&Entropy.png","TimeweaveHelm.png","SkraevwingJacket.png","TorgadorosBrawn.png","Chronotreads.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Aetherhunter","Assassin's Frenzy","Berserker","Molten"]
             }
         },
         "Artificer":{
             "Frost":{
-                "Icon":["Artificer.png", "IceBreakers.png", "TimeweaveHelm.png", "SkraevwingJacket.png","TimeweaveGauntlets.png","ThraxsGuile.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Galvanized","Galvanized","Predator","Predator",
-            "Assassin's Frenzy","Berserker","Overpower","Reuse"]
+                "Icon":["Artificer.png","IceBreakers.png","TimeweaveHelm.png","SkraevwingJacket.png","TimeweaveGauntlets.png","ThraxsGuile.png","SkarnsDefiance.png"],
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Galvanized","Galvanized","Predator","Predator","Assassin's Frenzy","Berserker","Overpower","Reuse"]
             },
             "Blaze":{
-                "Icon":["Artificer.png", "TectonicFaults.png", "TimeweaveHelm.png", "HellplateCuirass.png","TorgadorosBrawn.png","BladedBoots.png","PangarsShine.png"],
-                "Perks":["Adrenaline","Adrenaline","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse",
-            "Pulse","Assassin's Frenzy","Berserker"]
+                "Icon":["Artificer.png","TectonicFaults.png","TimeweaveHelm.png","HellplateCuirass.png","TorgadorosBrawn.png","BladedBoots.png","PangarsShine.png"],
+                "Perks":["Adrenaline","Adrenaline","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Berserker"]
             },
             "Shock":{
-                "Icon":["Artificer.png", "MistralCurrents.png", "TimeweaveHelm.png", "SkraevwingJacket.png","TorgadorosBrawn.png","BladedBoots.png","PangarsShine.png"],
-                "Perks":["Adrenaline","Adrenaline","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse",
-            "Pulse","Assassin's Frenzy","Berserker"]
+                "Icon":["Artificer.png","MistralCurrents.png","TimeweaveHelm.png","SkraevwingJacket.png","TorgadorosBrawn.png","BladedBoots.png","PangarsShine.png"],
+                "Perks":["Adrenaline","Adrenaline","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Berserker"]
             },
             "Terra":{
-                "Icon":["Artificer.png", "AgentsOfDecay.png", "TimeweaveHelm.png", "TimeweaveRobes.png","TimeweaveGauntlets.png","BladedBoots.png","PangarsShine.png"],
+                "Icon":["Artificer.png","AgentsOfDecay.png","TimeweaveHelm.png","TimeweaveRobes.png","TimeweaveGauntlets.png","BladedBoots.png","PangarsShine.png"],
                 "Perks":["Adrenaline","Adrenaline","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Berserker","Bladestorm","Molten"]
             },
             "Umbral":{
-                "Icon":["Artificer.png", "FracturedRealities.png", "TimeweaveHelm.png", "SkraevwingJacket.png","TorgadorosBrawn.png","Chronotreads.png","PangarsShine.png"],
+                "Icon":["Artificer.png","FracturedRealities.png","TimeweaveHelm.png","SkraevwingJacket.png","TorgadorosBrawn.png","Chronotreads.png","PangarsShine.png"],
                 "Perks":["Adrenaline","Adrenaline","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Berserker"]
             },
             "Radiant":{
-                "Icon":["Artificer.png", "Chaos&Entropy.png", "TimeweaveHelm.png", "SkraevwingJacket.png","TorgadorosBrawn.png","Chronotreads.png","PangarsShine.png"],
+                "Icon":["Artificer.png","Chaos&Entropy.png","TimeweaveHelm.png","SkraevwingJacket.png","TorgadorosBrawn.png","Chronotreads.png","PangarsShine.png"],
                 "Perks":["Adrenaline","Adrenaline","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Aetherhunter","Aetherhunter","Assassin's Frenzy","Berserker","Molten"]
             }
         },
@@ -774,54 +775,54 @@
         },
         "Bastion":{
             "Frost":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Bastion.png","CryoCannons.png","TimeweaveHelm.png","TimeweaveRobes.png","TorgadorosBrawn.png","Chronotreads.png","SkarnsDefiance.png"],
+                "Perks":["Berserker","Berserker","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Fortress","Molten","Weighted Strikes"]
             },
             "Blaze":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Bastion.png","VolcanicEruptions.png","EyeOfTheSwarm.png","TimeweaveRobes.png","MalkarionsGrasp.png","Chronotreads.png","SkarnsDefiance.png"],
+                "Perks":["Berserker","Berserker","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Evasive Fury","Fortress","Molten"]
             },
             "Shock":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Bastion.png","DynamicDeadlights.png","TimeweaveHelm.png","TimeweaveRobes.png","TorgadorosBrawn.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Berserker","Berserker","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Zeal"]
             },
             "Terra":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Bastion.png","TaintedNeedles.png","TimeweaveHelm.png","TimeweaveRobes.png","TorgadorosBrawn.png","Chronotreads.png","SkarnsDefiance.png"],
+                "Perks":["Berserker","Berserker","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Bladestorm","Fortress","Molten"]
             },
             "Umbral":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Bastion.png","EldritchTorments.png","TimeweaveHelm.png","TimeweaveRobes.png","TorgadorosBrawn.png","Chronotreads.png","SkarnsDefiance.png"],
+                "Perks":["Berserker","Berserker","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Evasive Fury","Fortress","Molten"]
             },
             "Radiant":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Bastion.png","TemporalMechanics.png","TimeweaveHelm.png","TimeweaveRobes.png","TorgadorosBrawn.png","Chronotreads.png","SkarnsDefiance.png"],
+                "Perks":["Berserker","Berserker","Cunning","Cunning","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Molten"]
             }
         },
         "Artificer":{
             "Frost":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Artificer.png","CryoCannons.png","TimeweaveHelm.png","TimeweaveRobes.png","TorgadorosBrawn.png","ThraxsGuile.png","SkarnsDefiance.png"],
+                "Perks":["Berserker","Berserker","Cunning","Cunning","Galvanized","Galvanized","Overpower","Overpower","Predator","Predator","Assassin's Frenzy","Reuse"]
             },
             "Blaze":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Artificer.png","VolcanicEruptions.png","TimeweaveHelm.png","TimeweaveRobes.png","HellplateBracers.png","Chronotreads.png","PangarsShine.png"],
+                "Perks":["Berserker","Berserker","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Conduit"]
             },
             "Shock":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Artificer.png","DynamicDeadlights.png","TimeweaveHelm.png","TimeweaveRobes.png","HellplateBracers.png","BladedBoots.png","PangarsShine.png"],
+                "Perks":["Berserker","Berserker","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Conduit"]
             },
             "Terra":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Artificer.png","TaintedNeedles.png","TimeweaveHelm.png","TimeweaveRobes.png","HellplateBracers.png","Chronotreads.png","PangarsShine.png"],
+                "Perks":["Berserker","Berserker","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Bladestorm"]
             },
             "Umbral":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Artificer.png","EldritchTorments.png","TimeweaveHelm.png","TimeweaveRobes.png","HellplateBracers.png","Chronotreads.png","PangarsShine.png"],
+                "Perks":["Berserker","Berserker","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Conduit"]
             },
             "Radiant":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Artificer.png","TemporalMechanics.png","TimeweaveHelm.png","TimeweaveRobes.png","HellplateBracers.png","Chronotreads.png","PangarsShine.png"],
+                "Perks":["Cunning","Cunning","Molten","Molten","Overpower","Overpower","Predator","Predator","Pulse","Pulse","Assassin's Frenzy","Berserker"]
             }
         },
         "Iceborne":{
@@ -830,24 +831,24 @@
                 "Perks":["Cunning","Cunning","Galvanized","Galvanized","Overpower","Overpower","Reuse","Reuse","Tenacious","Tenacious","Assassin's Frenzy","Berserker"]
             },
             "Blaze":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","VolcanicEruptions.png","DarkWatch.png","LightsVirtue.png","BorealMight.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Pulse","Pulse","Reuse","Reuse","Tenacious","Tenacious","Assassin's Frenzy","Berserker","Overpower","Recycle"]
             },
             "Shock":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","DynamicDeadlights.png","DarkWatch.png","LightsVirtue.png","BorealMight.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Pulse","Pulse","Reuse","Reuse","Tenacious","Tenacious","Assassin's Frenzy","Berserker","Overpower","Recycle"]
             },
             "Terra":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","TaintedNeedles.png","DarkWatch.png","LightsVirtue.png","BorealMight.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Pulse","Pulse","Reuse","Reuse","Tenacious","Tenacious","Assassin's Frenzy","Berserker","Bladestorm","Recycle"]
             },
             "Umbral":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","EldritchTorments.png","DarkWatch.png","ThraxsShadow.png","BorealMight.png","BorealMarch.png","SkarnsDefiance.png"],
+                "Perks":["Berserker","Berserker","Cunning","Cunning","Pulse","Pulse","Recycle","Recycle","Tenacious","Tenacious","Assassin's Frenzy","Reuse"]
             },
             "Radiant":{
-                "Icon":[],
-                "Perks":[]
+                "Icon":["Iceborne.png","TemporalMechanics.png","DarkWatch.png","HellplateCuirass.png","BorealMight.png","BladedBoots.png","SkarnsDefiance.png"],
+                "Perks":["Cunning","Cunning","Overpower","Overpower","Pulse","Pulse","Tenacious","Tenacious","Assassin's Frenzy","Molten","Recycle","Reuse"]
             }
         }
     },

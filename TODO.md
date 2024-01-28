@@ -33,9 +33,9 @@
         - [x] Discipline
         - [x] Revenant
         - [x] Tempest
-        - [ ] Bastion
-        - [ ] Artificer
-        - [ ] Iceborne
+        - [x] Bastion
+        - [x] Artificer
+        - [x] Iceborne
     - [ ] Sword
         - [ ] Discipline
         - [ ] Revenant

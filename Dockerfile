@@ -5,7 +5,7 @@ FROM python:3.11.4
 WORKDIR /app
 
 # Copy your project files to the container
-COPY . /app
+COPY . .
 
 # Install the necessary dependencies
 RUN pip install virtualenv
