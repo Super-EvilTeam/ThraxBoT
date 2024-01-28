@@ -1,6 +1,6 @@
 ## In progress
 
-- [ ] Update Meta_builds.json
+- [ ] Update [Meta_builds.json](./src/json/Meta_builds.json)
     - [x] Aether Strikers
         - [x] Discipline
         - [x] Revenant
