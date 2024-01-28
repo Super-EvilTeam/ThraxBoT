@@ -1,4 +1,59 @@
-- [ ] Update Icons
+## In progress
+
+- [ ] Update Meta_builds.json
+    - [x] Aether Strikers
+        - [x] Discipline
+        - [x] Revenant
+        - [x] Tempest
+        - [x] Bastion
+        - [x] Artificer
+        - [x] Iceborne
+    - [x] Axe
+        - [x] Discipline
+        - [x] Revenant
+        - [x] Tempest
+        - [x] Bastion
+        - [x] Artificer
+        - [x] Iceborne
+    - [x] Chain Blades
+        - [x] Discipline
+        - [x] Revenant
+        - [x] Tempest
+        - [x] Bastion
+        - [x] Artificer
+        - [x] Iceborne
+    - [x] Hammer
+        - [x] Discipline
+        - [x] Revenant
+        - [x] Tempest
+        - [x] Bastion
+        - [x] Artificer
+        - [x] Iceborne
+    - [x] Repeater
+        - [x] Discipline
+        - [x] Revenant
+        - [x] Tempest
+        - [ ] Bastion
+        - [ ] Artificer
+        - [ ] Iceborne
+    - [ ] Sword
+        - [ ] Discipline
+        - [ ] Revenant
+        - [ ] Tempest
+        - [ ] Bastion
+        - [ ] Artificer
+        - [ ] Iceborne
+    - [ ] War Pike
+        - [ ] Discipline
+        - [ ] Revenant
+        - [ ] Tempest
+        - [ ] Bastion
+        - [ ] Artificer
+        - [ ] Iceborne
+
+## Completed
+
+- [x] Update Icons
     - [x] [MantleOfThorns.png](./src/Icons/MantleOfThorns.png) / [Wiki](https://dauntless.fandom.com/wiki/Mantle_of_Thorns?file=Mantle_of_Thorns_Icon_001.png)
     - [x] [ShockingStride.png](./src/Icons/ShockingStride.png) / [Wiki](https://dauntless.fandom.com/wiki/Shocking_Stride?file=Zaga_Greaves_Icon_001.png)
     - [x] [ShrikedownHelm.png](./src/Icons/ShrikedownHelm.png) / [Wiki](https://dauntless.fandom.com/wiki/Shrikedown_Helm?file=Shrike_Helm_Icon_001.png)
