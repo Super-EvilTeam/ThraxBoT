@@ -31,8 +31,8 @@
 3. After the build completes, you can run your container with the following command:
 
    ```shell
-   docker run -dp 8080:80 thrax_bot
+   docker run -dp 3000:3000 thrax_bot
    ```
 
-   This command will run the container, mapping port 80 of the container to port 8080 of your host machine (adjust ports as necessary).
-4. Your app should be available at http://localhost:8080 if your Discord bot exposes any services on that port.
+   This command will run the container, mapping port 3000 of the container to port 3000 of your host machine (adjust ports as necessary).
+4. Your app should be available at http://localhost:3000 if your Discord bot exposes any services on that port.
