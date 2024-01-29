@@ -4,7 +4,7 @@ import copy
 from PIL import Image, ImageDraw, ImageFont
 import json
 from collections import Counter
-
+import io
 
 def get_path(filename):
    # Get the current directory
@@ -139,65 +139,70 @@ def custom_sort(item):
     else:
         # For other cases, return a high priority so that they come after +3 items
         return (2, non_num_part)
+    
+def img_generator(build_icon_names, Perks_list, Build, counter):
+    perk_counts = Counter(Perks_list)
+    render_perks = sorted([f"+6 {perk}" if count == 2 and f"+6 {perk}" not in Perks_list else f"+3 {perk}" for perk, count in perk_counts.items()], key=custom_sort)
+    image_files = build_icon_names[counter]
 
-def img_generator(build_icon_names,Perks_list,Build,counter):
-  perk_counts = Counter(Perks_list)
-  render_perks = sorted([f"+6 {perk}" if count == 2 and f"+6 {perk}" not in Perks_list else f"+3 {perk}" for perk, count in perk_counts.items()], key=custom_sort)
-  image_files = build_icon_names[counter]
+    # Open each image and get its dimensions
+    images = [Image.open(os.path.join(input_folder, img)) for img in image_files]
 
-  # Open each image and get its dimensions
-  images = [Image.open(os.path.join(input_folder, img)) for img in image_files]
+    # Calculate the total width and height for the combined image with padding
+    total_width = (sum(img.width for img in images) + (len(images) - 1) * 10) - 128
+    max_height = (max(img.height for img in images) * 2) + 30
 
-  # Calculate the total width and height for the combined image with padding
-  total_width = (sum(img.width for img in images) + (len(images) - 1) * 10) - 128 
-  max_height = (max(img.height for img in images)*2) + 30
+    # Create a new RGBA image with a transparent background
+    combined_image = Image.new('RGBA', (total_width, max_height + 20), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(combined_image)
 
-  # Create a new RGBA image with a transparent background
-  combined_image = Image.new('RGBA', (total_width, max_height + 20), (0, 0, 0, 0))
-  draw = ImageDraw.Draw(combined_image)
+    # Paste each image horizontally and add placeholder text below each image with padding
+    x_offset = 10
+    y_offset = 128
+    font_size = 20
+    font = ImageFont.truetype(get_path("OpenSans-Bold.ttf"), font_size)
+    combined_image.paste(images[0].convert("RGBA"), box=((total_width // 2) - 64, 0))
+    images.remove(images[0])
 
-  # Paste each image horizontally and add placeholder text below each image with padding
-  x_offset = 10
-  y_offset = 128
-  font_size = 20 
-  font = ImageFont.truetype(get_path("OpenSans-Bold.ttf"), font_size)
-  combined_image.paste(images[0].convert("RGBA"), box=((total_width // 2) - 64, 0))
-  images.remove(images[0])
+    for img, img_name in zip(images, image_files):
+        combined_image.paste(img.convert("RGBA"), (x_offset, y_offset))
+        x_offset += img.width + 10
 
-  for img, img_name in zip(images, image_files):
-    combined_image.paste(img.convert("RGBA"), (x_offset, y_offset))
-    x_offset += img.width + 10
+    x_off = 10
+    y_off = (128 * 2) + 20
+    x_off1 = 10
+    y_off1 = (128 * 2) + 30
+    combined_image1 = Image.new('RGBA', (total_width, max_height + 60), (0, 0, 0, 0))
+    print(total_width, max_height)
 
-  x_off = 10
-  y_off = (128*2)+20
-  x_off1 = 10
-  y_off1 = (128*2)+30
-  combined_image1 = Image.new('RGBA', (total_width, max_height + 60), (0, 0, 0, 0))
-  print(total_width,max_height)
-
-  for i in render_perks:
-    if x_off > 650:
-        combined_image1.paste(combined_image)
-        draw = ImageDraw.Draw(combined_image1)
-        draw.text((x_off1+5, y_off1+20), f"{i}", font=font, fill=(255, 255, 255, 255))
-        bbox = draw.textbbox((x_off1, y_off1), f"{i}", font=font)
-        text_width = bbox[2] - bbox[0]
-        x_off1 += text_width+20
-        x_off += text_width+20
+    for i in render_perks:
+        if x_off > 650:
+            combined_image1.paste(combined_image)
+            draw = ImageDraw.Draw(combined_image1)
+            draw.text((x_off1 + 5, y_off1 + 20), f"{i}", font=font, fill=(255, 255, 255, 255))
+            bbox = draw.textbbox((x_off1, y_off1), f"{i}", font=font)
+            text_width = bbox[2] - bbox[0]
+            x_off1 += text_width + 20
+            x_off += text_width + 20
+        else:
+            # print(x_off)
+            draw.text((x_off + 5, y_off), f"{i}", font=font, fill=(255, 255, 255, 255))
+            bbox = draw.textbbox((x_off, y_off), f"{i}", font=font)
+            text_width = bbox[2] - bbox[0]
+            x_off += text_width + 20
+    
+    # Return the combined image
+    if x_off >= 800:
+        img_bytes_io = io.BytesIO()
+        combined_image1.save(img_bytes_io, format='PNG')
+        img_bytes_io.seek(0)
+        return img_bytes_io
+        
     else:
-        # print(x_off)
-        draw.text((x_off+5, y_off), f"{i}", font=font, fill=(255, 255, 255, 255))
-        bbox = draw.textbbox((x_off, y_off), f"{i}", font=font)
-        text_width = bbox[2] - bbox[0]
-        x_off += text_width+20
-  # Save the combined image
-  # print(x_off)
-  if x_off >= 800:
-      combined_image1.save(output_path, format="PNG")
-      return Build
-  else:
-      combined_image.save(output_path, format="PNG")
-      return Build
+        img_bytes_io = io.BytesIO()
+        combined_image.save(img_bytes_io, format='PNG')
+        img_bytes_io.seek(0)
+        return img_bytes_io
 
 
 def Build_finder(Perks_list,language,weapon_type,weapon_filter,lantern,omnicell,counter):

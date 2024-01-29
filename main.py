@@ -10,6 +10,7 @@ from discord.ext import commands,tasks
 from server import keep_alive
 from dotenv import load_dotenv
 from PIL import Image,ImageFilter
+import io
 from build_finder import img_generator,load_json
 user_id = None
 mods = None
@@ -114,46 +115,6 @@ class MetaBuilds(discord.ui.View):
         self.SelectOmnicell.options = generate_options(omnicell,omnicell_emoji)
         self.SelectElement.options = generate_options(element,element_emoji)
 
-    # async def button_click(self,button):
-    #    if self.embed.description == "Select Weapon":
-    #     self.embed.description = "Select Omnicell"
-    #     self.selected_weapon = button.label
-    #     print(self.selected_weapon)
-    #     self.remove_item(self.children[6])
-    #     for i in range(6):
-    #         self.children[i].emoji = self.omnicell[i]
-    #    elif self.embed.description == "Select Omnicell":
-    #       self.selected_omnicell = button.label
-    #       data = meta_builds_data["Aether Strikers"]["Blaze"]
-    #       img_generator(data["icon"],data["Perks"],0,0)
-    #       channel_id = 1192516992985485353
-    #       channel = bot.get_channel(channel_id)
-    #       message = await channel.send(file=discord.File("build_img.png"))
-    #       self.embed.set_image(url=message.attachments[0].url)
-          
-
-    # @discord.ui.select(placeholder="Select Weapon")
-    # async def select_weapon_type(self, interaction, select):
-    #     if self.children[0].placeholder == "Select Weapon":
-    #         self.children[0].placeholder = "Select Omnicell"
-    #         self.selected_weapon = select.values[0]
-    #         self.children[0].options=generate_weapon_options(self.omnicell,omnicell_emoji)
-    #     elif self.children[0].placeholder == "Select Omnicell":
-    #        self.selected_omnicell = select.values[0]
-    #        for i in range(1, 7):
-    #         label = f"Button {i}"
-    #         style = discord.ButtonStyle.primary
-    #         button = discord.ui.Button(label=label, style=style, custom_id=f"button_{i}")
-    #         self.add_item(button)
-        #    data = meta_builds_data[self.selected_weapon][self.selected_omnicell]["Blaze"]
-        #    img_generator([convert_to_build(data["Icon"])],data["Perks"],0,0)
-        #    channel_id = 1192516992985485353
-        #    channel = bot.get_channel(channel_id)
-        #    message = await channel.send(file=discord.File("build_img.png"))
-        #    self.embed.set_image(url=message.attachments[0].url)
-
-    #     await interaction.response.edit_message(embed=self.embed,view =self)
-
     async def callback(self,select,interaction):
        for i in select.options:
           if i.default == True:
@@ -164,14 +125,8 @@ class MetaBuilds(discord.ui.View):
        print(self.selected_weapon)
        if self.selected_element != None and self.selected_omnicell != None and self.selected_weapon != None:
         data = meta_builds_data[self.selected_weapon][self.selected_omnicell][self.selected_element]
-        img_generator([data["Icon"]],data["Perks"],0,0)
-        # channel_id = 1192516992985485353
-        # channel = bot.get_channel(channel_id)
-        # message = await channel.send(file=discord.File("build_img.png"))
-        # self.embed.set_image(url=message.attachments[0].url)
-        # resize_and_sharpen("build_img.png", "build_img.png", (400,200))
-        await interaction.response.edit_message(attachments=[discord.File(get_path("build_img.png"))],view = self)
-        # select.options[index].default = False
+        img = img_generator([data["Icon"]],data["Perks"],0,0)
+        await interaction.response.edit_message(attachments=[discord.File(img, filename='image.png')],view = self)
         return True
        return False
 
@@ -194,30 +149,6 @@ class MetaBuilds(discord.ui.View):
        print(self.selected_element)
        if not await self.callback(select,interaction):
           await interaction.response.defer()
-
-    # @discord.ui.button(custom_id="Frost",style=discord.ButtonStyle.secondary,row=2,emoji="<:frost:1192869317251956886>",)
-    # async def button_1(self, interaction: discord.Interaction,button: discord.ui.Button):
-    #     await interaction.response.defer()
-
-    # @discord.ui.button(custom_id="Blaze", style=discord.ButtonStyle.secondary,row=2,emoji="<:blaze:1192869335987925202>")
-    # async def button_2(self, interaction: discord.Interaction,button: discord.ui.Button):
-    #     await interaction.response.defer()
-    
-    # @discord.ui.button(custom_id="Shock", style=discord.ButtonStyle.secondary,row=2,emoji="<:shock:1192868564227596440>")
-    # async def button_3(self, interaction: discord.Interaction,button: discord.ui.Button):
-    #     await interaction.response.defer()
-    
-    # @discord.ui.button(custom_id="Terra", style=discord.ButtonStyle.secondary,row=3,emoji="<:terra:1192869323841208461>")
-    # async def button_4(self, interaction: discord.Interaction,button: discord.ui.Button):
-    #     await interaction.response.defer()
-
-    # @discord.ui.button(custom_id="Radiant", style=discord.ButtonStyle.secondary,row=3,emoji="<:radiant:1192869315251294301>")
-    # async def button_5(self, interaction: discord.Interaction,button: discord.ui.Button):
-    #     await interaction.response.defer()
-
-    # @discord.ui.button(custom_id="Umbral", style=discord.ButtonStyle.secondary,row=3,emoji="<:umbral:1192869332225622166>")
-    # async def button_6(self, interaction: discord.Interaction,button: discord.ui.Button):
-    #     await interaction.response.defer()
 
 if __name__ == '__main__':
   load_dotenv()
