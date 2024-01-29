@@ -270,9 +270,9 @@ class SimpleView(discord.ui.View):
       Perks_list = [perk.strip() for perk in Perks_list]
       view = PostBuild(self.build_icon_names,Perks_list,self.Build,self.total_combinations,self.language)
       # print(self.build_icon_names[0],Perks_list)
-      img_generator(self.build_icon_names,Perks_list,self.Build,0)
+      img = img_generator(self.build_icon_names,Perks_list,self.Build,0)
       await interaction.response.send_message(content=f"{ui_text[self.language]['totalCombinations']}: {1}-{self.total_combinations}",
-        view=view, file=discord.File("build_img.png"),ephemeral=True)
+        view=view, file=discord.File(img, filename='image.png'),ephemeral=True)
 
   @discord.ui.button(label="Reset", style=discord.ButtonStyle.danger)
   async def Reset(self, interaction: discord.Interaction,
