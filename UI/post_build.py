@@ -23,9 +23,21 @@ class PostBuild(discord.ui.View):
       self.children[i].style = discord.ButtonStyle.success if i == button_index else discord.ButtonStyle.secondary
     self.img_perks = translate_to_english(self.Perks_list,self.language,to_language)
     img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1)
-
-
-
+  
+  async def update_view(self,interaction,button):
+    if button.label==">":
+      self.previous.disabled = False
+      self.index += 1
+    else:
+      self.next.disabled = False
+      self.index -= 1
+    if self.index == self.total_combinations:
+      self.next.disabled = True
+    elif self.index == 1:
+      self.previous.disabled = True
+    img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1)
+    await interaction.response.edit_message(view=self, attachments=[discord.File(img, filename='image.png')],content=f"{ui_text[self.language]['totalCombinations']}: {self.index}-{self.total_combinations}")
+  
   @discord.ui.button(label="English", style=discord.ButtonStyle.secondary ,row=0)
   async def english(self, interaction: discord.Interaction, button: discord.ui.Button):
     self.button_click(self.children.index(button),button.label.lower())
@@ -44,24 +56,13 @@ class PostBuild(discord.ui.View):
 
   @discord.ui.button(label="<", style=discord.ButtonStyle.primary,row=1)
   async def previous(self, interaction: discord.Interaction,button: discord.ui.Button):
-    self.children[5].disabled = False
-    self.index -= 1
-    img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1)
-    if self.index == 1:
-      self.children[3].disabled = True
-    await interaction.response.edit_message(content=f"{ui_text[self.language]['totalCombinations']}: {self.index}-{self.total_combinations}", 
-      view=self, attachments=[discord.File("build_img.png")])
-
+    await self.update_view(interaction,button)
+    
   @discord.ui.button(label="Post Build", style=discord.ButtonStyle.success,row=1)
   async def post_build(self, interaction: discord.Interaction,button: discord.ui.Button):
-    await interaction.response.send_message(file=discord.File("build_img.png"))
+    img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1)
+    await interaction.response.send_message(file=discord.File(img, filename='image.png'))
 
   @discord.ui.button(label=">", style=discord.ButtonStyle.primary,row=1)
   async def next(self, interaction: discord.Interaction,button: discord.ui.Button):
-    self.children[3].disabled = False
-    self.index += 1
-    img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1)
-    if self.index == self.total_combinations:
-      self.children[5].disabled = True
-    await interaction.response.edit_message(view=self, attachments=[discord.File("build_img.png")],
-      content=f"{ui_text[self.language]['totalCombinations']}: {self.index}-{self.total_combinations}")
+    await self.update_view(interaction,button)
