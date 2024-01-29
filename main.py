@@ -184,12 +184,17 @@ if __name__ == '__main__':
   async def on_message(message):
     if message.content.startswith('!'):
       await bot.process_commands(message)
-    elif all(word in message.content.lower() for word in ['how', 'to', 'join']):
+    if all(word in message.content.lower() for word in ['how', 'to', 'join']):
       view = discord.ui.View()
       button = discord.ui.Button(label="Apply", url=os.environ['FORM'])
       view.add_item(button)
       msg ="Looking to join Guild? Apply on below link \nOfficer's will check your application and reach out to you!"
       await message.channel.send(msg, view=view)
+    if message.channel.name == "builds":
+        # Check if the message contains both "give" and "build"
+        if all(word in message.content.lower() for word in ['give', 'build']):
+            # Reply with "Are you looking for a build?"
+            await message.reply("Looking for a build? Use /meta_builds", delete_after=10)
 
   @bot.event
   async def on_message_delete(message):
@@ -273,11 +278,6 @@ if __name__ == '__main__':
 
   @bot.tree.command(name="meta-builds",description="General Meta builds for all Hunts")
   async def meta_builds(interaction: discord.Interaction):
-     embed = discord.Embed(
-        colour=0x2B2D31,
-        # title=f"🛠️⚙️Meta Builds🛠️⚙️",
-        )
-     embed.set_image(url="https://cdn.discordapp.com/attachments/1192516992985485353/1200821487452565624/AllWeapons.png?ex=65c79328&is=65b51e28&hm=a30f8d7b060b8b805b643802d25d76b2cd9903d3aba570e85c135bd2f7999cc3&")
      view_menu = MetaBuilds()
      await interaction.response.send_message(file=discord.File(get_path("AllWeapons.png")),view=view_menu,ephemeral=True)
 
