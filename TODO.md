@@ -1,6 +1,10 @@
 ## In progress
 
-- [x] Update [Meta_builds.json](./src/json/Meta_builds.json)
+- [ ] Add task here (date)
+
+## Completed
+
+- [x] Update [Meta_builds.json](./src/json/Meta_builds.json) (2024 Jan 29)
     - [x] Aether Strikers
         - [x] Discipline
         - [x] Revenant
@@ -50,8 +54,6 @@
         - [x] Bastion
         - [x] Artificer
         - [x] Iceborne
-
-## Completed
 
 - [x] Update Icons (2024 Jan 28)
     - [x] [MantleOfThorns.png](./src/Icons/MantleOfThorns.png) / [Wiki](https://dauntless.fandom.com/wiki/Mantle_of_Thorns?file=Mantle_of_Thorns_Icon_001.png)
