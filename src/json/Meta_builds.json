@@ -532,7 +532,7 @@
             },
             "Radiant":{
                 "Icon":["Iceborne.png","TheWeepingHours.png","DarkWatch.png","SkraevwingJacket.png","BorealMight.png","BorealMarch.png","SkarnsDefiance.png"],
-                "Perks":["Cunning","Cunning","Overpower","Overpower","Pulse","Pulse","Reuse","Reuse","Tenacious","Adrenaline","Assassin's Frenzy"]
+                "Perks":["Cunning","Cunning","Overpower","Overpower","Pulse","Pulse","Reuse","Reuse","Tenacious", "Tenacious","Adrenaline","Assassin's Frenzy"]
             }
         }
     },
@@ -570,7 +570,7 @@
             },
             "Blaze":{
                 "Icon":["Revenant.png","MagmaQuake.png","DarkWatch.png","ThraxsShadow.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
-                "Perks":["Cunning","Cunning","Galvanized","Galvanized","Overpower","Overpower","Predator","Predator","Reuse","Assassin's Frenzy","Berserker"]
+                "Perks":["Cunning","Cunning","Galvanized","Galvanized","Overpower","Overpower","Predator","Predator","Reuse","Reuse","Assassin's Frenzy","Berserker"]
             },
             "Shock":{
                 "Icon":["Revenant.png","GalvanicImpact.png","DarkWatch.png","LightsVirtue.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
@@ -1044,7 +1044,7 @@
             },
             "Blaze":{
                 "Icon":["Revenant.png","PyroclasticEnvoy.png","DarkWatch.png","SkraevwingJacket.png","FieryGauntlets.png","ThraxsGuile.png","SkarnsDefiance.png"],
-                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Overpower","Overpower","Predator","Predator","Reuse","Assassin's Frenzy","Endurance"]
+                "Perks":["Adrenaline","Adrenaline","Cunning","Cunning","Overpower","Overpower","Predator","Predator","Reuse","Reuse","Assassin's Frenzy","Endurance"]
             },
             "Shock":{
                 "Icon":["Revenant.png","TheConductor.png","DarkWatch.png","SkraevwingJacket.png","MalkarionsGrasp.png","BladedBoots.png","SkarnsDefiance.png"],
@@ -1096,7 +1096,7 @@
             },
             "Blaze":{
                 "Icon":["Bastion.png","PyroclasticEnvoy.png","TimeweaveHelm.png","QuillspikeJacket.png","TorgadorosBrawn.png","ThraxsGuile.png","SkarnsDefiance.png"],
-                "Perks":[]
+                "Perks":["Cunning","Cunning","Overpower","Overpower","Predator","Predator","Relentless","Relentless","Savagery","Savagery","Berserker","Molten"]
             },
             "Shock":{
                 "Icon":["Bastion.png","TheConductor.png","TimeweaveHelm.png","QuillspikeJacket.png","TorgadorosBrawn.png","ThraxsGuile.png","SkarnsDefiance.png"],
