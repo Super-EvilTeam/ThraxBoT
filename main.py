@@ -153,7 +153,6 @@ class MetaBuilds(discord.ui.View):
 if __name__ == '__main__':
   load_dotenv()
   my_secret = os.environ.get('TOKEN')
-
   bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
   @bot.event
@@ -165,7 +164,8 @@ if __name__ == '__main__':
         print(f"Synced {len(synced)} application (/) commands.")
     except Exception as e:
         print(e)
-    activities = ["It's All Shits & Giggles Until You Start Hearing Baby Arm!Baby Arm! in VC",
+    activities = ["Looking for Build? Use \meta_builds",
+                  "It's All Shits & Giggles Until You Start Hearing Baby Arm!Baby Arm! in VC",
                   "Thraxx in Thraxx enjoyer actually means Weed not Behemoth itself!",
                   "Laughing at Void Runners"]
     while True:
@@ -179,16 +179,6 @@ if __name__ == '__main__':
   #   await channel.send(
   #     "Guess what!\n\nIt's Time to purge some sleeping warriors into the void!\n\n*Thrax laughing noises*"
   #   )
-
-  @bot.tree.command(name="meta_builds")
-  async def meta_builds(interaction: discord.Interaction):
-     embed = discord.Embed(
-        colour=0x2B2D31,
-        # title=f"🛠️⚙️Meta Builds🛠️⚙️",
-        )
-     embed.set_image(url="https://cdn.discordapp.com/attachments/1192516992985485353/1200821487452565624/AllWeapons.png?ex=65c79328&is=65b51e28&hm=a30f8d7b060b8b805b643802d25d76b2cd9903d3aba570e85c135bd2f7999cc3&")
-     view_menu = MetaBuilds()
-     await interaction.response.send_message(file=discord.File(get_path("AllWeapons.png")),view=view_menu,ephemeral=True)
 
   @bot.event
   async def on_message(message):
@@ -258,7 +248,7 @@ if __name__ == '__main__':
                   else:
                       print("Guild Members channel not found.")
 
-  @bot.tree.command(name="build_finder")
+  @bot.tree.command(name="build-finder",description="create builds by simply selecting the perks you want")
   async def build_finder(interaction: discord.Interaction):
     embed = discord.Embed(
         colour=0xC934EB,
@@ -267,7 +257,7 @@ if __name__ == '__main__':
     view_menu = SelectLanguage(user_id)
     await interaction.response.send_message(embed=embed,view=view_menu,ephemeral=True)
 
-  @bot.tree.command(name="join_guild")
+  @bot.tree.command(name="join-guild",description="Send an application to join Guild")
   async def recruit(interaction: discord.Interaction):
       # Check if the member has a specific role (e.g., "Admin")
       required_role_name = "Guest"
@@ -279,7 +269,17 @@ if __name__ == '__main__':
           await interaction.response.send_modal(modal)
       else:
           # The member doesn't have the required role, send a message or take other action
-          await interaction.response.send_message("Test feature not fully implemented yet", ephemeral=True)
+          await interaction.response.send_message("Only Guest members can apply to guild.", ephemeral=True)
+
+  @bot.tree.command(name="meta-builds",description="General Meta builds for all Hunts")
+  async def meta_builds(interaction: discord.Interaction):
+     embed = discord.Embed(
+        colour=0x2B2D31,
+        # title=f"🛠️⚙️Meta Builds🛠️⚙️",
+        )
+     embed.set_image(url="https://cdn.discordapp.com/attachments/1192516992985485353/1200821487452565624/AllWeapons.png?ex=65c79328&is=65b51e28&hm=a30f8d7b060b8b805b643802d25d76b2cd9903d3aba570e85c135bd2f7999cc3&")
+     view_menu = MetaBuilds()
+     await interaction.response.send_message(file=discord.File(get_path("AllWeapons.png")),view=view_menu,ephemeral=True)
 
   # keep_alive()
   bot.run(my_secret)
