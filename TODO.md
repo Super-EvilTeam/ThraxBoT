@@ -1,6 +1,6 @@
 ## In progress
 
-- [ ] Update [Meta_builds.json](./src/json/Meta_builds.json)
+- [x] Update [Meta_builds.json](./src/json/Meta_builds.json)
     - [x] Aether Strikers
         - [x] Discipline
         - [x] Revenant
@@ -36,20 +36,20 @@
         - [x] Bastion
         - [x] Artificer
         - [x] Iceborne
-    - [ ] Sword
-        - [ ] Discipline
-        - [ ] Revenant
-        - [ ] Tempest
-        - [ ] Bastion
-        - [ ] Artificer
-        - [ ] Iceborne
-    - [ ] War Pike
-        - [ ] Discipline
-        - [ ] Revenant
-        - [ ] Tempest
-        - [ ] Bastion
-        - [ ] Artificer
-        - [ ] Iceborne
+    - [x] Sword
+        - [x] Discipline
+        - [x] Revenant
+        - [x] Tempest
+        - [x] Bastion
+        - [x] Artificer
+        - [x] Iceborne
+    - [x] War Pike
+        - [x] Discipline
+        - [x] Revenant
+        - [x] Tempest
+        - [x] Bastion
+        - [x] Artificer
+        - [x] Iceborne
 
 ## Completed
 
