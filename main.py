@@ -9,7 +9,7 @@ from UI.select_language import SelectLanguage
 from discord.ext import commands,tasks
 from server import keep_alive
 from dotenv import load_dotenv
-from PIL import Image
+from PIL import Image,ImageFilter
 from build_finder import img_generator,load_json
 user_id = None
 mods = None
@@ -24,22 +24,27 @@ def validate_basic_input(basic_input):
     else:
         return False
 
-def convert_to_build(build_code):
-    with open('src\\json\\names.json') as json_file:
-     json_data = json.load(json_file)
-    build_list = [json_data["Omnicells"][build_code[0]].replace(' ', '').replace("'", '') + '.png',
-                  json_data["Weapons"][build_code[1]].replace(' ', '').replace("'", '') + '.png',
-                  json_data["Armours"][build_code[2]].replace(' ', '').replace("'", '') + '.png',
-                  json_data["Armours"][build_code[3]].replace(' ', '').replace("'", '') + '.png',
-                  json_data["Armours"][build_code[4]].replace(' ', '').replace("'", '') + '.png',
-                  json_data["Armours"][build_code[5]].replace(' ', '').replace("'", '') + '.png',
-                  json_data["Lanterns"][build_code[6]].replace(' ', '').replace("'", '') + '.png']
-    return build_list
+def get_path(file_name, directory=None):
+    if directory is None:
+        directory = os.getcwd()
 
-def resize_image(input_path, output_path, new_size):
+    for root, dirs, files in os.walk(directory):
+        if file_name in files:
+            return os.path.join(root, file_name)
+    return None
+
+def resize_and_sharpen(input_path, output_path, new_size, sharpness=2.0):
+    # Open the original image
     original_image = Image.open(input_path)
+
+    # Resize the image
     resized_image = original_image.resize(new_size, Image.BOX)
-    resized_image.save(output_path)
+
+    # Sharpen the resized image with a customizable sharpness level
+    sharpened_image = resized_image.filter(ImageFilter.UnsharpMask(radius=2, percent=10))
+
+    # Save the sharpened image to the output path
+    sharpened_image.save(output_path)
 
 weapon_emoji =['<:as:1192842658343817226>',
         '<:axe:1192852193229934663>',
@@ -164,8 +169,8 @@ class MetaBuilds(discord.ui.View):
         # channel = bot.get_channel(channel_id)
         # message = await channel.send(file=discord.File("build_img.png"))
         # self.embed.set_image(url=message.attachments[0].url)
-        resize_image("build_img.png", "build_img.png", (400,200))
-        await interaction.response.edit_message(attachments=[discord.File("build_img.png")],view = self)
+        # resize_and_sharpen("build_img.png", "build_img.png", (400,200))
+        await interaction.response.edit_message(attachments=[discord.File(get_path("build_img.png"))],view = self)
         # select.options[index].default = False
         return True
        return False
@@ -252,7 +257,7 @@ if __name__ == '__main__':
         )
      embed.set_image(url="https://cdn.discordapp.com/attachments/1192516992985485353/1200821487452565624/AllWeapons.png?ex=65c79328&is=65b51e28&hm=a30f8d7b060b8b805b643802d25d76b2cd9903d3aba570e85c135bd2f7999cc3&")
      view_menu = MetaBuilds()
-     await interaction.response.send_message(file=discord.File("src\\UI Images\\AllWeapons.png"),view=view_menu,ephemeral=True)
+     await interaction.response.send_message(file=discord.File(get_path("AllWeapons.png")),view=view_menu,ephemeral=True)
 
   @bot.event
   async def on_message(message):

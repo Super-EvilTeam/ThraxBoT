@@ -2,3 +2,4 @@
 venv/
 __pycache__/
 UI/__pycache__/
+build_img.png

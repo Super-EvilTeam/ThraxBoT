@@ -1,17 +1,29 @@
-# Use the official Python image as a base
+# For Linux Image
+# docker build -t thraxbot_linux .
+
 FROM python:3.11.4
 
-# Set the working directory to /app
 WORKDIR /app
 
-# Copy your project files to the container
 COPY . .
 
-# Install the necessary dependencies
 RUN pip install virtualenv
 
-# Create the virtual environment and install dependencies
 RUN python setup_script.py
 
-# Command to run the main script
-CMD ["python", "main.py"]
+CMD ["python","-u","main.py"]
+
+# For Windows Image
+# docker build -t thraxbot_windows .
+
+# FROM python:3
+
+# WORKDIR /app
+
+# COPY . /app
+
+# RUN pip install virtualenv
+
+# RUN python setup_script.py
+
+# CMD ["python","-u","main.py"]
