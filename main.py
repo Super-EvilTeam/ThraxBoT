@@ -70,14 +70,13 @@ omnicell_emoji = ["<:RevenantAbility:1174970642316136528>",
                 "<:IceborneAbility:1174970634242105364>"]
 
 meta_builds_data = load_json("Meta_builds.json")
-def generate_options(weapon,emoji):
-    options = [
-        discord.SelectOption(
-            label=weapon,
-            value=weapon, 
-            emoji=emoji[index]
-        ) for index, weapon in enumerate(weapon)
-    ]
+
+
+def generate_options(option_list,emoji=False):
+    if emoji:
+        options = [discord.SelectOption(label=weapon,value=weapon, emoji=emoji[index]) for index, weapon in enumerate(option_list)]
+    else:
+       options = [discord.SelectOption(label=weapon,value=weapon) for index, weapon in enumerate(option_list)]
     return options
 
 weapons = ["Aether Strikers", "Axe", "Chain Blades", "Hammer", "Repeater", "Sword", "War Pike"]
@@ -150,11 +149,42 @@ class MetaBuilds(discord.ui.View):
        if not await self.callback(select,interaction):
           await interaction.response.defer()
 
+saved_builds = load_json("saved_builds.json")
+
+class SavedBuilds(discord.ui.View):
+   def __init__(self,user_id):
+        super().__init__()
+        self.user_id = str(user_id)
+        self.saved_build.options=generate_options(list(saved_builds[str(self.user_id)].keys()))
+        self.Icons = None
+        self.Perks = None
+        self.post_build.disabled = True
+
+   @discord.ui.select(placeholder="Select Saved Build")
+   async def saved_build(self, interaction, select):
+      self.Icons = saved_builds[self.user_id][select.values[0]]["Icons"]
+      self.Perks = saved_builds[self.user_id][select.values[0]]["Perks"]
+      self.img = img_generator([self.Icons],self.Perks,0,0)
+      self.post_build.disabled = False
+      self.post_build.style = discord.ButtonStyle.success
+      await interaction.response.edit_message(attachments=[discord.File(self.img, filename='image.png')],view = self)
+   
+   @discord.ui.button(label="Post Build")
+   async def post_build(self,interaction,button):
+      self.img = img_generator([self.Icons],self.Perks,0,0)
+      await interaction.channel.send(file=discord.File(self.img, filename='image.png'))
+      await interaction.response.defer()
+      
 if __name__ == '__main__':
   load_dotenv()
   my_secret = os.environ.get('TOKEN')
   bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
+  @bot.tree.command(name="saved-builds",description="View your saved builds")
+  async def s_b(interaction: discord.Interaction):
+     view_menu = SavedBuilds(interaction.user.id)
+     await interaction.response.send_message(view=view_menu,ephemeral=True)
+  
   @bot.event
   async def on_ready():
     print('We have logged in as {0.user}'.format(bot))
@@ -190,7 +220,7 @@ if __name__ == '__main__':
       view.add_item(button)
       msg ="Looking to join Guild? Apply on below link \nOfficer's will check your application and reach out to you!"
       await message.channel.send(msg, view=view)
-    if message.channel.name == "builds":
+    if isinstance(message.channel, discord.TextChannel) and message.channel.name == "builds":
         # Check if the message contains both "give" and "build"
         if all(word in message.content.lower() for word in ['give', 'build']):
             # Reply with "Are you looking for a build?"
