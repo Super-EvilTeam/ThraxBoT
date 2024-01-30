@@ -182,6 +182,9 @@ if __name__ == '__main__':
 
   @bot.tree.command(name="saved-builds",description="View your saved builds")
   async def s_b(interaction: discord.Interaction):
+     user_id = str(interaction.user.id)
+     if user_id not in saved_builds:
+        await interaction.response.send_message("You dont have any saved builds",ephemeral=True)
      view_menu = SavedBuilds(interaction.user.id)
      await interaction.response.send_message(view=view_menu,ephemeral=True)
   

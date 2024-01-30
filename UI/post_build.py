@@ -24,7 +24,7 @@ class BuildName(discord.ui.Modal, title="buildname"):
 
       # Check if the user has any saved builds
       user_id = str(interaction.user.id)
-      print(saved_builds)
+      # print(saved_builds)
       if user_id not in saved_builds:
           saved_builds[user_id] = {}
 

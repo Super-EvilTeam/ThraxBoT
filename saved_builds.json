@@ -1,13 +1,13 @@
 {
     "390516191149686786": {
-        "s": {
+        "coldhell": {
             "Icons": [
                 "Bastion.png",
                 "ColdHell.png",
                 "AdversarysGuile.png",
                 "SkraevwingJacket.png",
                 "FieryGauntlets.png",
-                "SkraevwingBoots.png",
+                "TimeweaveLeggings.png",
                 "SkarnsDefiance.png"
             ],
             "Perks": [
@@ -20,36 +20,9 @@
                 "Catalyst",
                 "Catalyst",
                 "Galvanized",
-                "Endurance",
-                "Endurance",
-                "Galvanized"
-            ]
-        }
-    },
-    "714777193254748170": {
-        "tr": {
-            "Icons": [
-                "Bastion.png",
-                "ColdHell.png",
-                "AdversarysGuile.png",
-                "SkraevwingJacket.png",
-                "FieryGauntlets.png",
-                "WulfPaws.png",
-                "KoshaisBloom.png"
-            ],
-            "Perks": [
-                "Adrenaline",
-                "Adrenaline",
-                "Berserker",
-                "Cascade",
-                "Cascade",
-                "Catalyst",
-                "Catalyst",
-                "Conservation",
-                "Endurance",
-                "Endurance",
                 "Galvanized",
-                "Galvanized"
+                "Endurance",
+                "Endurance"
             ]
         }
     }
