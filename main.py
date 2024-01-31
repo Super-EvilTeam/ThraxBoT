@@ -25,15 +25,6 @@ def validate_basic_input(basic_input):
     else:
         return False
 
-def get_path(file_name, directory=None):
-    if directory is None:
-        directory = os.getcwd()
-
-    for root, dirs, files in os.walk(directory):
-        if file_name in files:
-            return os.path.join(root, file_name)
-    return None
-
 def resize_and_sharpen(input_path, output_path, new_size, sharpness=2.0):
     # Open the original image
     original_image = Image.open(input_path)
@@ -149,21 +140,20 @@ class MetaBuilds(discord.ui.View):
        if not await self.callback(select,interaction):
           await interaction.response.defer()
 
-saved_builds = load_json("saved_builds.json")
-
 class SavedBuilds(discord.ui.View):
    def __init__(self,user_id):
         super().__init__()
+        self.saved_builds = load_json("saved_builds.json")
         self.user_id = str(user_id)
-        self.saved_build.options=generate_options(list(saved_builds[str(self.user_id)].keys()))
+        self.saved_build.options=generate_options(list(self.saved_builds[str(self.user_id)].keys()))
         self.Icons = None
         self.Perks = None
         self.post_build.disabled = True
 
    @discord.ui.select(placeholder="Select Saved Build")
    async def saved_build(self, interaction, select):
-      self.Icons = saved_builds[self.user_id][select.values[0]]["Icons"]
-      self.Perks = saved_builds[self.user_id][select.values[0]]["Perks"]
+      self.Icons = self.saved_builds[self.user_id][select.values[0]]["Icons"]
+      self.Perks = self.saved_builds[self.user_id][select.values[0]]["Perks"]
       self.img = img_generator([self.Icons],self.Perks,0,0)
       self.post_build.disabled = False
       self.post_build.style = discord.ButtonStyle.success
@@ -183,6 +173,7 @@ if __name__ == '__main__':
   @bot.tree.command(name="saved-builds",description="View your saved builds")
   async def s_b(interaction: discord.Interaction):
      user_id = str(interaction.user.id)
+     saved_builds = load_json("saved_builds.json")
      if user_id not in saved_builds:
         await interaction.response.send_message("You dont have any saved builds",ephemeral=True)
      view_menu = SavedBuilds(interaction.user.id)

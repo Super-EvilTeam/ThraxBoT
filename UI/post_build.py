@@ -1,12 +1,11 @@
 import discord
 from  build_finder import *
-import base64
 
 text_data = load_json('Text_data.json')
 ui_text = load_json('UI_text.json')
 
 
-class BuildName(discord.ui.Modal, title="buildname"):
+class BuildName(discord.ui.Modal, title="Save Build"):
   def __init__(self, build_icon_names, image_perks, index):
       super().__init__()
       self.build_icon_names = build_icon_names
@@ -35,7 +34,7 @@ class BuildName(discord.ui.Modal, title="buildname"):
       }
 
       # Save the updated data back to the JSON file
-      with open('saved_builds.json', 'w') as file:
+      with open(get_path('saved_builds.json'), 'w') as file:
           json.dump(saved_builds, file, indent=4)
 
       # You can also send a confirmation message if needed
