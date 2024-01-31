@@ -1,5 +1,5 @@
 import discord
-from UI.select_menu import SelectMenu
+from UI.BuildFinder_SelectMenu import SelectMenu
 from build_finder import load_json
 
 

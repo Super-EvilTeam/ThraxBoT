@@ -204,7 +204,6 @@ def img_generator(build_icon_names, Perks_list, Build, counter):
         img_bytes_io.seek(0)
         return img_bytes_io
 
-
 def Build_finder(Perks_list,language,weapon_type,weapon_filter,lantern,omnicell,counter):
   weapons= load_json('weapons.json')
   armors = load_json('armors.json')

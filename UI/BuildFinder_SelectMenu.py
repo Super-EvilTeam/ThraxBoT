@@ -1,5 +1,5 @@
 import discord
-from UI.simple_view import SimpleView
+from UI.BuildFinder_Cells import SimpleView
 from build_finder import load_json
 
 text_data = load_json('Text_data.json')

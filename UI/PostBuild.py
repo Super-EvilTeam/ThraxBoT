@@ -40,7 +40,7 @@ class BuildName(discord.ui.Modal, title="Save Build"):
       # You can also send a confirmation message if needed
       await interaction.response.send_message(f"Build saved", ephemeral=True)
 
-class PostBuild(discord.ui.View):
+class ShareBuild(discord.ui.View):
   def __init__(self,build_icon_names,img_perks,Build,total_combinations,language):
     super().__init__()
     self.language = language
