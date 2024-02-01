@@ -1,0 +1,33 @@
+{
+    "Aether Strikers":{
+        "Mods": ["Cyclonic Strikeplate","Echo Bracedriver","Inertial Fistguard"],
+        "Specials": ["Adamant Bolt","Titan's Crash"]
+    },
+    "Axe":{
+        "Mods": ["Lightweight Haft","Volatile Axecore","Overcharged Cylinder","Railsplitter's Canteen","Furious Axecore"],
+        "Specials": ["Flight Of Ruin","Grim Onslaught","Relentless Onslaught"]
+    },
+    "Chain Blades":{
+        "Mods": ["Hurricane Blades","Lightweight Chain","Serrated Blades","Demolition Blades"],
+        "Specials": ["Cruel Riftstrike","Reaper's Dance","Momentum Blades","Insatiable Dance"]
+    },
+    "Hammer":{
+        "Mods": ["Extended Clip","Impulse Crown","Weighted Crown","Antique Clip","Turbine Trigger"],
+        "Specials": ["Concussive Salvo","Mighty Landbreaker","Ironheart Landbreaker"]
+    },
+    "Repeater":{
+        "Grip": ["Captain's Grip","Saboteur's Grip"],
+        "Chamber":["Marksman Chamber","Salvo Chamber","Full-Bore Chamber"],
+        "Mods": ["Capacitive Magazine","Extraction Catalyst","Lightweight Frame","Lucky Magazine","Precision Sights",
+        "Scoped Sights","Tactician's Magazine","Demolition Sights","Dynamic Carbine"]
+    },
+    "Sword":{
+        "Mods": ["Adhesive Hilt","Perpetual Bladecore","Reactive Hilt","Whistling Blade","Dynamic Bladecore","Keen Edge",
+        "Mending Bladecore","Charged Swordfocus","Recursive Hilt"],
+        "Specials": ["Ardent Cyclone","Valiant Overdrive","Avenging Overdrive"]
+    },
+    "War Pike":{
+        "Mods": ["Balanced Spearhead","Lightweight Shaft","Munitions Amplifier","Barbed Spearhead","Executioner's Spearhead"],
+        "Specials": ["Concussive Payload","Savage Wellspring","Reckless Leap"]
+    }
+}

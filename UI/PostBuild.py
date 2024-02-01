@@ -1,9 +1,9 @@
 import discord
 from  build_finder import *
+from UI.MetaBuilds import generate_options
 
-text_data = load_json('Text_data.json')
+mods_data = load_json('Mods&Specials.json')
 ui_text = load_json('UI_text.json')
-
 
 class BuildName(discord.ui.Modal, title="Save Build"):
   def __init__(self, build_icon_names, image_perks, index):
@@ -41,8 +41,9 @@ class BuildName(discord.ui.Modal, title="Save Build"):
       await interaction.response.send_message(f"Build saved", ephemeral=True)
 
 class ShareBuild(discord.ui.View):
-  def __init__(self,build_icon_names,img_perks,Build,total_combinations,language):
+  def __init__(self,build_icon_names,img_perks,Build,total_combinations,language,weapon_type):
     super().__init__()
+    self.weapon_type = weapon_type
     self.language = language
     self.build_icon_names = build_icon_names
     self.Perks_list = img_perks
@@ -50,10 +51,15 @@ class ShareBuild(discord.ui.View):
     self.Build=Build
     self.total_combinations = total_combinations
     self.index = 1
-    self.children[3].disabled = True
+    self.children[6].disabled = True
     self.first_prev = False
     self.first_next = False
     self.img = None
+    self.mod_img = None
+    self.wspecial_img = None
+    self.select_mods.options = generate_options(mods_data[weapon_type]["Mods"])
+    self.select_wspecial.options = generate_options(mods_data[weapon_type]["Specials"])
+    self.set_tonics.options = generate_options(["Aetherdrive Tonic","Blitz Tonic","Frenzy Tonic"])
 
   def button_click(self,button_index,to_language):
     for i in range(3):
@@ -90,20 +96,38 @@ class ShareBuild(discord.ui.View):
     self.button_click(self.children.index(button),button.label.lower())
     await interaction.response.edit_message(view=self,attachments=[discord.File(self.img, filename='image.png')])
 
+  @discord.ui.select(placeholder="Set Weapon Special",row=1)
+  async def select_wspecial(self,interaction,select):
+    self.wspecial_img = select.values[0].replace(' ', '').replace("'", '') + '.png'
+    self.img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1,self.mod_img,self.wspecial_img)
+    await interaction.response.edit_message(view=self,attachments =[discord.File(self.img, filename='image.png')])
 
-  @discord.ui.button(label="<", style=discord.ButtonStyle.primary,row=1)
+  @discord.ui.select(placeholder="Set Weapon Mod",row=2)
+  async def select_mods(self,interaction,select):
+    self.mod_img = select.values[0].replace(' ', '').replace("'", '') + '.png'
+    self.img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1,self.mod_img,self.wspecial_img)
+    await interaction.response.edit_message(attachments =[discord.File(self.img, filename='image.png')])
+
+  @discord.ui.select(placeholder="Set Tonics/pylon)",min_values=3,max_values=3,row=3)
+  async def set_tonics(self,interaction,select):
+    self.tonics = [value.replace(' ', '').replace("'", '') + '.png' for value in select.values]
+    print(self.tonics)
+    self.img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1,self.mod_img,self.wspecial_img,self.tonics)
+    await interaction.response.edit_message(attachments =[discord.File(self.img, filename='image.png')])
+
+  @discord.ui.button(label="<", style=discord.ButtonStyle.primary,row=4)
   async def previous(self, interaction: discord.Interaction,button: discord.ui.Button):
     await self.update_view(interaction,button)
     
-  @discord.ui.button(label="Post Build", style=discord.ButtonStyle.success,row=1)
+  @discord.ui.button(label="Post Build", style=discord.ButtonStyle.success,row=4)
   async def post_build(self, interaction: discord.Interaction,button: discord.ui.Button):
-    img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1)
-    await interaction.response.send_message(file=discord.File(img, filename='image.png'))
+    self.img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1,self.mod_img,self.wspecial_img,self.tonics)
+    await interaction.response.send_message(file=discord.File(self.img, filename='image.png'))
 
-  @discord.ui.button(label="Save Build", style=discord.ButtonStyle.success, row=1)
+  @discord.ui.button(label="Save Build", style=discord.ButtonStyle.success, row=4)
   async def save_build(self, interaction, button):
       name =await interaction.response.send_modal(BuildName(self.build_icon_names,self.img_perks,self.index))
       
-  @discord.ui.button(label=">", style=discord.ButtonStyle.primary,row=1)
+  @discord.ui.button(label=">", style=discord.ButtonStyle.primary,row=4)
   async def next(self, interaction: discord.Interaction,button: discord.ui.Button):
     await self.update_view(interaction,button)

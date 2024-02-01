@@ -268,7 +268,7 @@ class SimpleView(discord.ui.View):
     else:
       Perks_list = self.user_counter['Selected_Cells']
       Perks_list = [perk.strip() for perk in Perks_list]
-      view = ShareBuild(self.build_icon_names,Perks_list,self.Build,self.total_combinations,self.language)
+      view = ShareBuild(self.build_icon_names,Perks_list,self.Build,self.total_combinations,self.language,self.weapon_type)
       # print(self.build_icon_names[0],Perks_list)
       img = img_generator(self.build_icon_names,Perks_list,self.Build,0)
       await interaction.response.send_message(content=f"{ui_text[self.language]['totalCombinations']}: {1}-{self.total_combinations}",

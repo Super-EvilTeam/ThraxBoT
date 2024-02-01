@@ -82,6 +82,8 @@ class SelectMenu(discord.ui.View):
     # print(self.lantern)
     await interaction.response.defer()
 
+  
+    
   @discord.ui.button(label="Confirm", style=discord.ButtonStyle.success)
   async def Confirm(self, interaction: discord.Interaction,button: discord.ui.Button):
     if self.weapon_type is None or self.weapon_filter is None or self.lantern is None or self.omnicell is None:
