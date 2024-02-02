@@ -1,3 +1,4 @@
+from ast import mod
 import os
 from itertools import product
 import copy
@@ -144,102 +145,78 @@ def img_generator(build_icon_names, Perks_list, Build,  counter, mod_img=None,ws
     perk_counts = Counter(Perks_list)
     render_perks = sorted([f"+6 {perk}" if count == 2 and f"+6 {perk}" not in Perks_list else f"+3 {perk}" for perk, count in perk_counts.items()], key=custom_sort)
     image_files = build_icon_names[counter]
-    # mod_img = ["SavageWellspring.png","MunitionsAmplifier.png"]
-    # consumable_images = ["SavageWellspring.png","SavageWellspring.png","SavageWellspring.png"]
-
-    # Calculate the total width and height for the combined image with padding
-    # total_width = (sum(img.width for img in images) + (len(images) - 1) * 10) - 128
-    # max_height = (max(img.height for img in images) * 2) + 30
+    image_files ={"Omnicell":image_files[0],"Armors":image_files[1:7]}
     total_width = 828
     max_height = 286
+
     # Create a new RGBA image with a transparent background
     combined_image = Image.new('RGBA', (total_width, max_height + 20), (0, 0, 0, 0))
     draw = ImageDraw.Draw(combined_image)
 
-
-    # Open each image and get its dimensions
-    images = [Image.open(os.path.join(input_folder, img)) for img in image_files]
-    combined_image.paste(images[0].convert("RGBA"),box=(0,0))
-    images.remove(images[0])
+    img =Image.open(os.path.join(input_folder, image_files["Omnicell"]))
+    if mod_img or wspecial_img:
+        combined_image.paste(img.convert("RGBA"),box=(202,0))
+    else:
+        combined_image.paste(img.convert("RGBA"),box=((total_width//2) - 64 ,0))
 
     # Paste each image horizontally and add placeholder text below each image with padding
+    images = [Image.open(os.path.join(input_folder, img)) for img in image_files['Armors']]
     x_offset = 10
-    y_offset = 128
-    for img, img_name in zip(images, image_files):
+    y_offset = 138
+    for img in images:
         combined_image.paste(img.convert("RGBA"), (x_offset, y_offset))
         x_offset += img.width + 10
 
     if mod_img:
         mod_img = Image.open(os.path.join(input_folder, mod_img))
-        combined_image.paste(mod_img.convert("RGBA"), (148, 0))
+        combined_image.paste(mod_img.convert("RGBA"), (498, 0))
 
     if wspecial_img:
         wspecial_img = Image.open(os.path.join(input_folder, wspecial_img))
-        combined_image.paste(wspecial_img.convert("RGBA"), (286, 0))
+        combined_image.paste(wspecial_img.convert("RGBA"), (350, 0))
     
-    if consumable_images:
-        images = [Image.open(os.path.join(input_folder, img)) for img in consumable_images]
-        x_offset = 424
-        y_offset = 0
-        for img, img_name in zip(images, consumable_images):
-            combined_image.paste(img.convert("RGBA"), (x_offset, y_offset))
-            x_offset += img.width + 10
-    
-
     
     font_size = 20
     font = ImageFont.truetype(get_path("OpenSans-Bold.ttf"), font_size)
 
-    # test_img_files = ["src\Icons\SavageWellspring.png","src\Icons\MunitionsAmplifier.png","src\Icons\SavageWellspring.png","src\Icons\SavageWellspring.png","src\Icons\SavageWellspring.png","src\Icons\SavageWellspring.png"]
-    # test_img = [Image.open(img) for img in test_img_files]
-
-    
-    # combined_image.paste(test_img[0].convert("RGBA"),box=(148,0))
-    # combined_image.paste(test_img[1].convert("RGBA"),box=(286,0))
-    # combined_image.paste(test_img[0].convert("RGBA"),box=(424,0))
-    # combined_image.paste(test_img[0].convert("RGBA"),box=(562,0))
-    # combined_image.paste(test_img[0].convert("RGBA"),box=(700,0))
-
-    # combined_image.paste(images[0].convert("RGBA"), box=((total_width // 2) - 64, 0))
-    
-    
-
-    
     x_off = 10
     y_off = (128 * 2) + 20
     x_off1 = 10
     y_off1 = (128 * 2) + 30
-    combined_image1 = Image.new('RGBA', (total_width, max_height + 60), (0, 0, 0, 0))
-    print(total_width, max_height)
+    temp = Image.new('RGBA', (total_width, max_height + 60), (0, 0, 0, 0))
 
     for i in render_perks:
         if x_off > 650:
-            combined_image1.paste(combined_image)
-            draw = ImageDraw.Draw(combined_image1)
+            temp.paste(combined_image)
+            combined_image = temp
+            draw = ImageDraw.Draw(combined_image)
             draw.text((x_off1 + 5, y_off1 + 20), f"{i}", font=font, fill=(255, 255, 255, 255))
             bbox = draw.textbbox((x_off1, y_off1), f"{i}", font=font)
             text_width = bbox[2] - bbox[0]
             x_off1 += text_width + 20
             x_off += text_width + 20
         else:
-            # print(x_off)
             draw.text((x_off + 5, y_off), f"{i}", font=font, fill=(255, 255, 255, 255))
             bbox = draw.textbbox((x_off, y_off), f"{i}", font=font)
             text_width = bbox[2] - bbox[0]
             x_off += text_width + 20
     
-    # Return the combined image
-    if x_off >= 800:
-        img_bytes_io = io.BytesIO()
-        combined_image1.save(img_bytes_io, format='PNG')
-        img_bytes_io.seek(0)
-        return img_bytes_io
-        
-    else:
-        img_bytes_io = io.BytesIO()
-        combined_image.save(img_bytes_io, format='PNG')
-        img_bytes_io.seek(0)
-        return img_bytes_io
+    
+    if consumable_images:
+        temp = Image.new('RGBA', (total_width, max_height + 188), (0, 0, 0, 0))
+        temp.paste(combined_image)
+        combined_image = temp
+        images = [Image.open(os.path.join(input_folder, img)) for img in consumable_images]
+        x_offset = 202
+        y_offset = 336
+        for img, img_name in zip(images, consumable_images):
+            combined_image.paste(img.convert("RGBA"), (x_offset, y_offset))
+            x_offset += img.width + 10
+
+    img_bytes_io = io.BytesIO()
+    combined_image.save(img_bytes_io, format='PNG')
+    img_bytes_io.seek(0)
+    return img_bytes_io
 
 def Build_finder(Perks_list,language,weapon_type,weapon_filter,lantern,omnicell,counter):
   weapons= load_json('weapons.json')

@@ -16,13 +16,15 @@ class SavedBuilds(discord.ui.View):
    async def saved_build(self, interaction, select):
       self.Icons = self.saved_builds[self.user_id][select.values[0]]["Icons"]
       self.Perks = self.saved_builds[self.user_id][select.values[0]]["Perks"]
-      self.img = img_generator([self.Icons],self.Perks,0,0)
+      self.mod =  self.saved_builds[self.user_id][select.values[0]]["Mod"]
+      self.special = self.saved_builds[self.user_id][select.values[0]]["Special"]
+      self.tonics = self.saved_builds[self.user_id][select.values[0]]["Tonics"]
+      self.img = img_generator([self.Icons],self.Perks,0,0,self.mod,self.special,self.tonics)
       self.post_build.disabled = False
       self.post_build.style = discord.ButtonStyle.success
       await interaction.response.edit_message(attachments=[discord.File(self.img, filename='image.png')],view = self)
    
    @discord.ui.button(label="Post Build")
    async def post_build(self,interaction,button):
-      self.img = img_generator([self.Icons],self.Perks,0,0)
-      await interaction.channel.send(file=discord.File(self.img, filename='image.png'))
-      await interaction.response.defer()
+      self.img = img_generator([self.Icons],self.Perks,0,0,self.mod,self.special,self.tonics)
+      await interaction.response.send_message(file=discord.File(self.img, filename='image.png'))

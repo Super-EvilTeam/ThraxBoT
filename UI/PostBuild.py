@@ -6,11 +6,14 @@ mods_data = load_json('Mods&Specials.json')
 ui_text = load_json('UI_text.json')
 
 class BuildName(discord.ui.Modal, title="Save Build"):
-  def __init__(self, build_icon_names, image_perks, index):
+  def __init__(self, build_icon_names, image_perks, index,mod,special,tonics):
       super().__init__()
       self.build_icon_names = build_icon_names
       self.index = index
       self.image_perks = image_perks
+      self.mod = mod
+      self.special = special
+      self.tonics = tonics
 
   basic = discord.ui.TextInput(label="build name", style=discord.TextStyle.short)
 
@@ -30,7 +33,10 @@ class BuildName(discord.ui.Modal, title="Save Build"):
       # Update or create the entry for the user
       saved_builds[user_id][buildname] = {
           "Icons": self.build_icon_names[self.index - 1],
-          "Perks": self.image_perks
+          "Perks": self.image_perks,
+          "Mod": self.mod,
+          "Special":self.special,
+          "Tonics": self.tonics
       }
 
       # Save the updated data back to the JSON file
@@ -57,9 +63,10 @@ class ShareBuild(discord.ui.View):
     self.img = None
     self.mod_img = None
     self.wspecial_img = None
+    self.tonics = None
     self.select_mods.options = generate_options(mods_data[weapon_type]["Mods"])
     self.select_wspecial.options = generate_options(mods_data[weapon_type]["Specials"])
-    self.set_tonics.options = generate_options(["Aetherdrive Tonic","Blitz Tonic","Frenzy Tonic"])
+    self.set_tonics.options = generate_options(["Blitz Tonic","Frenzy Tonic","Aetherdrive Tonic","AssaultTonic","InspiringPylon"])
 
   def button_click(self,button_index,to_language):
     for i in range(3):
@@ -78,7 +85,7 @@ class ShareBuild(discord.ui.View):
       self.next.disabled = True
     elif self.index == 1:
       self.previous.disabled = True
-    self.img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1)
+    self.img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1,self.mod_img,self.wspecial_img,self.tonics)
     await interaction.response.edit_message(view=self, attachments=[discord.File(self.img, filename='image.png')],content=f"{ui_text[self.language]['totalCombinations']}: {self.index}-{self.total_combinations}")
   
   @discord.ui.button(label="English", style=discord.ButtonStyle.secondary ,row=0)
@@ -99,13 +106,13 @@ class ShareBuild(discord.ui.View):
   @discord.ui.select(placeholder="Set Weapon Special",row=1)
   async def select_wspecial(self,interaction,select):
     self.wspecial_img = select.values[0].replace(' ', '').replace("'", '') + '.png'
-    self.img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1,self.mod_img,self.wspecial_img)
+    self.img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1,self.mod_img,self.wspecial_img,self.tonics)
     await interaction.response.edit_message(view=self,attachments =[discord.File(self.img, filename='image.png')])
 
   @discord.ui.select(placeholder="Set Weapon Mod",row=2)
   async def select_mods(self,interaction,select):
     self.mod_img = select.values[0].replace(' ', '').replace("'", '') + '.png'
-    self.img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1,self.mod_img,self.wspecial_img)
+    self.img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1,self.mod_img,self.wspecial_img,self.tonics)
     await interaction.response.edit_message(attachments =[discord.File(self.img, filename='image.png')])
 
   @discord.ui.select(placeholder="Set Tonics/pylon)",min_values=3,max_values=3,row=3)
@@ -126,7 +133,7 @@ class ShareBuild(discord.ui.View):
 
   @discord.ui.button(label="Save Build", style=discord.ButtonStyle.success, row=4)
   async def save_build(self, interaction, button):
-      name =await interaction.response.send_modal(BuildName(self.build_icon_names,self.img_perks,self.index))
+      name =await interaction.response.send_modal(BuildName(self.build_icon_names,self.img_perks,self.index,self.mod_img,self.wspecial_img,self.tonics))
       
   @discord.ui.button(label=">", style=discord.ButtonStyle.primary,row=4)
   async def next(self, interaction: discord.Interaction,button: discord.ui.Button):
