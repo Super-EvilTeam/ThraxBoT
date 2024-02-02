@@ -1,3 +1,8 @@
+## Functions Demonstration
+
+https://github.com/Super-EvilTeam/ThraxBoT/assets/99067991/45726873-da61-41cd-a08c-b63739079eca
+
+
 ## Setup
 
 1. Open command prompt navigate to project directory and run.
