@@ -1,9 +1,17 @@
 import discord
 from  build_finder import *
-from UI.MetaBuilds import generate_options
+# from UI.MetaBuilds import generate_options
 
 mods_data = load_json('Mods&Specials.json')
 ui_text = load_json('UI_text.json')
+
+
+def generate_options(option_list,emoji=False):
+    if emoji:
+        options = [discord.SelectOption(label=weapon,value=weapon, emoji=emoji[index]) for index, weapon in enumerate(option_list)]
+    else:
+       options = [discord.SelectOption(label=weapon,value=weapon) for index, weapon in enumerate(option_list)]
+    return options
 
 class BuildName(discord.ui.Modal, title="Save Build"):
   def __init__(self, build_icon_names, image_perks, index,mod,special,tonics):
@@ -57,7 +65,7 @@ class ShareBuild(discord.ui.View):
     self.Build=Build
     self.total_combinations = total_combinations
     self.index = 1
-    self.children[6].disabled = True
+    self.children[3].disabled = True
     self.first_prev = False
     self.first_next = False
     self.img = None
@@ -75,7 +83,7 @@ class ShareBuild(discord.ui.View):
     self.img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1)
   
   async def update_view(self,interaction,button):
-    if button.label==">":
+    if button.custom_id==">":
       self.previous.disabled = False
       self.index += 1
     else:
@@ -88,20 +96,20 @@ class ShareBuild(discord.ui.View):
     self.img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1,self.mod_img,self.wspecial_img,self.tonics)
     await interaction.response.edit_message(view=self, attachments=[discord.File(self.img, filename='image.png')],content=f"{ui_text[self.language]['totalCombinations']}: {self.index}-{self.total_combinations}")
   
-  @discord.ui.button(label="English", style=discord.ButtonStyle.secondary ,row=0)
-  async def english(self, interaction: discord.Interaction, button: discord.ui.Button):
-    self.button_click(self.children.index(button),button.label.lower())
-    await interaction.response.edit_message(view=self,attachments=[discord.File(self.img, filename='image.png')])
+  # @discord.ui.button(label="English", style=discord.ButtonStyle.secondary ,row=0)
+  # async def english(self, interaction: discord.Interaction, button: discord.ui.Button):
+  #   self.button_click(self.children.index(button),button.label.lower())
+  #   await interaction.response.edit_message(view=self,attachments=[discord.File(self.img, filename='image.png')])
 
-  @discord.ui.button(label="Spanish", style=discord.ButtonStyle.secondary,row=0)
-  async def spanish(self, interaction: discord.Interaction, button: discord.ui.Button):
-    self.button_click(self.children.index(button),button.label.lower())
-    await interaction.response.edit_message(view=self,attachments=[discord.File(self.img, filename='image.png')])
+  # @discord.ui.button(label="Spanish", style=discord.ButtonStyle.secondary,row=0)
+  # async def spanish(self, interaction: discord.Interaction, button: discord.ui.Button):
+  #   self.button_click(self.children.index(button),button.label.lower())
+  #   await interaction.response.edit_message(view=self,attachments=[discord.File(self.img, filename='image.png')])
 
-  @discord.ui.button(label="German", style=discord.ButtonStyle.secondary,row=0)
-  async def german(self, interaction: discord.Interaction, button: discord.ui.Button):
-    self.button_click(self.children.index(button),button.label.lower())
-    await interaction.response.edit_message(view=self,attachments=[discord.File(self.img, filename='image.png')])
+  # @discord.ui.button(label="German", style=discord.ButtonStyle.secondary,row=0)
+  # async def german(self, interaction: discord.Interaction, button: discord.ui.Button):
+  #   self.button_click(self.children.index(button),button.label.lower())
+  #   await interaction.response.edit_message(view=self,attachments=[discord.File(self.img, filename='image.png')])
 
   @discord.ui.select(placeholder="Set Weapon Special",row=1)
   async def select_wspecial(self,interaction,select):
@@ -122,7 +130,7 @@ class ShareBuild(discord.ui.View):
     self.img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1,self.mod_img,self.wspecial_img,self.tonics)
     await interaction.response.edit_message(attachments =[discord.File(self.img, filename='image.png')])
 
-  @discord.ui.button(label="<", style=discord.ButtonStyle.primary,row=4)
+  @discord.ui.button(custom_id="<",style=discord.ButtonStyle.primary,row=4,emoji= "<:prev:1203560661125308486>")
   async def previous(self, interaction: discord.Interaction,button: discord.ui.Button):
     await self.update_view(interaction,button)
     
@@ -135,6 +143,6 @@ class ShareBuild(discord.ui.View):
   async def save_build(self, interaction, button):
       name =await interaction.response.send_modal(BuildName(self.build_icon_names,self.img_perks,self.index,self.mod_img,self.wspecial_img,self.tonics))
       
-  @discord.ui.button(label=">", style=discord.ButtonStyle.primary,row=4)
+  @discord.ui.button(custom_id=">",style=discord.ButtonStyle.primary,row=4,emoji="<:next:1203560655685419049>")
   async def next(self, interaction: discord.Interaction,button: discord.ui.Button):
     await self.update_view(interaction,button)
