@@ -12,8 +12,9 @@ from build_finder import img_generator,load_json,get_path
 from Gauntlet_leaderboard import display_leaderboard
 user_id = None
 mods = None
-message_id = None 
-
+message_id = None
+channel_name = "📜︱leaderboard"
+#discord flask pillow python-dotenv requests
 
 def resize_and_sharpen(input_path, output_path, new_size, sharpness=2.0):
     # Open the original image
@@ -37,14 +38,13 @@ if __name__ == '__main__':
     async def on_ready():
         print('We have logged in as {0.user}'.format(bot))
         Update_leaderboard.start()
-        
         try:
             synced = await bot.tree.sync()
             print(f"Synced {len(synced)} application (/) commands.")
         except Exception as e:
             print(e)
         activities = ["Looking for Build? Use \meta_builds",
-                    "It's All Shits & Giggles Until You Start Hearing Baby Arm!Baby Arm! in VC",
+                    "Fetching Leaderboard......",
                     "Thraxx in Thraxx enjoyer actually means Weed not Behemoth itself!",
                     "Laughing at Void Runners"]
         while True:
@@ -59,15 +59,13 @@ if __name__ == '__main__':
     #     "Guess what!\n\nIt's Time to purge some sleeping warriors into the void!\n\n*Thrax laughing noises*"
     #   )
     
-    @tasks.loop(seconds=10)
+    @tasks.loop(minutes=5)
     async def Update_leaderboard():
         global message_id  # Use the global variable
 
         url_to_request = "https://storage.googleapis.com/dauntless-gauntlet-leaderboard/production-gauntlet-season10.json?_=1707132565947"
-        background_image_path = "src\\UI Images\\Board_background.png"
-        img = display_leaderboard(url_to_request, background_image_path)
+        img = display_leaderboard(url_to_request)
 
-        channel_name = "📜︱gauntlet-chat"
         channel = discord.utils.get(bot.get_all_channels(), name=channel_name)
 
         if channel:
@@ -82,7 +80,6 @@ if __name__ == '__main__':
                 # Send a new message and store the message ID
                 message = await channel.send(file=discord.File(img, 'leaderboard.png'))
                 message_id = message.id
-
 
     @bot.event
     async def on_message(message):

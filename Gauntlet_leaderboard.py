@@ -1,12 +1,13 @@
 import requests
 import io
 from PIL import Image, ImageDraw, ImageFont
+from build_finder import get_path
 
 def seconds_to_minutes(seconds):
     minutes, seconds = divmod(seconds, 60)
     return f"{minutes:02d}:{seconds:02d}"
 
-def display_leaderboard(url, background_image_path):
+def display_leaderboard(url):
     try:
         # Make a GET request to the URL
         response = requests.get(url)
@@ -18,10 +19,11 @@ def display_leaderboard(url, background_image_path):
             leaderboard = data["leaderboard"][:5]
 
             # Open the provided background image
-            img = Image.open(background_image_path)
+            img = Image.open(get_path("Board_background.png"))
             draw = ImageDraw.Draw(img)
 
-            font = ImageFont.truetype("arial.ttf", 24)
+            font_path = "Roboto-Regular.ttf"
+            font = ImageFont.truetype(get_path(font_path), 24)
 
             draw.text((48, 12), f"Rank", fill="white", font=font)
             draw.text((180, 12), f"Guild", fill="white", font=font)
@@ -30,7 +32,7 @@ def display_leaderboard(url, background_image_path):
 
             # Use a truetype font file (replace 'arial.ttf' with the path to your font file)
 
-            font = ImageFont.truetype("arial.ttf", 30)
+            font = ImageFont.truetype(get_path(font_path), 30)
             x, y = 150, 72
 
             # Define custom coordinates for each piece of information
