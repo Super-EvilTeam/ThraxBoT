@@ -17,9 +17,9 @@
     },
     "Repeater":{
         "Grip": ["Captain's Grip","Saboteur's Grip"],
-        "Chamber":["Marksman Chamber","Salvo Chamber","Full-Bore Chamber"],
+        "Specials":["Captain's Grip","Saboteur's Grip","Marksman Chamber","Full-Bore Chamber","Salvo Chamber"],
         "Mods": ["Capacitive Magazine","Extraction Catalyst","Lightweight Frame","Lucky Magazine","Precision Sights",
-        "Scoped Sights","Tactician's Magazine","Demolition Sights","Dynamic Carbine"]
+        "Scoped Sights","Tactician's Magazine","Demolition Sights"]
     },
     "Sword":{
         "Mods": ["Dynamic Bladecore","Keen Edge","Mending Bladecore","Charged Swordfocus","Recursive Hilt"],

@@ -99,12 +99,6 @@ class SimpleView(discord.ui.View):
   def find_button(self):
     Perks_list = self.user_counter['Selected_Cells']
     Perks_list = [perk.strip() for perk in Perks_list]
-    print(Perks_list)
-    print(self.language)
-    print(self.weapon_type)
-    print(self.weapon_filter)
-    print(self.lantern)
-    print(self.omnicell)
     result = Build_finder(Perks_list,self.language,self.weapon_type, self.weapon_filter, self.lantern, self.omnicell, 0)
     if result:
         self.build_icon_names, self.Build, self.total_combinations = result

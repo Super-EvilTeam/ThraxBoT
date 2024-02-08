@@ -63,7 +63,7 @@ if __name__ == '__main__':
     async def Update_leaderboard():
         global message_id  # Use the global variable
 
-        url_to_request = "https://storage.googleapis.com/dauntless-gauntlet-leaderboard/production-gauntlet-season10.json?_=1707132565947"
+        url_to_request = "https://storage.googleapis.com/dauntless-gauntlet-leaderboard/production-gauntlet-season10.json"
         img = display_leaderboard(url_to_request)
 
         channel = discord.utils.get(bot.get_all_channels(), name=channel_name)

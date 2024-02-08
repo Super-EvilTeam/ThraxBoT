@@ -74,6 +74,9 @@ class ShareBuild(discord.ui.View):
     self.tonics = None
     self.select_mods.options = generate_options(mods_data[weapon_type]["Mods"])
     self.select_wspecial.options = generate_options(mods_data[weapon_type]["Specials"])
+    if self.weapon_type == "Repeater":
+       self.select_wspecial.min_values = 2
+       self.select_wspecial.max_values =2
     self.set_tonics.options = generate_options(["Blitz Tonic","Frenzy Tonic","Aetherdrive Tonic","AssaultTonic","InspiringPylon"])
 
   def button_click(self,button_index,to_language):
@@ -113,7 +116,10 @@ class ShareBuild(discord.ui.View):
 
   @discord.ui.select(placeholder="Set Weapon Special",row=1)
   async def select_wspecial(self,interaction,select):
-    self.wspecial_img = select.values[0].replace(' ', '').replace("'", '') + '.png'
+    if self.weapon_type != "Repeater":
+      self.wspecial_img = select.values[0].replace(' ', '').replace("'", '') + '.png'
+    else:
+      self.wspecial_img = [value.replace(' ', '').replace("'", '') + '.png' for value in select.values]
     self.img = img_generator(self.build_icon_names,self.img_perks,self.Build,self.index-1,self.mod_img,self.wspecial_img,self.tonics)
     await interaction.response.edit_message(view=self,attachments =[discord.File(self.img, filename='image.png')])
 

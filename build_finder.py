@@ -141,77 +141,64 @@ def custom_sort(item):
         # For other cases, return a high priority so that they come after +3 items
         return (2, non_num_part)
     
-def img_generator(build_icon_names, Perks_list, Build,  counter, mod_img=None,wspecial_img = None,consumable_images =None):
+def img_generator(build_icon_names, Perks_list, Build, counter, mod_img=None, wspecial_img=None, consumable_images=None):
     perk_counts = Counter(Perks_list)
-    render_perks = sorted([f"+6 {perk}" if count == 2 and f"+6 {perk}" not in Perks_list else f"+3 {perk}" for perk, count in perk_counts.items()], key=custom_sort)
-    image_files = build_icon_names[counter]
-    image_files ={"Omnicell":image_files[0],"Armors":image_files[1:7]}
-    total_width = 828
-    max_height = 286
-
-    # Create a new RGBA image with a transparent background
+    render_perks = sorted([f"+6 {perk}" if count == 2 and f"+6 {perk}" not in Perks_list else f"+3 {perk}" for perk, count in perk_counts.items()], key=lambda x: len(x))
+    render_perks = sorted(render_perks, key=custom_sort)
+    image_files = {"Omnicell": build_icon_names[counter][0], "Armors": build_icon_names[counter][1:7]}
+    total_width, max_height = 828, 286
+    Rep = True if wspecial_img and len(wspecial_img) == 2 else False
     combined_image = Image.new('RGBA', (total_width, max_height + 20), (0, 0, 0, 0))
     draw = ImageDraw.Draw(combined_image)
 
-    img =Image.open(os.path.join(input_folder, image_files["Omnicell"]))
-    if mod_img or wspecial_img:
-        combined_image.paste(img.convert("RGBA"),box=(202,0))
-    else:
-        combined_image.paste(img.convert("RGBA"),box=((total_width//2) - 64 ,0))
+    def paste_image(img, x, y):
+        combined_image.paste(img.convert("RGBA"), (x, y))
 
-    # Paste each image horizontally and add placeholder text below each image with padding
-    images = [Image.open(os.path.join(input_folder, img)) for img in image_files['Armors']]
-    x_offset = 10
-    y_offset = 138
-    for img in images:
-        combined_image.paste(img.convert("RGBA"), (x_offset, y_offset))
-        x_offset += img.width + 10
+    def render_images(image_list, x_offset, y_offset):
+        for img in image_list:
+            paste_image(img, x_offset, y_offset)
+            x_offset += img.width + 10
+        return x_offset
 
-    if mod_img:
-        mod_img = Image.open(os.path.join(input_folder, mod_img))
-        combined_image.paste(mod_img.convert("RGBA"), (498, 0))
+    def render_text(text, x, y, font, fill=(255, 255, 255, 255)):
+        draw.text((x + 5, y), text, font=font, fill=fill)
+        bbox = draw.textbbox((x, y), text, font=font)
+        return x + (bbox[2] - bbox[0]) + 20
 
-    if wspecial_img:
-        wspecial_img = Image.open(os.path.join(input_folder, wspecial_img))
-        combined_image.paste(wspecial_img.convert("RGBA"), (350, 0))
-    
-    
-    font_size = 20
-    font = ImageFont.truetype(get_path("OpenSans-Bold.ttf"), font_size)
+    x_offset = render_images([Image.open(os.path.join(input_folder, image_files["Omnicell"]))], 202 if mod_img or wspecial_img else (total_width//2) - 64, 0)
+    x_offset = render_images([Image.open(os.path.join(input_folder, img)) for img in image_files['Armors']], 10, 138)
 
-    x_off = 10
-    y_off = (128 * 2) + 20
-    x_off1 = 10
-    y_off1 = (128 * 2) + 30
-    temp = Image.new('RGBA', (total_width, max_height + 60), (0, 0, 0, 0))
+    temp = None  
+    if wspecial_img and not Rep:
+        paste_image(Image.open(os.path.join(input_folder, wspecial_img)), 350, 0)
+    elif wspecial_img and len(wspecial_img) == 2:
+        paste_image(Image.open(os.path.join(input_folder, wspecial_img[0])), 350, 0)
+        paste_image(Image.open(os.path.join(input_folder, wspecial_img[1])), 498, 0)
+
+    if mod_img and not Rep:
+        paste_image(Image.open(os.path.join(input_folder, mod_img)), 498, 0)
+    elif mod_img and len(wspecial_img) == 2:
+        paste_image(Image.open(os.path.join(input_folder, mod_img)), 646, 0)
+
+    font_size, font = 20, ImageFont.truetype(get_path("Roboto-Bold.ttf"), 20)
+    x_off, y_off, x_off1, y_off1 = 10, (128 * 2) + 20, 10, (128 * 2) + 30
 
     for i in render_perks:
         if x_off > 650:
-            temp.paste(combined_image)
-            combined_image = temp
+            temp = combined_image.copy()  # Assign combined_image to temp
+            combined_image = Image.new('RGBA', (total_width, max_height + 60), (0, 0, 0, 0))
+            combined_image.paste(temp)
             draw = ImageDraw.Draw(combined_image)
-            draw.text((x_off1 + 5, y_off1 + 20), f"{i}", font=font, fill=(255, 255, 255, 255))
-            bbox = draw.textbbox((x_off1, y_off1), f"{i}", font=font)
-            text_width = bbox[2] - bbox[0]
-            x_off1 += text_width + 20
-            x_off += text_width + 20
+            x_off1 = render_text(i, x_off1, y_off1+20, font)
+            x_off += x_off1 - 10
         else:
-            draw.text((x_off + 5, y_off), f"{i}", font=font, fill=(255, 255, 255, 255))
-            bbox = draw.textbbox((x_off, y_off), f"{i}", font=font)
-            text_width = bbox[2] - bbox[0]
-            x_off += text_width + 20
-    
+            x_off = render_text(i, x_off, y_off, font)
     
     if consumable_images:
-        temp = Image.new('RGBA', (total_width, max_height + 188), (0, 0, 0, 0))
-        temp.paste(combined_image)
-        combined_image = temp
-        images = [Image.open(os.path.join(input_folder, img)) for img in consumable_images]
-        x_offset = 202
-        y_offset = 336
-        for img, img_name in zip(images, consumable_images):
-            combined_image.paste(img.convert("RGBA"), (x_offset, y_offset))
-            x_offset += img.width + 10
+        temp = combined_image.copy()  # Assign combined_image to temp
+        combined_image = Image.new('RGBA', (total_width, max_height + 188), (0, 0, 0, 0))
+        combined_image.paste(temp)
+        render_images([Image.open(os.path.join(input_folder, img)) for img in consumable_images], 202, 336)
 
     img_bytes_io = io.BytesIO()
     combined_image.save(img_bytes_io, format='PNG')
