@@ -118,11 +118,11 @@
         "Tempest":{
             "Frost":{
                 "Icon":["Tempest.png","IceBreakers.png","SpellboundHood.png","MantleOfThorns.png","MalkarionsGrasp.png","PhaelanxsHeatsinks.png","ShrikesZeal.png"],
-                "Perks":["Predator","Predator","Molten","Molten","Invigorated","Invigorated","Inertia","Inertia","Impulse","Impulse","Fleet Footed","Knockout King"]
+                "Perks":["Impulse","Impulse","Inertia","Inertia","Invigorated","Invigorated","Molten","Molten","Predator","Predator","Fleet Footed","Knockout King"]
             },
             "Blaze":{
                 "Icon":["Tempest.png","TectonicFaults.png","SpellboundHood.png","MantleOfThorns.png","MalkarionsGrasp.png","PhaelanxsHeatsinks.png","ShrikesZeal.png"],
-                "Perks":["Predator","Predator","Molten","Molten","Invigorated","Invigorated","Inertia","Inertia","Impulse","Impulse","Fleet Footed","Overpower"]
+                "Perks":["Impulse","Impulse","Inertia","Inertia","Invigorated","Invigorated","Molten","Molten","Predator","Predator","Fleet Footed","Overpower"]
             },
             "Shock":{
                 "Icon":["Tempest.png","MistralCurrents.png","SpellboundHood.png","MantleOfThorns.png","MalkarionsGrasp.png","PhaelanxsHeatsinks.png","ShrikesZeal.png"],
@@ -130,7 +130,7 @@
             },
             "Terra":{
                 "Icon":["Tempest.png","AgentsOfDecay.png","SpellboundHood.png","MantleOfThorns.png","MalkarionsGrasp.png","PhaelanxsHeatsinks.png","ShrikesZeal.png"],
-                "Perks":["Predator","Predator","Molten","Molten","Invigorated","Invigorated","Inertia","Inertia","Impulse","Impulse","Fleet Footed","Sharpened"]
+                "Perks":["Impulse","Impulse","Inertia","Inertia","Invigorated","Invigorated","Molten","Molten","Predator","Predator","Fleet Footed","Sharpened"]
             },
             "Umbral":{
                 "Icon":["Tempest.png","FracturedRealities.png","SpellboundHood.png","ThraxsShadow.png","MalkarionsGrasp.png","Chronotreads.png","ShrikesZeal.png"],
