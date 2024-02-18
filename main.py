@@ -1,6 +1,8 @@
 import os
 import asyncio
 import discord
+import time,re,pytz
+from datetime import datetime
 from UI.SelectLanguage import SelectLanguage
 from UI.RecruitForm import RecruitForm
 from UI.MetaBuilds import MetaBuilds
@@ -29,6 +31,83 @@ def resize_and_sharpen(input_path, output_path, new_size, sharpness=2.0):
     # Save the sharpened image to the output path
     sharpened_image.save(output_path)
 
+async def SyncCommand():
+    try:
+        synced = await bot.tree.sync()
+        print(f"Synced {len(synced)} application (/) commands.")
+    except Exception as e:
+        print(e)
+
+async def SendMsg():
+    channel_id = 1163338804820721684
+    channel = bot.get_channel(channel_id)
+    await channel.send("Guess what!\n\nIt's Time to purge some sleeping warriors into the void!\n\n*Thrax laughing noises*")
+
+import re
+import pytz  # Import the pytz library for timezone handling
+from datetime import datetime
+
+async def TimeFormat(message):
+    if message.author == bot.user:
+        return
+
+    # Regular expression to match times like 12 pm, 12:30 am or 12 am
+    time_pattern = r'(\d{1,2})(?::(\d{2}))?\s?(am|pm)'
+    matches = re.findall(time_pattern, message.content.lower())
+    
+    replaced_message = message.content  # Initialize with the original message
+    
+    if matches:
+        for match in matches:
+            # Access the timestamp of the message in UTC
+            timestamp_utc = message.created_at
+            # Get the user's timezone
+            user_timezone = pytz.timezone('YOUR_USER_TIMEZONE')  # Replace with the user's timezone
+            # Convert the timestamp to the user's timezone
+            timestamp_user_timezone = timestamp_utc.astimezone(user_timezone)
+            # Print the timestamp
+            print(f"Message sent at: {timestamp_user_timezone}")
+            hour_str = match[0]
+            minute_str = match[1] if match[1] else '00'
+            time_str = f"{hour_str}:{minute_str}"
+            # Construct the time string including the user's local timezone
+            full_time_str = f"{time_str} {match[2]} {datetime.now().strftime('%m/%d/%Y')}"
+            try:
+                time_obj = datetime.strptime(full_time_str, '%I:%M %p %m/%d/%Y')
+                # Get the user's timezone
+                user_timezone = pytz.timezone('Asia/Kolkata')  # Replace 'YOUR_USERS_TIMEZONE' with the user's actual timezone
+                # Convert the time object to the user's timezone
+                time_obj = time_obj.astimezone(user_timezone)
+                unix_timestamp = int(time_obj.timestamp())
+                
+                # Replace the time mentioned in the message with its Unix timestamp
+                replaced_message = re.sub(time_pattern, f"<t:{unix_timestamp}:t>", replaced_message, count=1)
+            except ValueError:
+                pass  # Ignore if the time format is invalid
+        author_name = message.author.nick if message.author.nick else message.author.name
+        await message.channel.send(f"{author_name} said {replaced_message}")
+
+async def CheckJoin(message):
+    if message.channel.name == 'recruitment':  # Check if the message is sent in the 'recruitment' channel
+            if all(word in message.content.lower() for word in ['how', 'to', 'join']):
+                view = discord.ui.View()
+                button = discord.ui.Button(label="Apply", url=os.environ['FORM'])
+                view.add_item(button)
+                msg = "Looking to join Guild? Apply on below link \nOfficers will check your application and reach out to you!"
+                await message.channel.send(msg, view=view)
+
+async def CheckBuild(message):
+    if isinstance(message.channel, discord.TextChannel) and message.channel.name == "builds":
+        # Check if the message contains both "give" and "build"
+        if all(word in message.content.lower() for word in ['give', 'build']):
+            # Reply with "Are you looking for a build?"
+            await message.reply("Looking for a build? Use /meta_builds", delete_after=10)
+
+activities = ["Looking for Build? Use \meta_builds",
+                    "Fetching Leaderboard......",
+                    "Thraxx in Thraxx enjoyer actually means Weed not Behemoth itself!",
+                    "Laughing at Void Runners"]
+
 if __name__ == '__main__':
     load_dotenv()
     my_secret = os.environ.get('TOKEN')
@@ -37,29 +116,21 @@ if __name__ == '__main__':
     @bot.event
     async def on_ready():
         print('We have logged in as {0.user}'.format(bot))
-        Update_leaderboard.start()
+        # await SyncCommand()
         try:
-            synced = await bot.tree.sync()
-            print(f"Synced {len(synced)} application (/) commands.")
+            Update_leaderboard.start()
+            change_activities.start()
         except Exception as e:
             print(e)
-        activities = ["Looking for Build? Use \meta_builds",
-                    "Fetching Leaderboard......",
-                    "Thraxx in Thraxx enjoyer actually means Weed not Behemoth itself!",
-                    "Laughing at Void Runners"]
-        while True:
-            for i in range(len(activities)):
-                activity = discord.CustomActivity(name=activities[i])
-                await bot.change_presence(activity=activity)
-                await asyncio.sleep(60*5)
-
-    #   channel_id = 1163338804820721684
-    #   channel = bot.get_channel(channel_id)
-    #   await channel.send(
-    #     "Guess what!\n\nIt's Time to purge some sleeping warriors into the void!\n\n*Thrax laughing noises*"
-    #   )
+                   
+    @tasks.loop(seconds=60*4)
+    async def change_activities():
+        for activity_text in activities:
+            activity = discord.CustomActivity(name=activity_text)
+            await bot.change_presence(activity=activity)
+            await asyncio.sleep(60)  # Ensure smooth transition between activities
     
-    @tasks.loop(minutes=5)
+    @tasks.loop(seconds=60)
     async def Update_leaderboard():
         global message_id  # Use the global variable
 
@@ -69,33 +140,29 @@ if __name__ == '__main__':
         channel = discord.utils.get(bot.get_all_channels(), name=channel_name)
 
         if channel:
-            if message_id:  # If message ID exists, edit the message
-                try:
-                    message = await channel.fetch_message(message_id)
-                    await message.edit(attachments=[discord.File(img, 'leaderboard.png')])
-                except discord.errors.NotFound:
-                    # Handle if the message is not found (deleted or not sent yet)
-                    message_id = None
-            else:
-                # Send a new message and store the message ID
-                message = await channel.send(file=discord.File(img, 'leaderboard.png'))
-                message_id = message.id
+            try:
+                if message_id:  # If message ID exists, edit the message
+                    try:
+                        message = await channel.fetch_message(message_id)
+                        await message.edit(content=f"`Last updated on:`<t:{int(time.time())}:t>",attachments=[discord.File(img, 'leaderboard.png')])
+                    except discord.errors.NotFound:
+                        # Handle if the message is not found (deleted or not sent yet)
+                        message_id = None
+                else:
+                    # Send a new message and store the message ID
+                    message = await channel.send(content=f"`Last updated on:`<t:{int(time.time())}:t>", file=discord.File(img, 'leaderboard.png'))
+                    message_id = message.id
+            except Exception as e:
+                # Handle any other exceptions raised within the loop
+                message = await channel.fetch_message(message_id)
+                await message.edit(content=f" <:pepe_sad:1065643497035661422> \n Bruh I am getting rate limited when it pass away I will update!")
+                print(f"An error occurred: {e}")
 
     @bot.event
     async def on_message(message):
-        if message.content.startswith('!'):
-            await bot.process_commands(message)
-        if all(word in message.content.lower() for word in ['how', 'to', 'join']):
-            view = discord.ui.View()
-            button = discord.ui.Button(label="Apply", url=os.environ['FORM'])
-            view.add_item(button)
-            msg ="Looking to join Guild? Apply on below link \nOfficer's will check your application and reach out to you!"
-            await message.channel.send(msg, view=view)
-        if isinstance(message.channel, discord.TextChannel) and message.channel.name == "builds":
-            # Check if the message contains both "give" and "build"
-            if all(word in message.content.lower() for word in ['give', 'build']):
-                # Reply with "Are you looking for a build?"
-                await message.reply("Looking for a build? Use /meta_builds", delete_after=10)
+        # await TimeFormat(message)
+        await CheckJoin(message)
+        await CheckBuild(message)
 
     @bot.event
     async def on_message_delete(message):
@@ -192,5 +259,4 @@ if __name__ == '__main__':
             view_menu = SavedBuilds(interaction.user.id)
             await interaction.response.send_message(view=view_menu,ephemeral=True)
 
-    
     bot.run(my_secret)
