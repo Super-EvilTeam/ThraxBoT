@@ -27,4 +27,5 @@ class SavedBuilds(discord.ui.View):
    @discord.ui.button(label="Post Build")
    async def post_build(self,interaction,button):
       self.img = img_generator([self.Icons],self.Perks,0,0,self.mod,self.special,self.tonics)
-      await interaction.response.send_message(file=discord.File(self.img, filename='image.png'))
+      await interaction.channel.send(file=discord.File(self.img, filename='image.png'))
+      await interaction.response.defer()
