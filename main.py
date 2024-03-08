@@ -12,9 +12,13 @@ from dotenv import load_dotenv
 from PIL import Image,ImageFilter
 from build_finder import img_generator,load_json,get_path
 from Gauntlet_leaderboard import display_leaderboard
+from Trials_leaderboard import display_trialsleaderboard
+from Group_Trialsleaderboard import display_trialsgrpleaderboard
 user_id = None
 mods = None
-message_id = None
+gauntletlb_msg_id = None
+trialslb_msg_id = None
+trialsgrplb_msg_id = None
 channel_name = "📜︱leaderboard"
 #discord flask pillow python-dotenv requests
 
@@ -88,6 +92,8 @@ async def TimeFormat(message):
         await message.channel.send(f"{author_name} said {replaced_message}")
 
 async def CheckJoin(message):
+    if message.author == bot.user:
+        return
     if message.channel.name == 'recruitment':  # Check if the message is sent in the 'recruitment' channel
             if all(word in message.content.lower() for word in ['how', 'to', 'join']):
                 view = discord.ui.View()
@@ -97,6 +103,8 @@ async def CheckJoin(message):
                 await message.channel.send(msg, view=view)
 
 async def CheckBuild(message):
+    if message.author == bot.user:
+        return
     if isinstance(message.channel, discord.TextChannel) and message.channel.name == "builds":
         # Check if the message contains both "give" and "build"
         if all(word in message.content.lower() for word in ['give', 'build']):
@@ -104,9 +112,9 @@ async def CheckBuild(message):
             await message.reply("Looking for a build? Use /meta_builds", delete_after=10)
 
 activities = ["Looking for Build? Use \meta_builds",
-                    "Fetching Leaderboard......",
-                    "Thraxx in Thraxx enjoyer actually means Weed not Behemoth itself!",
-                    "Laughing at Void Runners"]
+              "Fetching Leaderboard......",
+              "Thraxx in Thraxx enjoyer actually means Weed not Behemoth itself!",
+              "Laughing at Void Runners"]
 
 if __name__ == '__main__':
     load_dotenv()
@@ -132,31 +140,47 @@ if __name__ == '__main__':
     
     @tasks.loop(seconds=60)
     async def Update_leaderboard():
-        global message_id  # Use the global variable
+        global gauntletlb_msg_id
+        global trialslb_msg_id
+        global trialsgrplb_msg_id
 
-        url_to_request = "https://storage.googleapis.com/dauntless-gauntlet-leaderboard/production-gauntlet-season10.json"
+        url_to_request = "https://storage.googleapis.com/dauntless-gauntlet-leaderboard/production-gauntlet-season11.json"
         img = display_leaderboard(url_to_request)
+        week = "58"
+        trials_lb_img = display_trialsleaderboard(week)
+        trialsgrp_lb_img = display_trialsgrpleaderboard(week)
 
         channel = discord.utils.get(bot.get_all_channels(), name=channel_name)
 
         if channel:
             try:
-                if message_id:  # If message ID exists, edit the message
+                if gauntletlb_msg_id and trialslb_msg_id and trialsgrplb_msg_id:  # If message ID exists, edit the message
                     try:
-                        message = await channel.fetch_message(message_id)
-                        await message.edit(content=f"`Last updated on:`<t:{int(time.time())}:t>",attachments=[discord.File(img, 'leaderboard.png')])
+                        message1 = await channel.fetch_message(gauntletlb_msg_id)
+                        message2 = await channel.fetch_message(trialslb_msg_id)
+                        message3 = await channel.fetch_message(trialsgrplb_msg_id)
+                        await message1.edit(content=f"`Last updated on:`<t:{int(time.time())}:t>",attachments=[discord.File(img, 'leaderboard.png')])
+                        await message2.edit(content=f"`Last updated on:`<t:{int(time.time())}:t>",attachments=[discord.File(trials_lb_img, 'trials_leaderboard.png')])
+                        await message3.edit(content=f"`Last updated on:`<t:{int(time.time())}:t>",attachments=[discord.File(trialsgrp_lb_img, 'trials_leaderboard.png')])
                     except discord.errors.NotFound:
                         # Handle if the message is not found (deleted or not sent yet)
-                        message_id = None
+                        gauntletlb_msg_id = None
+                        trialslb_msg_id = None
+                        trialsgrplb_msg_id = None
                 else:
                     # Send a new message and store the message ID
-                    message = await channel.send(content=f"`Last updated on:`<t:{int(time.time())}:t>", file=discord.File(img, 'leaderboard.png'))
-                    message_id = message.id
+                    message1 = await channel.send(content=f"`Last updated on:`<t:{int(time.time())}:t>", file=discord.File(img, 'leaderboard.png'))
+                    message2 = await channel.send(content=f"`Last updated on:`<t:{int(time.time())}:t>",file=discord.File(trials_lb_img, 'trials_leaderboard.png'))
+                    message3 = await channel.send(content=f"`Last updated on:`<t:{int(time.time())}:t>",file=discord.File(trialsgrp_lb_img, 'trials_leaderboard.png'))
+                    gauntletlb_msg_id = message1.id
+                    trialslb_msg_id = message2.id
+                    trialsgrplb_msg_id =message3.id
             except Exception as e:
+                pass
                 # Handle any other exceptions raised within the loop
-                message = await channel.fetch_message(message_id)
-                await message.edit(content=f" <:pepe_sad:1065643497035661422> \n Bruh I am getting rate limited when it pass away I will update!")
-                print(f"An error occurred: {e}")
+                # message = await channel.fetch_message(message_id)
+                # await message.edit(content=f" <:pepe_sad:1065643497035661422> \n Bruh I am getting rate limited when it pass away I will update!")
+                # print(f"An error occurred: {e}")
 
     @bot.event
     async def on_message(message):
