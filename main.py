@@ -12,14 +12,11 @@ from dotenv import load_dotenv
 from PIL import Image,ImageFilter
 from build_finder import img_generator,load_json,get_path
 from Gauntlet_leaderboard import display_leaderboard
-from Trials_leaderboard import display_trialsleaderboard
-from Group_Trialsleaderboard import display_trialsgrpleaderboard
+from Trials_leaderboard import getImage_Trials_leaderboard
+
 user_id = None
 mods = None
-gauntletlb_msg_id = None
-trialslb_msg_id = None
-trialsgrplb_msg_id = None
-channel_name = "📜︱leaderboard"
+
 #discord flask pillow python-dotenv requests
 
 def resize_and_sharpen(input_path, output_path, new_size, sharpness=2.0):
@@ -119,6 +116,9 @@ activities = ["Looking for Build? Use \meta_builds",
 if __name__ == '__main__':
     load_dotenv()
     my_secret = os.environ.get('TOKEN')
+    gauntletlb_msg_id = None
+    Trialsleaderboard_solo_id = None
+    trialsgrplb_msg_id = None
     bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
     
     @bot.event
@@ -138,49 +138,46 @@ if __name__ == '__main__':
             await bot.change_presence(activity=activity)
             await asyncio.sleep(60)  # Ensure smooth transition between activities
     
+    
     @tasks.loop(seconds=60)
     async def Update_leaderboard():
-        global gauntletlb_msg_id
-        global trialslb_msg_id
-        global trialsgrplb_msg_id
+        global gauntletlb_msg_id,Trialsleaderboard_solo_id,trialsgrplb_msg_id
 
         url_to_request = "https://storage.googleapis.com/dauntless-gauntlet-leaderboard/production-gauntlet-season11.json"
         img = display_leaderboard(url_to_request)
         week = "58"
-        trials_lb_img = display_trialsleaderboard(week)
-        trialsgrp_lb_img = display_trialsgrpleaderboard(week)
+        solo_leaderboard_img, group_leaderboard_img = getImage_Trials_leaderboard(week)
 
-        channel = discord.utils.get(bot.get_all_channels(), name=channel_name)
+        channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
 
-        if channel:
-            try:
-                if gauntletlb_msg_id and trialslb_msg_id and trialsgrplb_msg_id:  # If message ID exists, edit the message
-                    try:
-                        message1 = await channel.fetch_message(gauntletlb_msg_id)
-                        message2 = await channel.fetch_message(trialslb_msg_id)
-                        message3 = await channel.fetch_message(trialsgrplb_msg_id)
-                        await message1.edit(content=f"`Last updated on:`<t:{int(time.time())}:t>",attachments=[discord.File(img, 'leaderboard.png')])
-                        await message2.edit(content=f"`Last updated on:`<t:{int(time.time())}:t>",attachments=[discord.File(trials_lb_img, 'trials_leaderboard.png')])
-                        await message3.edit(content=f"`Last updated on:`<t:{int(time.time())}:t>",attachments=[discord.File(trialsgrp_lb_img, 'trials_leaderboard.png')])
-                    except discord.errors.NotFound:
-                        # Handle if the message is not found (deleted or not sent yet)
-                        gauntletlb_msg_id = None
-                        trialslb_msg_id = None
-                        trialsgrplb_msg_id = None
-                else:
-                    # Send a new message and store the message ID
-                    message1 = await channel.send(content=f"`Last updated on:`<t:{int(time.time())}:t>", file=discord.File(img, 'leaderboard.png'))
-                    message2 = await channel.send(content=f"`Last updated on:`<t:{int(time.time())}:t>",file=discord.File(trials_lb_img, 'trials_leaderboard.png'))
-                    message3 = await channel.send(content=f"`Last updated on:`<t:{int(time.time())}:t>",file=discord.File(trialsgrp_lb_img, 'trials_leaderboard.png'))
-                    gauntletlb_msg_id = message1.id
-                    trialslb_msg_id = message2.id
-                    trialsgrplb_msg_id =message3.id
-            except Exception as e:
-                pass
-                # Handle any other exceptions raised within the loop
-                # message = await channel.fetch_message(message_id)
-                # await message.edit(content=f" <:pepe_sad:1065643497035661422> \n Bruh I am getting rate limited when it pass away I will update!")
-                # print(f"An error occurred: {e}")
+        if not channel:
+            print("Channel not found")
+            return
+
+        try:
+            if gauntletlb_msg_id and Trialsleaderboard_solo_id and trialsgrplb_msg_id:  
+                message1, message2, message3 = await asyncio.gather(
+                    channel.fetch_message(gauntletlb_msg_id),
+                    channel.fetch_message(Trialsleaderboard_solo_id),
+                    channel.fetch_message(trialsgrplb_msg_id)
+                )
+                messages = [message1, message2, message3]
+                for message, img_data in zip(messages, [img, solo_leaderboard_img, group_leaderboard_img]):
+                    content = f"`Last updated on:`<t:{int(time.time())}:t>"
+                    await message.edit(content=content, attachments=[discord.File(img_data, 'leaderboard.png')])
+            else:
+                images = [(img, 'leaderboard.png'), (solo_leaderboard_img, 'trials_solo_leaderboard.png'), (group_leaderboard_img, 'trials_group_leaderboard.png')]
+                message_ids = []
+                for img_data, filename in images:
+                    content = f"`Last updated on:`<t:{int(time.time())}:t>"
+                    message = await channel.send(content=content, file=discord.File(img_data, filename))
+                    message_ids.append(message.id)
+                gauntletlb_msg_id, Trialsleaderboard_solo_id, trialsgrplb_msg_id = message_ids
+        except discord.errors.NotFound:
+            print("Message not found")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
 
     @bot.event
     async def on_message(message):

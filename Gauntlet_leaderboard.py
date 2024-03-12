@@ -1,3 +1,4 @@
+import time
 import requests
 import io
 from PIL import Image, ImageDraw, ImageFont
@@ -10,7 +11,7 @@ def seconds_to_minutes(seconds):
 def display_leaderboard(url):
     try:
         # Make a GET request to the URL
-        response = requests.get(url)
+        response = requests.get(url,timeout=5)
 
         # Check if the request was successful (status code 200)
         if response.status_code == 200:
