@@ -6,3 +6,6 @@ build_img.png
 src/json/saved_builds.json
 .vscode/
 src/UI Images/
+gauntlet.json
+group.json
+solo.json

@@ -1,62 +1,11 @@
-import requests
-import io
-from PIL import Image, ImageDraw, ImageFont
-import json
+import aiohttp
+import asyncio
 import os
+import io
+import json
+from PIL import Image, ImageDraw, ImageFont
 from dotenv import load_dotenv
 load_dotenv()
-
-def get_trials_leaderboard(week):
-    url = "https://leaderboards-prod.steelyard.ca/trials/leaderboards/all"
-    headers = {
-        "Authorization": f"BEARER {os.environ.get('SESSION_TOKEN')}",
-    }
-    data = {
-            "difficulty": 1,
-            "page": 0,
-            "page_size": 100,
-            "trial_id": f"Arena_MatchmakerHunt_Elite_New_00{week}",
-            "target_platforms": []
-        } 
-    response = requests.post(url, headers=headers, json=data,timeout=5)
-    data = json.loads(response.content)
-    return data
-
-def convert_to_time(value):
-    if len(str(value)) == 6:  # If the value is 6 digits, convert to minutes
-        seconds = value // 1000
-        minutes = seconds // 60
-        seconds %= 60
-        return f"{minutes} min {seconds} sec"
-    else:  # Otherwise, treat it as seconds
-        seconds = value // 1000
-        return f"{seconds}.{str(value)[-3:]} sec"
-        
-def get_path(filename):
-   # Get the current directory
-    current_directory = os.getcwd()
-    # Recursively search for the file in the current directory and its subdirectories
-    for root, dirs, files in os.walk(current_directory):
-        if filename in files:
-            file_path = os.path.join(root, filename)
-            return file_path
-
-def seconds_to_minutes(seconds):
-    minutes, seconds = divmod(seconds, 60)
-    return f"{minutes:02d}:{seconds:02d}"
-
-def get_text_dimensions(text_string, font):
-    ascent, descent = font.getmetrics()
-
-    text_width = font.getmask(text_string).getbbox()[2]
-    text_height = font.getmask(text_string).getbbox()[3] + descent
-
-    return (text_width, text_height)
-
-def prep_paste_img(img_filename,size):
-    image_to_paste = Image.open(get_path(img_filename))
-    resized_image = image_to_paste.resize(size)
-    return resized_image
 
 weapon_id = {
     "1":"NameIcon_Hammer.png",
@@ -89,18 +38,72 @@ fonts = {
     "items_font": "GothicA1-Medium.ttf",
 }
 
-def getImage_group_leaderboard(leaderboard_data):
-    Title_font = ImageFont.truetype(get_path(fonts["title_font"]), size=106)
-    item_font = ImageFont.truetype(get_path(fonts["items_font"]), size=40)
+
+async def fetch_trials_leaderboard(week):
+    url = "https://leaderboards-prod.steelyard.ca/trials/leaderboards/all"
+    headers = {
+        "Authorization": f"BEARER {os.environ.get('SESSION_TOKEN')}",
+    }
+    data = {
+        "difficulty": 1,
+        "page": 0,
+        "page_size": 100,
+        "trial_id": f"Arena_MatchmakerHunt_Elite_New_00{week}",
+        "target_platforms": []
+    }
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, headers=headers, json=data, timeout=5) as response:
+            return await response.json()
+
+def convert_to_time(value):
+    if len(str(value)) == 6:  # If the value is 6 digits, convert to minutes
+        seconds = value // 1000
+        minutes = seconds // 60
+        seconds %= 60
+        return f"{minutes} min {seconds} sec"
+    else:  # Otherwise, treat it as seconds
+        seconds = value // 1000
+        return f"{seconds}.{str(value)[-3:]} sec"
+
+def get_path(filename):
+   # Get the current directory
+    current_directory = os.getcwd()
+    # Recursively search for the file in the current directory and its subdirectories
+    for root, dirs, files in os.walk(current_directory):
+        if filename in files:
+            file_path = os.path.join(root, filename)
+            return file_path
+
+def get_text_dimensions(text_string, font):
+    ascent, descent = font.getmetrics()
+
+    text_width = font.getmask(text_string).getbbox()[2]
+    text_height = font.getmask(text_string).getbbox()[3] + descent
+
+    return (text_width, text_height)
+
+def prep_paste_img(img_filename,size):
+    image_to_paste = Image.open(get_path(img_filename))
+    resized_image = image_to_paste.resize(size)
+    return resized_image
+
+async def getImage_group_leaderboard(leaderboard_data):
+    Title_font = ImageFont.truetype(get_path("INFECTED.ttf"), size=106)
+    item_font = ImageFont.truetype(get_path("GothicA1-Medium.ttf"), size=40)
     
     img = Image.new('RGB', (1600, 1100), color='#313338')
     draw = ImageDraw.Draw(img)
 
     draw.text((300, 30), f"Trials Champions Group", fill="white", font=Title_font)
 
-    behemoth_icon = prep_paste_img("ico_gnasher_ragetail_512x512.png",(280,280))
+    behemoth_icon = Image.open(get_path("ico_gnasher_ragetail_512x512.png")).resize((280,280))
     img.paste(behemoth_icon, (0, -40), mask=behemoth_icon.split()[3])
     x, y = 100, 200
+
+    # Pre-resize weapon and role icons
+    icon_size = (75, 75)
+    resized_weapon_icons = {weapon_id: prep_paste_img(weapon_path, icon_size) for weapon_id, weapon_path in weapon_id.items()}
+    resized_role_icons = {role_id: prep_paste_img(role_path, icon_size) for role_id, role_path in role_id.items()}
 
     # Define custom coordinates for each piece of information
     for i, trials_Group in enumerate(leaderboard_data):
@@ -118,19 +121,14 @@ def getImage_group_leaderboard(leaderboard_data):
         
         entry_x = x
         entry_y = y
-        for i,entry in enumerate(trials_Group['entries']):
-            weapon_icon = f"{weapon_id[str(entry['weapon'])]}"
-            role_icon = f"{role_id[str(entry['player_role_id'])]}"
-            player_name = f"{entry['platform_name']}"
+        for i, entry in enumerate(trials_Group['entries']):
+            weapon_icon = resized_weapon_icons[str(entry['weapon'])]
+            role_icon = resized_role_icons[str(entry['player_role_id'])]
+            player_name = entry['platform_name']
 
-            icon_size = (75,75)
-            weapon_icon = prep_paste_img(weapon_icon,icon_size)
             img.paste(weapon_icon, (entry_x, entry_y+5), mask=weapon_icon.split()[3])
-
-            role_icon = prep_paste_img(role_icon,icon_size)
             img.paste(role_icon, (entry_x+50+20, entry_y+5), mask=role_icon.split()[3])
-
-            draw.text((entry_x+150, entry_y+25),player_name, fill=fill, font=item_font)
+            draw.text((entry_x+150, entry_y+25), player_name, fill=fill, font=item_font)
             entry_x += 520
             if i == 1:
                 entry_x = x
@@ -145,21 +143,28 @@ def getImage_group_leaderboard(leaderboard_data):
     img.save(img_bytes_io, format='PNG')
     img_bytes_io.seek(0)
     return img_bytes_io
-    # img.save("tlb.png", format='PNG')
+    # img.save('tlb.png', format='PNG')
 
-def getImage_solo_leaderboard(leaderboard_data):
-    Title_font = ImageFont.truetype(get_path(fonts["title_font"]), size=70)
-    item_font = ImageFont.truetype(get_path(fonts["items_font"]), size=30)
+async def getImage_solo_leaderboard(leaderboard_data):
+    Title_font = ImageFont.truetype(get_path("INFECTED.ttf"), size=70)
+    item_font = ImageFont.truetype(get_path("GothicA1-Medium.ttf"), size=30)
+    
     # Open the provided background image
     img = Image.new('RGB', (1024, 700), color='#313338')
     draw = ImageDraw.Draw(img)
 
     draw.text((220, 50), f"Trials Champions Solo", fill="white", font=Title_font)
 
-    behemoth_icon = prep_paste_img("ico_gnasher_ragetail_512x512.png",(250,250))
+    behemoth_icon = Image.open(get_path("ico_gnasher_ragetail_512x512.png")).resize((250,250))
     img.paste(behemoth_icon, (-20, -30), mask=behemoth_icon.split()[3])
 
     x, y = 70, 180
+
+    # Pre-resize weapon, role, and platform icons
+    icon_size = (70, 70)
+    resized_weapon_icons = {weapon_id: prep_paste_img(weapon_path, icon_size) for weapon_id, weapon_path in weapon_id.items()}
+    resized_role_icons = {role_id: prep_paste_img(role_path, icon_size) for role_id, role_path in role_id.items()}
+    resized_platform_icons = {platform_id: prep_paste_img(platform_path, (50, 50)) for platform_id, platform_path in platform.items()}
 
     # Define custom coordinates for each piece of information
     for i, entry in enumerate(leaderboard_data):
@@ -172,50 +177,37 @@ def getImage_solo_leaderboard(leaderboard_data):
         else:
             fill = "white"
 
-        weapon_icon = f"{weapon_id[str(entry['weapon'])]}"
-        role_icon = f"{role_id[str(entry['player_role_id'])]}"
-        platform_icon = f"{platform[str(entry['platform'])]}"
-        player_name = f"{entry['platform_name']}"
-        completion_time = entry['completion_time']
-
         draw.text((x-30, y+28), f"{i+1}", fill=fill, font=item_font)
         
-        weapon_icon = prep_paste_img(weapon_icon,(70,70))
-        img.paste(weapon_icon, (x, y+5), mask=weapon_icon.split()[3])
-
-        role_icon = prep_paste_img(role_icon,(70,70))
-        img.paste(role_icon, (x+50+20, y+5), mask=role_icon.split()[3])
-
-        draw.text((x+150, y+28), player_name, fill=fill,font=item_font)
-        width,_ = get_text_dimensions(player_name,item_font)
+        weapon_icon = resized_weapon_icons[str(entry['weapon'])]
+        role_icon = resized_role_icons[str(entry['player_role_id'])]
+        platform_icon = resized_platform_icons[str(entry['platform'])]
         
-        platform_icon = prep_paste_img(platform_icon,(50,50))
+        img.paste(weapon_icon, (x, y+5), mask=weapon_icon.split()[3])
+        img.paste(role_icon, (x+50+20, y+5), mask=role_icon.split()[3])
+        
+        draw.text((x+150, y+28), entry['platform_name'], fill=fill, font=item_font)
+        width,_ = get_text_dimensions(entry['platform_name'], item_font)
+        
         img.paste(platform_icon, (x+160+width, y+20), mask=platform_icon.split()[3])
 
-        # Draw remaining_time
-        completion_time = convert_to_time(completion_time)
+        completion_time = convert_to_time(entry['completion_time'])
         draw.text((800, y+28), f"{completion_time}", fill=fill, font=item_font)
 
         y += 100
-
     img_bytes_io = io.BytesIO()
     img.save(img_bytes_io, format='PNG')
     img_bytes_io.seek(0)
     return img_bytes_io
-    # img.save('lb.png', format='PNG')
+    # img.save("lb.png", format="PNG")
 
-def getImage_Trials_leaderboard(week):
-    try:
-        trials_leaderboard = get_trials_leaderboard(week)
-        group_leaderboard_data = trials_leaderboard["payload"]["world"]["group"]["entries"][:5]
-        solo_leaderboard_data = trials_leaderboard["payload"]["world"]["solo"]["all"]["entries"][:5]
-        # Check if the request was successful (status code 200)
-        if trials_leaderboard:
-            solo_leaderboard_img = getImage_solo_leaderboard(solo_leaderboard_data)
-            group_leaderboard_img = getImage_group_leaderboard(group_leaderboard_data)
-            return solo_leaderboard_img,group_leaderboard_img
-            
-    except requests.RequestException as e:
-        print(f"An error occurred: {e}")
 
-# display_trialsgrpleaderboard(58)
+
+# async def main():
+#     print("called main")
+#     await getImage_Trials_leaderboard(58)
+
+# # Run the asyncio event loop
+# if __name__ == "__main__":
+#     print("called name")
+#     asyncio.run(main())
