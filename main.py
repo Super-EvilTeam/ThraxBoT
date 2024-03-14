@@ -164,99 +164,76 @@ async def leaderboard_changed(week):
         solo_leaderboard_changed = False
     return
     
-async def getImage_Trials_leaderboard():
-    try:
-        with open("group.json", 'r',encoding='utf-8') as file:
-            group_leaderboard_data = json.load(file)
-        with open("solo.json", 'r',encoding='utf-8') as file:
-            solo_leaderboard_data = json.load(file)
-        # group_leaderboard_data = trials_leaderboard["payload"]["world"]["group"]["entries"][:5]
-        # solo_leaderboard_data = trials_leaderboard["payload"]["world"]["solo"]["all"]["entries"][:5]
-        
-        # Run getImage_solo_leaderboard and getImage_group_leaderboard concurrently
-        solo_leaderboard_img, group_leaderboard_img = await asyncio.gather(
-        getImage_solo_leaderboard(solo_leaderboard_data),
-        getImage_group_leaderboard(group_leaderboard_data)
-        )
-        
-        return solo_leaderboard_img, group_leaderboard_img
-        
-    except aiohttp.ClientError as e:
-        print(f"An error occurred: {e}")
-
 async def update_solo_trialsleaderboard():
-    global solo_leaderboard_changed,Trialsleaderboard_solo_id
-    print("solo_leaderboard_changed ",solo_leaderboard_changed)
-    if solo_leaderboard_changed:
-        print("called update solo leaderboard")
-        solo_leaderboard_img, _ = await getImage_Trials_leaderboard()
-        channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
+    global Trialsleaderboard_solo_id
+    with open("solo.json", 'r',encoding='utf-8') as file:
+            solo_leaderboard_data = json.load(file)
+    print("called update solo leaderboard")
+    solo_leaderboard_img = await getImage_solo_leaderboard(solo_leaderboard_data)
+    channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
 
-        if not channel:
-            print("Channel not found")
-            return
-        content = f"`Last updated on:`<t:{int(time.time())}:t>"
-        try:
-            if Trialsleaderboard_solo_id:  
-                message = await channel.fetch_message(Trialsleaderboard_solo_id)
-                await message.edit(content=content, attachments=[discord.File(solo_leaderboard_img, 'leaderboard.png')])
-            else:
-                message = await channel.send(content=content, file=discord.File(solo_leaderboard_img, 'leaderboard.png'))
-                Trialsleaderboard_solo_id= message.id
-        except discord.errors.NotFound:
-            print("Message not found")
-        except Exception as e:
-            print(f"An error occurred: {e}")   
+    if not channel:
+        print("Channel not found")
+        return
+    content = f"`Last updated on:`<t:{int(time.time())}:t>"
+    try:
+        if Trialsleaderboard_solo_id:  
+            message = await channel.fetch_message(Trialsleaderboard_solo_id)
+            await message.edit(content=content, attachments=[discord.File(solo_leaderboard_img, 'leaderboard.png')])
+        else:
+            message = await channel.send(content=content, file=discord.File(solo_leaderboard_img, 'leaderboard.png'))
+            Trialsleaderboard_solo_id= message.id
+    except discord.errors.NotFound:
+        print("Message not found")
+    except Exception as e:
+        print(f"An error occurred: {e}")   
     
 async def update_group_trialsleaderboard():
-    global group_leaderboard_changed,trialsgrplb_msg_id
-    print("group_leaderboard_changed ",group_leaderboard_changed)
-    if group_leaderboard_changed:
-        print("called update group leaderboard")
-        _ , group_leaderboard_img = await getImage_Trials_leaderboard()
-        channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
+    global trialsgrplb_msg_id
+    print("called update group leaderboard")
+    with open("group.json", 'r',encoding='utf-8') as file:
+        group_leaderboard_data = json.load(file)
+    group_leaderboard_img = await getImage_group_leaderboard(group_leaderboard_data)
+    channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
 
-        if not channel:
-            print("Channel not found")
-            return
-        content = f"`Last updated on:`<t:{int(time.time())}:t>"
-        try:
-            if trialsgrplb_msg_id:  
-                message = await channel.fetch_message(trialsgrplb_msg_id)
-                await message.edit(content=content, attachments=[discord.File(group_leaderboard_img, 'leaderboard.png')])
-            else:
-                message = await channel.send(content=content, file=discord.File(group_leaderboard_img, 'leaderboard.png'))
-                trialsgrplb_msg_id= message.id
-        except discord.errors.NotFound:
-            print("Message not found")
-        except Exception as e:
-            print(f"An error occurred: {e}") 
+    if not channel:
+        print("Channel not found")
+        return
+    content = f"`Last updated on:`<t:{int(time.time())}:t>"
+    try:
+        if trialsgrplb_msg_id:  
+            message = await channel.fetch_message(trialsgrplb_msg_id)
+            await message.edit(content=content, attachments=[discord.File(group_leaderboard_img, 'leaderboard.png')])
+        else:
+            message = await channel.send(content=content, file=discord.File(group_leaderboard_img, 'leaderboard.png'))
+            trialsgrplb_msg_id= message.id
+    except discord.errors.NotFound:
+        print("Message not found")
+    except Exception as e:
+        print(f"An error occurred: {e}") 
 
 async def update_gauntlet_leaderboard():
-    global gauntletlb_msg_id,gauntlet_leaderboard_changed
-    print("gauntlet_leaderboard_changed ",gauntlet_leaderboard_changed)
+    global gauntletlb_msg_id
+    print("called update gauntlet leaderboard")
+    gauntlet_leaderboard_img = getImage_gauntlet_leaderboard()
 
-    if gauntlet_leaderboard_changed:
-        print("called update gauntlet leaderboard")
-        gauntlet_leaderboard_img = getImage_gauntlet_leaderboard()
+    channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
 
-        channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
-
-        if not channel:
-            print("Channel not found")
-            return
-        content = f"`Last updated on:`<t:{int(time.time())}:t>"
-        try:
-            if gauntletlb_msg_id:  
-                message = await channel.fetch_message(gauntletlb_msg_id)
-                await message.edit(content=content, attachments=[discord.File(gauntlet_leaderboard_img, 'leaderboard.png')])
-            else:
-                message = await channel.send(content=content, file=discord.File(gauntlet_leaderboard_img, 'leaderboard.png'))
-                gauntletlb_msg_id= message.id
-        except discord.errors.NotFound:
-            print("Message not found")
-        except Exception as e:
-            print(f"An error occurred: {e}") 
+    if not channel:
+        print("Channel not found")
+        return
+    content = f"`Last updated on:`<t:{int(time.time())}:t>"
+    try:
+        if gauntletlb_msg_id:  
+            message = await channel.fetch_message(gauntletlb_msg_id)
+            await message.edit(content=content, attachments=[discord.File(gauntlet_leaderboard_img, 'leaderboard.png')])
+        else:
+            message = await channel.send(content=content, file=discord.File(gauntlet_leaderboard_img, 'leaderboard.png'))
+            gauntletlb_msg_id= message.id
+    except discord.errors.NotFound:
+        print("Message not found")
+    except Exception as e:
+        print(f"An error occurred: {e}") 
 
 if __name__ == '__main__':
     load_dotenv()
@@ -283,15 +260,18 @@ if __name__ == '__main__':
             await asyncio.sleep(60)  # Ensure smooth transition between activities
     
     
-    @tasks.loop(seconds=60)
+    @tasks.loop(seconds=10)
     async def Update_leaderboard():
+        global gauntlet_leaderboard_changed,group_leaderboard_changed,solo_leaderboard_changed
         print("called")
         week = "58"
         await leaderboard_changed(week)
-
-        await update_gauntlet_leaderboard()
-        await update_solo_trialsleaderboard()
-        await update_group_trialsleaderboard()
+        if gauntlet_leaderboard_changed:
+            await update_gauntlet_leaderboard()
+        if solo_leaderboard_changed:
+            await update_solo_trialsleaderboard()
+        if group_leaderboard_changed:
+            await update_group_trialsleaderboard()
 
     @bot.event
     async def on_message(message):
