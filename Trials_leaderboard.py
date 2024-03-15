@@ -10,8 +10,8 @@ load_dotenv()
 weapon_id = {
     "1":"NameIcon_Hammer.png",
     "2":"NameIcon_Axe.png",
-    "3":"NameIcon_cb.png",
-    "4":"NameIcon_Blade.png",
+    "3":"NameIcon_Blade.png",
+    "4":"NameIcon_cb.png",
     "5":"NameIcon_WarPike.png",
     "6":"NameIcon_DP.png",
     "7":"NameIcon_AetherCaster.png",
@@ -87,7 +87,7 @@ def prep_paste_img(img_filename,size):
     resized_image = image_to_paste.resize(size)
     return resized_image
 
-async def getImage_group_leaderboard(leaderboard_data):
+async def getImage_group_leaderboard(leaderboard_data,current_behemoth,current_rotation_time):
     Title_font = ImageFont.truetype(get_path("INFECTED.ttf"), size=106)
     item_font = ImageFont.truetype(get_path("GothicA1-Medium.ttf"), size=40)
     
@@ -95,10 +95,11 @@ async def getImage_group_leaderboard(leaderboard_data):
     draw = ImageDraw.Draw(img)
 
     draw.text((300, 30), f"Trials Champions Group", fill="white", font=Title_font)
+    draw.text((660, 165), current_rotation_time, fill="#49be25", font=item_font)
 
-    behemoth_icon = Image.open(get_path("ico_gnasher_ragetail_512x512.png")).resize((280,280))
-    img.paste(behemoth_icon, (0, -40), mask=behemoth_icon.split()[3])
-    x, y = 100, 200
+    behemoth_icon = Image.open(get_path(f"{current_behemoth}.png")).resize((250,250))
+    img.paste(behemoth_icon, (40, 0), mask=behemoth_icon.split()[3])
+    x, y = 100, 220
 
     # Pre-resize weapon and role icons
     icon_size = (75, 75)
@@ -145,20 +146,21 @@ async def getImage_group_leaderboard(leaderboard_data):
     return img_bytes_io
     # img.save('tlb.png', format='PNG')
 
-async def getImage_solo_leaderboard(leaderboard_data):
-    Title_font = ImageFont.truetype(get_path("INFECTED.ttf"), size=70)
+async def getImage_solo_leaderboard(leaderboard_data,current_behemoth,current_rotation_time):
+    Title_font = ImageFont.truetype(get_path("INFECTED.ttf"), size=75)
     item_font = ImageFont.truetype(get_path("GothicA1-Medium.ttf"), size=30)
     
     # Open the provided background image
     img = Image.new('RGB', (1024, 700), color='#313338')
     draw = ImageDraw.Draw(img)
 
-    draw.text((220, 50), f"Trials Champions Solo", fill="white", font=Title_font)
+    draw.text((220, 40), f"Trials Champions Solo", fill="white", font=Title_font)
+    draw.text((420, 145), current_rotation_time, fill="#49be25", font=item_font)
+    
+    behemoth_icon = Image.open(get_path(f"{current_behemoth}.png")).resize((250,240))
+    img.paste(behemoth_icon, (-20, 0), mask=behemoth_icon.split()[3])
 
-    behemoth_icon = Image.open(get_path("ico_gnasher_ragetail_512x512.png")).resize((250,250))
-    img.paste(behemoth_icon, (-20, -30), mask=behemoth_icon.split()[3])
-
-    x, y = 70, 180
+    x, y = 70, 200
 
     # Pre-resize weapon, role, and platform icons
     icon_size = (70, 70)
@@ -189,7 +191,7 @@ async def getImage_solo_leaderboard(leaderboard_data):
         draw.text((x+150, y+28), entry['platform_name'], fill=fill, font=item_font)
         width,_ = get_text_dimensions(entry['platform_name'], item_font)
         
-        img.paste(platform_icon, (x+160+width, y+20), mask=platform_icon.split()[3])
+        img.paste(platform_icon, (x+160+width, y+15), mask=platform_icon.split()[3])
 
         completion_time = convert_to_time(entry['completion_time'])
         draw.text((800, y+28), f"{completion_time}", fill=fill, font=item_font)

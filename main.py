@@ -11,6 +11,7 @@ from UI.SaveBuilds import SavedBuilds
 from discord.ext import commands,tasks
 from dotenv import load_dotenv
 from PIL import Image,ImageFilter
+from bs4 import BeautifulSoup
 from build_finder import img_generator,load_json,get_path
 from Gauntlet_leaderboard import getImage_gauntlet_leaderboard
 from Trials_leaderboard import fetch_trials_leaderboard,getImage_group_leaderboard,getImage_solo_leaderboard
@@ -120,7 +121,11 @@ activities = ["Looking for Build? Use \meta_builds",
               "Laughing at Void Runners"]
 
 async def leaderboard_changed(week):
-    global group_leaderboard_changed,solo_leaderboard_changed,gauntlet_leaderboard_changed
+    global group_leaderboard_changed,solo_leaderboard_changed,gauntlet_leaderboard_changed,first_load
+    if first_load:
+        first_load =False
+        return
+    
     current_unix_time_milliseconds = int(time.time() * 1000)
     print(current_unix_time_milliseconds)
     response = requests.get(f"https://storage.googleapis.com/dauntless-gauntlet-leaderboard/production-gauntlet-season11.json?_={current_unix_time_milliseconds}")
@@ -139,7 +144,6 @@ async def leaderboard_changed(week):
         else:
             gauntlet_leaderboard_changed = False
     
-
     trials_leaderboard = await fetch_trials_leaderboard(week)
     group_leaderboard_data = trials_leaderboard["payload"]["world"]["group"]["entries"][:5]
     solo_leaderboard_data = trials_leaderboard["payload"]["world"]["solo"]["all"]["entries"][:5]
@@ -164,12 +168,12 @@ async def leaderboard_changed(week):
         solo_leaderboard_changed = False
     return
     
-async def update_solo_trialsleaderboard():
+async def update_solo_trialsleaderboard(current_behemoth,current_rotation_time):
     global Trialsleaderboard_solo_id
     with open("solo.json", 'r',encoding='utf-8') as file:
             solo_leaderboard_data = json.load(file)
     print("called update solo leaderboard")
-    solo_leaderboard_img = await getImage_solo_leaderboard(solo_leaderboard_data)
+    solo_leaderboard_img = await getImage_solo_leaderboard(solo_leaderboard_data,current_behemoth,current_rotation_time)
     channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
 
     if not channel:
@@ -188,12 +192,12 @@ async def update_solo_trialsleaderboard():
     except Exception as e:
         print(f"An error occurred: {e}")   
     
-async def update_group_trialsleaderboard():
+async def update_group_trialsleaderboard(current_behemoth,current_rotation_time):
     global trialsgrplb_msg_id
     print("called update group leaderboard")
     with open("group.json", 'r',encoding='utf-8') as file:
         group_leaderboard_data = json.load(file)
-    group_leaderboard_img = await getImage_group_leaderboard(group_leaderboard_data)
+    group_leaderboard_img = await getImage_group_leaderboard(group_leaderboard_data,current_behemoth,current_rotation_time)
     channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
 
     if not channel:
@@ -242,6 +246,7 @@ if __name__ == '__main__':
     group_leaderboard_changed = True
     solo_leaderboard_changed = True
     gauntlet_leaderboard_changed = True
+    first_load = True
     @bot.event
     async def on_ready():
         print('We have logged in as {0.user}'.format(bot))
@@ -263,15 +268,34 @@ if __name__ == '__main__':
     @tasks.loop(seconds=10)
     async def Update_leaderboard():
         global gauntlet_leaderboard_changed,group_leaderboard_changed,solo_leaderboard_changed
-        print("called")
-        week = "58"
+        # URL of the webpage
+        url = "https://playdauntless.com/trials/"
+
+        # Send a GET request to the webpage
+        response = requests.get(url)
+
+        # Parse the HTML content of the webpage
+        soup = BeautifulSoup(response.content, "html.parser")
+
+        # Find the div tag with class trial-summary__behemoth-name
+        div_tag = soup.find("div", class_="trial-summary__behemoth-name")
+        time_tag = soup.find("time", class_ ="medium localize")
+
+        # Extract the text inside the div tag
+        current_behemoth = div_tag.text.strip()
+        current_rotation_time = time_tag.text.strip()
+        current_rotation_time = f"{current_rotation_time[:-2]}{int(current_rotation_time[-2:]) - 7 } - {current_rotation_time}"
+        # current_behemoth = "Skraev"
+        # print(current_behemoth)
+
+        week = "59"
         await leaderboard_changed(week)
         if gauntlet_leaderboard_changed:
             await update_gauntlet_leaderboard()
         if solo_leaderboard_changed:
-            await update_solo_trialsleaderboard()
+            await update_solo_trialsleaderboard(current_behemoth,current_rotation_time)
         if group_leaderboard_changed:
-            await update_group_trialsleaderboard()
+            await update_group_trialsleaderboard(current_behemoth,current_rotation_time)
 
     @bot.event
     async def on_message(message):
