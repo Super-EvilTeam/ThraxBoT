@@ -97,8 +97,8 @@ async def getImage_group_leaderboard(leaderboard_data,current_behemoth,current_r
     draw.text((300, 30), f"Trials Champions Group", fill="white", font=Title_font)
     draw.text((660, 165), current_rotation_time, fill="#49be25", font=item_font)
 
-    behemoth_icon = Image.open(get_path(f"{current_behemoth}.png")).resize((250,250))
-    img.paste(behemoth_icon, (40, 0), mask=behemoth_icon.split()[3])
+    behemoth_icon = Image.open(get_path(f"{current_behemoth}.png")).resize((290,250))
+    img.paste(behemoth_icon, (0, -20), mask=behemoth_icon.split()[3])
     x, y = 100, 220
 
     # Pre-resize weapon and role icons
@@ -158,7 +158,7 @@ async def getImage_solo_leaderboard(leaderboard_data,current_behemoth,current_ro
     draw.text((420, 145), current_rotation_time, fill="#49be25", font=item_font)
     
     behemoth_icon = Image.open(get_path(f"{current_behemoth}.png")).resize((250,240))
-    img.paste(behemoth_icon, (-20, 0), mask=behemoth_icon.split()[3])
+    img.paste(behemoth_icon, (-20, -30), mask=behemoth_icon.split()[3])
 
     x, y = 70, 200
 

@@ -285,7 +285,7 @@ if __name__ == '__main__':
         current_behemoth = div_tag.text.strip()
         current_rotation_time = time_tag.text.strip()
         current_rotation_time = f"{current_rotation_time[:-2]}{int(current_rotation_time[-2:]) - 7 } - {current_rotation_time}"
-        # current_behemoth = "Skraev"
+        # current_behemoth = "Embermane"
         # print(current_behemoth)
 
         week = "59"
