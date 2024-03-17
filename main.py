@@ -12,15 +12,13 @@ from discord.ext import commands,tasks
 from dotenv import load_dotenv
 from PIL import Image,ImageFilter
 from bs4 import BeautifulSoup
-from build_finder import img_generator,load_json,get_path
+from build_finder import load_json,get_path
 from Gauntlet_leaderboard import getImage_gauntlet_leaderboard
 from Trials_leaderboard import fetch_trials_leaderboard,getImage_group_leaderboard,getImage_solo_leaderboard
 
 user_id = None
 mods = None
-gauntletlb_msg_id = None
-Trialsleaderboard_solo_id = None
-trialsgrplb_msg_id = None
+
 prev_trials_leaderboard = None
 
 
@@ -168,71 +166,64 @@ async def leaderboard_changed(week):
         solo_leaderboard_changed = False
     return
     
-async def update_solo_trialsleaderboard(current_behemoth,current_rotation_time):
-    global Trialsleaderboard_solo_id
+async def update_solo_trialsleaderboard(channel,Trialsleaderboard_solo_id,current_behemoth,current_rotation_time):
     with open("solo.json", 'r',encoding='utf-8') as file:
             solo_leaderboard_data = json.load(file)
     print("called update solo leaderboard")
     solo_leaderboard_img = await getImage_solo_leaderboard(solo_leaderboard_data,current_behemoth,current_rotation_time)
-    channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
 
     if not channel:
         print("Channel not found")
         return
-    content = f"`Last updated on:`<t:{int(time.time())}:t>"
+    content = f"`Last updated on:`<t:{int(time.time())}:f>"
     try:
         if Trialsleaderboard_solo_id:  
             message = await channel.fetch_message(Trialsleaderboard_solo_id)
-            await message.edit(content=content, attachments=[discord.File(solo_leaderboard_img, 'leaderboard.png')])
+            await message.edit(content=content, attachments=[discord.File(solo_leaderboard_img, 'Trials Solo leaderboard.png')])
         else:
-            message = await channel.send(content=content, file=discord.File(solo_leaderboard_img, 'leaderboard.png'))
+            message = await channel.send(content=content, file=discord.File(solo_leaderboard_img, 'Trials Solo leaderboard.png'))
             Trialsleaderboard_solo_id= message.id
     except discord.errors.NotFound:
         print("Message not found")
     except Exception as e:
         print(f"An error occurred: {e}")   
     
-async def update_group_trialsleaderboard(current_behemoth,current_rotation_time):
-    global trialsgrplb_msg_id
+async def update_group_trialsleaderboard(channel,trialsgrplb_msg_id,current_behemoth,current_rotation_time):
     print("called update group leaderboard")
     with open("group.json", 'r',encoding='utf-8') as file:
         group_leaderboard_data = json.load(file)
     group_leaderboard_img = await getImage_group_leaderboard(group_leaderboard_data,current_behemoth,current_rotation_time)
-    channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
 
     if not channel:
         print("Channel not found")
         return
-    content = f"`Last updated on:`<t:{int(time.time())}:t>"
+    content = f"`Last updated on:`<t:{int(time.time())}:f>"
     try:
         if trialsgrplb_msg_id:  
             message = await channel.fetch_message(trialsgrplb_msg_id)
-            await message.edit(content=content, attachments=[discord.File(group_leaderboard_img, 'leaderboard.png')])
+            await message.edit(content=content, attachments=[discord.File(group_leaderboard_img, 'Trials Group leaderboard.png')])
         else:
-            message = await channel.send(content=content, file=discord.File(group_leaderboard_img, 'leaderboard.png'))
+            message = await channel.send(content=content, file=discord.File(group_leaderboard_img, 'Trials Group leaderboard.png'))
             trialsgrplb_msg_id= message.id
     except discord.errors.NotFound:
         print("Message not found")
     except Exception as e:
         print(f"An error occurred: {e}") 
 
-async def update_gauntlet_leaderboard():
-    global gauntletlb_msg_id
+async def update_gauntlet_leaderboard(channel,gauntletlb_msg_id):
     print("called update gauntlet leaderboard")
     gauntlet_leaderboard_img = getImage_gauntlet_leaderboard()
-
-    channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
 
     if not channel:
         print("Channel not found")
         return
-    content = f"`Last updated on:`<t:{int(time.time())}:t>"
+    content = f"`Last updated on:`<t:{int(time.time())}:f>"
     try:
         if gauntletlb_msg_id:  
             message = await channel.fetch_message(gauntletlb_msg_id)
-            await message.edit(content=content, attachments=[discord.File(gauntlet_leaderboard_img, 'leaderboard.png')])
+            await message.edit(content=content, attachments=[discord.File(gauntlet_leaderboard_img, 'Gauntlet leaderboard.png')])
         else:
-            message = await channel.send(content=content, file=discord.File(gauntlet_leaderboard_img, 'leaderboard.png'))
+            message = await channel.send(content=content, file=discord.File(gauntlet_leaderboard_img, 'Gauntlet leaderboard.png'))
             gauntletlb_msg_id= message.id
     except discord.errors.NotFound:
         print("Message not found")
@@ -246,13 +237,29 @@ if __name__ == '__main__':
     group_leaderboard_changed = True
     solo_leaderboard_changed = True
     gauntlet_leaderboard_changed = True
+
+    gauntletlb_msg_id = None
+    Trialsleaderboard_solo_id = None
+    trialsgrplb_msg_id = None
+    
     first_load = True
     @bot.event
     async def on_ready():
         print('We have logged in as {0.user}'.format(bot))
+        leaderboard_channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
+        # Assuming you have a channel object already
+        leaderboard_messages_id = [message.id async for message in leaderboard_channel.history(limit=None)]
+        if leaderboard_messages_id != []:
+            trialsgrplb_msg_id,Trialsleaderboard_solo_id,gauntletlb_msg_id = leaderboard_messages_id
+        else:
+            await leaderboard_channel.send("1")
+            await leaderboard_channel.send("2")
+            await leaderboard_channel.send("3")
+            leaderboard_messages_id = [message.id async for message in leaderboard_channel.history(limit=None)]
+            trialsgrplb_msg_id,Trialsleaderboard_solo_id,gauntletlb_msg_id = leaderboard_messages_id
         # await SyncCommand()
         try:
-            Update_leaderboard.start()
+            Update_leaderboard.start(leaderboard_channel,gauntletlb_msg_id,Trialsleaderboard_solo_id,trialsgrplb_msg_id)
             change_activities.start()
         except Exception as e:
             print(e)
@@ -266,7 +273,7 @@ if __name__ == '__main__':
     
     
     @tasks.loop(seconds=10)
-    async def Update_leaderboard():
+    async def Update_leaderboard(leaderboard_channel,gauntletlb_msg_id,Trialsleaderboard_solo_id,trialsgrplb_msg_id):
         global gauntlet_leaderboard_changed,group_leaderboard_changed,solo_leaderboard_changed
         # URL of the webpage
         url = "https://playdauntless.com/trials/"
@@ -291,11 +298,11 @@ if __name__ == '__main__':
         week = "59"
         await leaderboard_changed(week)
         if gauntlet_leaderboard_changed:
-            await update_gauntlet_leaderboard()
+            await update_gauntlet_leaderboard(leaderboard_channel,gauntletlb_msg_id)
         if solo_leaderboard_changed:
-            await update_solo_trialsleaderboard(current_behemoth,current_rotation_time)
+            await update_solo_trialsleaderboard(leaderboard_channel,Trialsleaderboard_solo_id,current_behemoth,current_rotation_time)
         if group_leaderboard_changed:
-            await update_group_trialsleaderboard(current_behemoth,current_rotation_time)
+            await update_group_trialsleaderboard(leaderboard_channel,trialsgrplb_msg_id,current_behemoth,current_rotation_time)
 
     @bot.event
     async def on_message(message):
