@@ -37,6 +37,15 @@ def resize_and_sharpen(input_path, output_path, new_size, sharpness=2.0):
     # Save the sharpened image to the output path
     sharpened_image.save(output_path)
 
+def convert_timestamp(timestamp):
+                # Convert the timestamp to a datetime object
+                dt_object = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S%z")
+
+                # Format the datetime object as desired
+                formatted_date = dt_object.strftime("%B %d %Y")
+                
+                return formatted_date
+
 async def SyncCommand():
     try:
         synced = await bot.tree.sync()
@@ -210,9 +219,9 @@ async def update_group_trialsleaderboard(channel,trialsgrplb_msg_id,current_behe
     except Exception as e:
         print(f"An error occurred: {e}") 
 
-async def update_gauntlet_leaderboard(channel,gauntletlb_msg_id):
+async def update_gauntlet_leaderboard(channel,gauntletlb_msg_id,season,timeline):
     print("called update gauntlet leaderboard")
-    gauntlet_leaderboard_img = getImage_gauntlet_leaderboard()
+    gauntlet_leaderboard_img = getImage_gauntlet_leaderboard(season,timeline)
 
     if not channel:
         print("Channel not found")
@@ -298,9 +307,22 @@ if __name__ == '__main__':
         week = "59"
         await leaderboard_changed(week)
         if gauntlet_leaderboard_changed:
-            await update_gauntlet_leaderboard(leaderboard_channel,gauntletlb_msg_id)
+            # URL of the webpage
+            url = "https://storage.googleapis.com/dauntless-gauntlet-leaderboard/production-gauntlet-all-seasons.json"
+            # Send a GET request to the webpage
+            response = requests.get(url)
+            data = response.json()
+            current_season =data['active_season']
+            start_date = convert_timestamp(current_season['start_at'])
+            end_date = convert_timestamp(current_season['end_at'])
+            season = current_season['gauntlet_id'][-2:]
+            season = f"Gauntlet Season {season}"
+            timeline = f"{start_date} - {end_date}"
+            await update_gauntlet_leaderboard(leaderboard_channel,gauntletlb_msg_id,season,timeline)
+            
         if solo_leaderboard_changed:
             await update_solo_trialsleaderboard(leaderboard_channel,Trialsleaderboard_solo_id,current_behemoth,current_rotation_time)
+            
         if group_leaderboard_changed:
             await update_group_trialsleaderboard(leaderboard_channel,trialsgrplb_msg_id,current_behemoth,current_rotation_time)
 

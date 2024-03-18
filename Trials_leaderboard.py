@@ -204,7 +204,6 @@ async def getImage_solo_leaderboard(leaderboard_data,current_behemoth,current_ro
     # img.save("lb.png", format="PNG")
 
 
-
 # async def main():
 #     print("called main")
 #     await getImage_Trials_leaderboard(58)
