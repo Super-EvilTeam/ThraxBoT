@@ -1,9 +1,21 @@
-## Functions Demonstration
+# Functions Demonstration
 
+### 1. Display Gauntlet Leaderboard
+<p align="center">
+<img src="https://github.com/Super-EvilTeam/ThraxBoT/assets/99067991/13581346-4afb-4380-83c9-9fa881c67ee0" width="500" height="300" border="10"/>
+</p>
+
+### 2. Display Trials Leaderboard
+<p align="center">
+<img src="https://github.com/Super-EvilTeam/ThraxBoT/assets/99067991/e0b2e6b2-f5cf-4c0c-87e7-10fc4e67e5dd" width="500" height="300" border="10"/>
+<img src="https://github.com/Super-EvilTeam/ThraxBoT/assets/99067991/c7793220-dd17-40a9-9e01-921d2e6a55df"width="500" height="300" border="10"/>
+</p>  
+
+### 3. Builds Sharing
 https://github.com/Super-EvilTeam/ThraxBoT/assets/99067991/45726873-da61-41cd-a08c-b63739079eca
 
 
-## Setup
+# Setup
 
 1. Open command prompt navigate to project directory and run.
 
