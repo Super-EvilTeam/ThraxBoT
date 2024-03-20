@@ -24,19 +24,6 @@ prev_trials_leaderboard = None
 
 #discord flask pillow python-dotenv requests
 
-def resize_and_sharpen(input_path, output_path, new_size, sharpness=2.0):
-    # Open the original image
-    original_image = Image.open(input_path)
-
-    # Resize the image
-    resized_image = original_image.resize(new_size, Image.BOX)
-
-    # Sharpen the resized image with a customizable sharpness level
-    sharpened_image = resized_image.filter(ImageFilter.UnsharpMask(radius=2, percent=10))
-
-    # Save the sharpened image to the output path
-    sharpened_image.save(output_path)
-
 def convert_timestamp(timestamp):
                 # Convert the timestamp to a datetime object
                 dt_object = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S%z")
@@ -57,50 +44,6 @@ async def SendMsg():
     channel_id = 1163338804820721684
     channel = bot.get_channel(channel_id)
     await channel.send("Guess what!\n\nIt's Time to purge some sleeping warriors into the void!\n\n*Thrax laughing noises*")
-
-import re
-import pytz  # Import the pytz library for timezone handling
-from datetime import datetime
-
-async def TimeFormat(message):
-    if message.author == bot.user:
-        return
-
-    # Regular expression to match times like 12 pm, 12:30 am or 12 am
-    time_pattern = r'(\d{1,2})(?::(\d{2}))?\s?(am|pm)'
-    matches = re.findall(time_pattern, message.content.lower())
-    
-    replaced_message = message.content  # Initialize with the original message
-    
-    if matches:
-        for match in matches:
-            # Access the timestamp of the message in UTC
-            timestamp_utc = message.created_at
-            # Get the user's timezone
-            user_timezone = pytz.timezone('YOUR_USER_TIMEZONE')  # Replace with the user's timezone
-            # Convert the timestamp to the user's timezone
-            timestamp_user_timezone = timestamp_utc.astimezone(user_timezone)
-            # Print the timestamp
-            print(f"Message sent at: {timestamp_user_timezone}")
-            hour_str = match[0]
-            minute_str = match[1] if match[1] else '00'
-            time_str = f"{hour_str}:{minute_str}"
-            # Construct the time string including the user's local timezone
-            full_time_str = f"{time_str} {match[2]} {datetime.now().strftime('%m/%d/%Y')}"
-            try:
-                time_obj = datetime.strptime(full_time_str, '%I:%M %p %m/%d/%Y')
-                # Get the user's timezone
-                user_timezone = pytz.timezone('Asia/Kolkata')  # Replace 'YOUR_USERS_TIMEZONE' with the user's actual timezone
-                # Convert the time object to the user's timezone
-                time_obj = time_obj.astimezone(user_timezone)
-                unix_timestamp = int(time_obj.timestamp())
-                
-                # Replace the time mentioned in the message with its Unix timestamp
-                replaced_message = re.sub(time_pattern, f"<t:{unix_timestamp}:t>", replaced_message, count=1)
-            except ValueError:
-                pass  # Ignore if the time format is invalid
-        author_name = message.author.nick if message.author.nick else message.author.name
-        await message.channel.send(f"{author_name} said {replaced_message}")
 
 async def CheckJoin(message):
     if message.author == bot.user:
@@ -127,7 +70,7 @@ activities = ["Looking for Build? Use \meta_builds",
               "Thraxx in Thraxx enjoyer actually means Weed not Behemoth itself!",
               "Laughing at Void Runners"]
 
-async def leaderboard_changed(week):
+async def leaderboard_changed(week,session_token):
     global group_leaderboard_changed,solo_leaderboard_changed,gauntlet_leaderboard_changed,first_load
     if first_load:
         first_load =False
@@ -151,7 +94,7 @@ async def leaderboard_changed(week):
         else:
             gauntlet_leaderboard_changed = False
     
-    trials_leaderboard = await fetch_trials_leaderboard(week)
+    trials_leaderboard = await fetch_trials_leaderboard(week,session_token)
     group_leaderboard_data = trials_leaderboard["payload"]["world"]["group"]["entries"][:5]
     solo_leaderboard_data = trials_leaderboard["payload"]["world"]["solo"]["all"]["entries"][:5]
 
@@ -247,13 +190,19 @@ if __name__ == '__main__':
     solo_leaderboard_changed = True
     gauntlet_leaderboard_changed = True
 
+    week = 59
+    prev_behemoth = None
     gauntletlb_msg_id = None
     Trialsleaderboard_solo_id = None
     trialsgrplb_msg_id = None
     
+    refresh_token = "eyJ0IjoiZXBpY19pZCIsImFsZyI6IlJTMjU2Iiwia2lkIjoiV01TN0Vua0lHcGNIOURHWnN2MldjWTl4c3VGblpDdHhaamo0QWhiLV84RSJ9.eyJhdWQiOiIxMmM0Mjc5ODYyYWI0NDYwYTI1YzJlOWZhNTM1ZmI3ZSIsInN1YiI6IjE1MmM2NGNjYWMzMzQzNGRiYWFkZTE4ZjYzNDBjNjdjIiwidCI6ImVwaWNfaWQiLCJhcHBpZCI6ImZnaGk0NTY3ck5KSHY5cE5veWN6UVhvNkRESjZSRGVxIiwic2NvcGUiOiJiYXNpY19wcm9maWxlIGZyaWVuZHNfbGlzdCBjb3VudHJ5IHByZXNlbmNlIiwiaXNzIjoiaHR0cHM6Ly9hcGkuZXBpY2dhbWVzLmRldi9lcGljL29hdXRoL3YyIiwiZG4iOiJTdXBlckV2aWxUZWFtIiwiZXhwIjoxNzEwOTcxMTk0LCJpYXQiOjE3MTA5NDIzOTQsImp0aSI6IjhmNjEyMDUyOWMyMjQ2YzZhM2VlYWE4Y2IzZTM0NTk4IiwicGZwaWQiOiJwcm9kLWphY2thbCJ9.XvRGUSZOGAWfE7TCN8dyWC-ram4P0UWDBKoHuIireLDCIDrjeT4qIx5iqV4gLQ3X2njI7FWoCG_X6oMIZ365rOLIBdg_a5qRdxIJT5Yr4wnvOX5X3zDRoNuYecrQwMoW3NNSKNWCq_kL69dbZYoYzqXVo_gnNlW0ff7MJ40FFAA-NNcnRQ8phJLfzyh_HYrmZbK0LedNpIIA8Er60bFYzp45Nry_iU7wE0ca7XH4GOy3BAYIwnFu9nUvIkXPuFDujYw_NyJorlzYgcz_b5jkXzA9YE2G0MqnmHGaIqPms3JvdeZSUsNnoJbj8J2p2aDIgoRDzgdA1WV6YE3TStJDkQ"
+    session_token = None
     first_load = True
+
     @bot.event
     async def on_ready():
+        global prev_behemoth
         print('We have logged in as {0.user}'.format(bot))
         leaderboard_channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
         # Assuming you have a channel object already
@@ -267,7 +216,24 @@ if __name__ == '__main__':
             leaderboard_messages_id = [message.id async for message in leaderboard_channel.history(limit=None)]
             trialsgrplb_msg_id,Trialsleaderboard_solo_id,gauntletlb_msg_id = leaderboard_messages_id
         # await SyncCommand()
+            
+        # URL of the webpage
+        url = "https://playdauntless.com/trials/"
+
+        # Send a GET request to the webpage
+        response = requests.get(url)
+
+        # Parse the HTML content of the webpage
+        soup = BeautifulSoup(response.content, "html.parser")
+
+        # Find the div tag with class trial-summary__behemoth-name
+        div_tag = soup.find("div", class_="trial-summary__behemoth-name")
+
+        # Extract the text inside the div tag
+        prev_behemoth = div_tag.text.strip()
+
         try:
+            refresh_session_token.start()
             Update_leaderboard.start(leaderboard_channel,gauntletlb_msg_id,Trialsleaderboard_solo_id,trialsgrplb_msg_id)
             change_activities.start()
         except Exception as e:
@@ -280,10 +246,56 @@ if __name__ == '__main__':
             await bot.change_presence(activity=activity)
             await asyncio.sleep(60)  # Ensure smooth transition between activities
     
-    
+    @tasks.loop(hours=7)
+    async def refresh_session_token():
+        global refresh_token,session_token
+        def refresh_dauntless_token(refresh_token):
+            url = 'https://api.epicgames.dev/epic/oauth/v2/token'
+            headers = {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Basic MTJjNDI3OTg2MmFiNDQ2MGEyNWMyZTlmYTUzNWZiN2U6eEZEZnN5QkhXdllXWXZGWkxodXlqamhGNFVEUEZUNms=',
+            }
+            data = {
+                    "grant_type": "refresh_token",
+                    "refresh_token": f"{refresh_token}"
+                }
+
+            response = requests.post(url, headers=headers, data=data)
+            data = json.loads(response.content)
+            # print("Refreshed token")
+            # print(data)
+            access_token = data['access_token']
+            refresh_token = data["refresh_token"]
+            return access_token,refresh_token
+
+        def get_session_token(access_token):
+            url = 'https://gamesession-prod.steelyard.ca/gamesession/epiceos'
+            headers = {
+                'Accept': '*/*',
+                'Accept-Encoding': 'deflate, gzip',
+                'Authorization': f'BEARER {access_token}',
+                'Content-Type': 'application/json; charset=utf-8',
+                'X-Archon-Console': '(Windows)',
+                'User-Agent': 'Archon/++dauntless+rel-1.14.6-CL-615145 Windows/10.0.22621.1.768.64bit'
+            }
+
+            response = requests.put(url, headers=headers)
+            data = json.loads(response.content)
+            # print("Session Token")
+            # print(data)
+            session_token = data["payload"]["sessiontoken"]
+            return session_token
+        
+        # print("\n\nrefresh_token_before\n\n",refresh_token)
+        access_token,refresh_token = refresh_dauntless_token(refresh_token)
+        # print("\n\nrefresh_token_after\n\n",refresh_token)
+        session_token = get_session_token(access_token)
+        # print("\n\nsession token is below\n",session_token)
+            
     @tasks.loop(seconds=10)
     async def Update_leaderboard(leaderboard_channel,gauntletlb_msg_id,Trialsleaderboard_solo_id,trialsgrplb_msg_id):
-        global gauntlet_leaderboard_changed,group_leaderboard_changed,solo_leaderboard_changed
+        global gauntlet_leaderboard_changed,group_leaderboard_changed,solo_leaderboard_changed,session_token,week,prev_behemoth
+        print(prev_behemoth)
         # URL of the webpage
         url = "https://playdauntless.com/trials/"
 
@@ -299,13 +311,16 @@ if __name__ == '__main__':
 
         # Extract the text inside the div tag
         current_behemoth = div_tag.text.strip()
+        if current_behemoth != prev_behemoth:
+            week += 1
+            prev_behemoth = current_behemoth
+
         current_rotation_time = time_tag.text.strip()
         current_rotation_time = f"{current_rotation_time[:-2]}{int(current_rotation_time[-2:]) - 7 } - {current_rotation_time}"
         # current_behemoth = "Embermane"
         # print(current_behemoth)
 
-        week = "59"
-        await leaderboard_changed(week)
+        await leaderboard_changed(week,session_token)
         if gauntlet_leaderboard_changed:
             # URL of the webpage
             url = "https://storage.googleapis.com/dauntless-gauntlet-leaderboard/production-gauntlet-all-seasons.json"

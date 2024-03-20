@@ -39,10 +39,10 @@ fonts = {
 }
 
 
-async def fetch_trials_leaderboard(week):
+async def fetch_trials_leaderboard(week,session_token):
     url = "https://leaderboards-prod.steelyard.ca/trials/leaderboards/all"
     headers = {
-        "Authorization": f"BEARER {os.environ.get('SESSION_TOKEN')}",
+        "Authorization": f"BEARER {session_token}",
     }
     data = {
         "difficulty": 1,
