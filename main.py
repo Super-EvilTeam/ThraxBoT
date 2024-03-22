@@ -189,19 +189,20 @@ if __name__ == '__main__':
     solo_leaderboard_changed = True
     gauntlet_leaderboard_changed = True
 
-    week = 59
-    prev_behemoth = None
+    week = 60
+    current_behemoth = None
+    current_rotation_time = None
     gauntletlb_msg_id = None
     Trialsleaderboard_solo_id = None
     trialsgrplb_msg_id = None
     
-    refresh_token = "eyJ0IjoiZXBpY19pZCIsImFsZyI6IlJTMjU2Iiwia2lkIjoiV01TN0Vua0lHcGNIOURHWnN2MldjWTl4c3VGblpDdHhaamo0QWhiLV84RSJ9.eyJhdWQiOiIxMmM0Mjc5ODYyYWI0NDYwYTI1YzJlOWZhNTM1ZmI3ZSIsInN1YiI6IjE1MmM2NGNjYWMzMzQzNGRiYWFkZTE4ZjYzNDBjNjdjIiwidCI6ImVwaWNfaWQiLCJhcHBpZCI6ImZnaGk0NTY3ck5KSHY5cE5veWN6UVhvNkRESjZSRGVxIiwic2NvcGUiOiJiYXNpY19wcm9maWxlIGZyaWVuZHNfbGlzdCBjb3VudHJ5IHByZXNlbmNlIiwiaXNzIjoiaHR0cHM6Ly9hcGkuZXBpY2dhbWVzLmRldi9lcGljL29hdXRoL3YyIiwiZG4iOiJTdXBlckV2aWxUZWFtIiwiZXhwIjoxNzEwOTc0MTM2LCJpYXQiOjE3MTA5NDUzMzYsImp0aSI6IjdlZDI2MWY1ZTczOTQ2YTFiM2MyNzA5YzM5MzY1NzJkIiwicGZwaWQiOiJwcm9kLWphY2thbCJ9.QnTdNRJi6Ed11m-fPYNn0h4AqEO6Bt8Ws1cuCLXjOlLdKAUI-v0BGAIJlMRjAmpwRkeWExFk_7U2MfKa9LzBa6zbG7QRUxCiYbyL7NpEWuIs3sfqodtnztJY8hZowJ1MVi2CR9I8rc62YD4sSxSV9c7_oUcLQAgHzPhAQ2U8UkCU1DA6q198A2HsRCcWw5OA0f6QlH4xC3JQmhtws1Y4hlIdifu5oTG_JBpFaLQo6dp6T4RQCGul4t3EPOsiCdUGIPiHh2Ofl5s8D9Iciy4nGmB58ux8TQYoJMxS6kDrq3x9mQlEcWwilMeVS3HeQlXhQy-zNhbqborovZQrGarsoQ"
+    refresh_token = os.environ.get('refresh_token')
     session_token = None
     first_load = True
 
     @bot.event
     async def on_ready():
-        global prev_behemoth
+        global current_behemoth,current_rotation_time
         print('We have logged in as {0.user}'.format(bot))
         leaderboard_channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
         # Assuming you have a channel object already
@@ -227,9 +228,12 @@ if __name__ == '__main__':
 
         # Find the div tag with class trial-summary__behemoth-name
         div_tag = soup.find("div", class_="trial-summary__behemoth-name")
+        time_tag = soup.find("time", class_ ="medium localize")
 
         # Extract the text inside the div tag
-        prev_behemoth = div_tag.text.strip()
+        current_rotation_time = time_tag.text.strip()
+        current_rotation_time = f"{current_rotation_time[:-2]}{int(current_rotation_time[-2:]) - 7 } - {current_rotation_time}"
+        current_behemoth = div_tag.text.strip()
 
         try:
             refresh_session_token.start()
@@ -285,39 +289,15 @@ if __name__ == '__main__':
             session_token = data["payload"]["sessiontoken"]
             return session_token
         
-        # print("\n\nrefresh_token_before\n\n",refresh_token)
+        print("\n\nrefresh_token_before\n\n",refresh_token)
         access_token,refresh_token = refresh_dauntless_token(refresh_token)
-        # print("\n\nrefresh_token_after\n\n",refresh_token)
+        print("\n\nrefresh_token_after\n\n",refresh_token)
         session_token = get_session_token(access_token)
         # print("\n\nsession token is below\n",session_token)
             
     @tasks.loop(seconds=10)
     async def Update_leaderboard(leaderboard_channel,gauntletlb_msg_id,Trialsleaderboard_solo_id,trialsgrplb_msg_id):
-        global gauntlet_leaderboard_changed,group_leaderboard_changed,solo_leaderboard_changed,session_token,week,prev_behemoth
-        print(prev_behemoth)
-        # URL of the webpage
-        url = "https://playdauntless.com/trials/"
-
-        # Send a GET request to the webpage
-        response = requests.get(url)
-
-        # Parse the HTML content of the webpage
-        soup = BeautifulSoup(response.content, "html.parser")
-
-        # Find the div tag with class trial-summary__behemoth-name
-        div_tag = soup.find("div", class_="trial-summary__behemoth-name")
-        time_tag = soup.find("time", class_ ="medium localize")
-
-        # Extract the text inside the div tag
-        current_behemoth = div_tag.text.strip()
-        if current_behemoth != prev_behemoth:
-            week += 1
-            prev_behemoth = current_behemoth
-
-        current_rotation_time = time_tag.text.strip()
-        current_rotation_time = f"{current_rotation_time[:-2]}{int(current_rotation_time[-2:]) - 7 } - {current_rotation_time}"
-        # current_behemoth = "Embermane"
-        # print(current_behemoth)
+        global gauntlet_leaderboard_changed,group_leaderboard_changed,solo_leaderboard_changed,session_token,week,current_behemoth,current_rotation_time
 
         await leaderboard_changed(week,session_token)
         if gauntlet_leaderboard_changed:
