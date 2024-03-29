@@ -16,19 +16,15 @@ def get_text_dimensions(text_string, font):
 
     return (text_width, text_height)
 
-def getImage_gauntlet_leaderboard(season_title,season_timeline):
+def getImage_gauntlet_leaderboard(gauntlet_leaderboard_data,season_title,season_timeline):
     try:
-        with open("gauntlet.json", 'r',encoding='utf-8') as file:
-            leaderboard = json.load(file)
-
-        # Open the provided background image
         img = Image.open(get_path("Board_background.png"))
         draw = ImageDraw.Draw(img)
 
         font_path = "Roboto-Regular.ttf"
         font = ImageFont.truetype(get_path(font_path), 24)
         Title_font = ImageFont.truetype(get_path(font_path), 35)
-
+        season_title = f"Gauntlet season {season_title}"
         Title_width,_ = get_text_dimensions(season_title,Title_font)
         Timeline_width,_ = get_text_dimensions(season_timeline,Title_font)
         Title_x = (1164 - Title_width) // 2
@@ -49,7 +45,7 @@ def getImage_gauntlet_leaderboard(season_title,season_timeline):
         x, y = 150, 172
 
         # Define custom coordinates for each piece of information
-        for i, guild_info in enumerate(leaderboard):
+        for i, guild_info in enumerate(gauntlet_leaderboard_data):
             if i == 0:
                 fill = "#FFD700"  # Gold
             elif i == 1:

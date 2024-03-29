@@ -3,7 +3,7 @@ import requests
 import asyncio
 import discord
 import time
-from datetime import datetime
+from datetime import datetime,timedelta
 from UI.SelectLanguage import SelectLanguage
 from UI.RecruitForm import RecruitForm
 from UI.MetaBuilds import MetaBuilds
@@ -19,7 +19,6 @@ user_id = None
 mods = None
 
 prev_trials_leaderboard = None
-
 
 #discord flask pillow python-dotenv requests
 
@@ -68,60 +67,10 @@ activities = ["Looking for Build? Use \meta_builds",
               "Fetching Leaderboard......",
               "Thraxx in Thraxx enjoyer actually means Weed not Behemoth itself!",
               "Laughing at Void Runners"]
-
-async def leaderboard_changed(week,session_token):
-    global group_leaderboard_changed,solo_leaderboard_changed,gauntlet_leaderboard_changed,first_load
-    if first_load:
-        first_load =False
-        return
     
-    current_unix_time_milliseconds = int(time.time() * 1000)
-    print(current_unix_time_milliseconds)
-    response = requests.get(f"https://storage.googleapis.com/dauntless-gauntlet-leaderboard/production-gauntlet-season11.json?_={current_unix_time_milliseconds}")
-
-    # Check if the request was successful (status code 200)
-    if response.status_code == 200:
-        # Parse the JSON content of the response into a dictionary
-        data = response.json()
-        gauntlet_leaderboard_data = data["leaderboard"][:5]
-        with open("gauntlet.json", 'r',encoding='utf-8') as file:
-            gauntlet = json.load(file)
-        if gauntlet_leaderboard_data != gauntlet:
-            with open("gauntlet.json", 'w') as file:
-                json.dump(gauntlet_leaderboard_data, file)
-            gauntlet_leaderboard_changed = True
-        else:
-            gauntlet_leaderboard_changed = False
-    
-    trials_leaderboard = await fetch_trials_leaderboard(week,session_token)
-    group_leaderboard_data = trials_leaderboard["payload"]["world"]["group"]["entries"][:5]
-    solo_leaderboard_data = trials_leaderboard["payload"]["world"]["solo"]["all"]["entries"][:5]
-
-    with open("group.json", 'r',encoding='utf-8') as file:
-        group = json.load(file)
-    with open("solo.json", 'r',encoding='utf-8') as file:
-        solo = json.load(file)
-    
-    if group_leaderboard_data != group:
-        with open("group.json", 'w') as file:
-            json.dump(group_leaderboard_data, file)
-        group_leaderboard_changed = True
-    else:
-        group_leaderboard_changed = False
-
-    if solo_leaderboard_data != solo:
-        with open("solo.json", 'w') as file:
-            json.dump(solo_leaderboard_data, file)
-        solo_leaderboard_changed = True
-    else:
-        solo_leaderboard_changed = False
-    return
-    
-async def update_solo_trialsleaderboard(channel,Trialsleaderboard_solo_id,current_behemoth,current_rotation_time):
-    with open("solo.json", 'r',encoding='utf-8') as file:
-            solo_leaderboard_data = json.load(file)
+async def update_solo_trialsleaderboard(data,channel,Trialsleaderboard_solo_id,current_behemoth,current_rotation_time):
     print("called update solo leaderboard")
-    solo_leaderboard_img = await getImage_solo_leaderboard(solo_leaderboard_data,current_behemoth,current_rotation_time)
+    solo_leaderboard_img = await getImage_solo_leaderboard(data,current_behemoth,current_rotation_time)
 
     if not channel:
         print("Channel not found")
@@ -139,11 +88,10 @@ async def update_solo_trialsleaderboard(channel,Trialsleaderboard_solo_id,curren
     except Exception as e:
         print(f"An error occurred: {e}")   
     
-async def update_group_trialsleaderboard(channel,trialsgrplb_msg_id,current_behemoth,current_rotation_time):
+async def update_group_trialsleaderboard(data,channel,trialsgrplb_msg_id,current_behemoth,current_rotation_time):
     print("called update group leaderboard")
-    with open("group.json", 'r',encoding='utf-8') as file:
-        group_leaderboard_data = json.load(file)
-    group_leaderboard_img = await getImage_group_leaderboard(group_leaderboard_data,current_behemoth,current_rotation_time)
+    
+    group_leaderboard_img = await getImage_group_leaderboard(data,current_behemoth,current_rotation_time)
 
     if not channel:
         print("Channel not found")
@@ -161,13 +109,14 @@ async def update_group_trialsleaderboard(channel,trialsgrplb_msg_id,current_behe
     except Exception as e:
         print(f"An error occurred: {e}") 
 
-async def update_gauntlet_leaderboard(channel,gauntletlb_msg_id,season,timeline):
+async def update_gauntlet_leaderboard(gauntlet_leaderboard_data,channel,gauntletlb_msg_id,season,timeline):
     print("called update gauntlet leaderboard")
-    gauntlet_leaderboard_img = getImage_gauntlet_leaderboard(season,timeline)
+    gauntlet_leaderboard_img = getImage_gauntlet_leaderboard(gauntlet_leaderboard_data,season,timeline)
 
     if not channel:
         print("Channel not found")
         return
+    print(int(time.time()))
     content = f"`Last updated on:`<t:{int(time.time())}:f>"
     try:
         if gauntletlb_msg_id:  
@@ -181,31 +130,118 @@ async def update_gauntlet_leaderboard(channel,gauntletlb_msg_id,season,timeline)
     except Exception as e:
         print(f"An error occurred: {e}") 
 
+async def initialize_refresh_token(authorization_code):
+    def get_access_token_fortnite(authorization_code):
+        url = "https://account-public-service-prod.ol.epicgames.com/account/api/oauth/token"
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            #Below is fortnitePcClient Authorization
+            "Authorization": f"Basic ZWM2ODRiOGM2ODdmNDc5ZmFkZWEzY2IyYWQ4M2Y1YzY6ZTFmMzFjMjExZjI4NDEzMTg2MjYyZDM3YTEzZmM4NGQ=" 
+        }
+        data = {
+            "grant_type": "authorization_code",
+            "code": f"{authorization_code}"
+        }
+
+        response = requests.post(url, headers=headers, data=data)
+        data = json.loads(response.content)
+        # print("fortnite Access token")
+        # print(data)
+        access_token = data['access_token']
+        return access_token
+
+    def create_exchange_code(access_token):
+        url = "https://account-public-service-prod.ol.epicgames.com/account/api/oauth/exchange"
+        headers = {
+            "Authorization": f"Bearer {access_token}"
+        }
+        response = requests.get(url, headers=headers)
+        data = json.loads(response.content)
+        # print("Exchange Code")
+        # print(data)
+        exchange_code = data["code"]
+        return exchange_code
+
+    def get_refresh_token_dauntless(exchange_code):
+        url = 'https://api.epicgames.dev/epic/oauth/v2/token'
+        headers = {
+            'Accept-Encoding': 'deflate, gzip',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json',
+            'Authorization': 'Basic MTJjNDI3OTg2MmFiNDQ2MGEyNWMyZTlmYTUzNWZiN2U6eEZEZnN5QkhXdllXWXZGWkxodXlqamhGNFVEUEZUNms=',
+            'X-Epic-Correlation-ID': 'EOS-7Xy9sxln5k6-kd-09Q8ouQ-GmEbSTmd6UmlCwuKAdQF_w',
+            'User-Agent': 'EOS-SDK/1.16.0-25515828 (Windows/10.0.22621.2506.64bit) Dauntless/1.0.0',
+            'X-EOS-Version': '1.16.0-25515828'
+        }
+        data = {
+                "grant_type": "exchange_code",
+                "exchange_code": f"{exchange_code}"
+            }
+
+        response = requests.post(url, headers=headers, data=data)
+        data = json.loads(response.content)
+        # print("Dauntless token")
+        # print(data)
+        refresh_token = data['refresh_token']
+        return refresh_token
+    
+    fr_access_token = get_access_token_fortnite(authorization_code)
+    exchange_code = create_exchange_code(fr_access_token)
+    refresh_token = get_refresh_token_dauntless(exchange_code)
+    return refresh_token
+
+def get_trials_rotation_info():
+    url = "https://playdauntless.com/trials/"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    div_tag = soup.find("div", class_="trial-summary__behemoth-name")
+    time_tag = soup.find("time", class_ ="medium localize")
+
+    end_date = time_tag.text.strip()
+    end_date = datetime.strptime(end_date, "%b %d")
+    start_date = end_date - timedelta(days=7)
+    start_date = start_date.strftime("%b %d")
+    end_date = end_date.strftime("%b %d")
+
+    current_rotation_time = f"{start_date} - {end_date}"
+    current_behemoth = div_tag.text.strip()
+    return current_behemoth,current_rotation_time
+
 if __name__ == '__main__':
     load_dotenv()
     my_secret = os.environ.get('TOKEN')
     bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
-    group_leaderboard_changed = True
-    solo_leaderboard_changed = True
-    gauntlet_leaderboard_changed = True
 
-    week = 60
+    week = 61
     current_behemoth = None
     current_rotation_time = None
+    season= None
+    timeline = None
     gauntletlb_msg_id = None
     Trialsleaderboard_solo_id = None
     trialsgrplb_msg_id = None
     
-    refresh_token = os.environ.get('refresh_token')
+    refresh_token = None
     session_token = None
     first_load = True
 
+    gauntlet_leaderboard_data = None
+    solo_leaderboard_data = None
+    group_leaderboard_data = None
+
     @bot.event
     async def on_ready():
-        global current_behemoth,current_rotation_time
+        global refresh_token,current_behemoth,current_rotation_time,trialsgrplb_msg_id,Trialsleaderboard_solo_id,gauntletlb_msg_id,season,timeline
+        
         print('We have logged in as {0.user}'.format(bot))
+
+        authorization_code = os.environ.get('authoriazation_code')
+        try:
+            refresh_token = await initialize_refresh_token(authorization_code)
+        except Exception as e:
+            print("Refresh Authorization code")
+
         leaderboard_channel = discord.utils.get(bot.get_all_channels(), name="📜︱leaderboard")
-        # Assuming you have a channel object already
         leaderboard_messages_id = [message.id async for message in leaderboard_channel.history(limit=None)]
         if leaderboard_messages_id != []:
             trialsgrplb_msg_id,Trialsleaderboard_solo_id,gauntletlb_msg_id = leaderboard_messages_id
@@ -216,28 +252,22 @@ if __name__ == '__main__':
             leaderboard_messages_id = [message.id async for message in leaderboard_channel.history(limit=None)]
             trialsgrplb_msg_id,Trialsleaderboard_solo_id,gauntletlb_msg_id = leaderboard_messages_id
         # await SyncCommand()
-            
-        # URL of the webpage
-        url = "https://playdauntless.com/trials/"
+        
+        current_behemoth,current_rotation_time = get_trials_rotation_info()
 
-        # Send a GET request to the webpage
+        url = "https://storage.googleapis.com/dauntless-gauntlet-leaderboard/production-gauntlet-all-seasons.json"
         response = requests.get(url)
-
-        # Parse the HTML content of the webpage
-        soup = BeautifulSoup(response.content, "html.parser")
-
-        # Find the div tag with class trial-summary__behemoth-name
-        div_tag = soup.find("div", class_="trial-summary__behemoth-name")
-        time_tag = soup.find("time", class_ ="medium localize")
-
-        # Extract the text inside the div tag
-        current_rotation_time = time_tag.text.strip()
-        current_rotation_time = f"{current_rotation_time[:-2]}{int(current_rotation_time[-2:]) - 7 } - {current_rotation_time}"
-        current_behemoth = div_tag.text.strip()
+        data = response.json()
+        current_season =data['active_season']
+        start_date = convert_timestamp(current_season['start_at'])
+        end_date = convert_timestamp(current_season['end_at'])
+        season = current_season['gauntlet_id'][-2:]
+        # season = f"Gauntlet Season {season}"
+        timeline = f"{start_date} - {end_date}"
 
         try:
             refresh_session_token.start()
-            Update_leaderboard.start(leaderboard_channel,gauntletlb_msg_id,Trialsleaderboard_solo_id,trialsgrplb_msg_id)
+            Update_leaderboard.start(leaderboard_channel)
             change_activities.start()
         except Exception as e:
             print(e)
@@ -249,7 +279,7 @@ if __name__ == '__main__':
             await bot.change_presence(activity=activity)
             await asyncio.sleep(60)  # Ensure smooth transition between activities
     
-    @tasks.loop(hours=7)
+    @tasks.loop(hours=2)
     async def refresh_session_token():
         global refresh_token,session_token
         def refresh_dauntless_token(refresh_token):
@@ -289,36 +319,34 @@ if __name__ == '__main__':
             session_token = data["payload"]["sessiontoken"]
             return session_token
         
-        print("\n\nrefresh_token_before\n\n",refresh_token)
+        # print("\n\nrefresh_token_before\n\n",refresh_token)
         access_token,refresh_token = refresh_dauntless_token(refresh_token)
-        print("\n\nrefresh_token_after\n\n",refresh_token)
+        # print("\n\nrefresh_token_after\n\n",refresh_token)
         session_token = get_session_token(access_token)
         # print("\n\nsession token is below\n",session_token)
             
     @tasks.loop(seconds=10)
-    async def Update_leaderboard(leaderboard_channel,gauntletlb_msg_id,Trialsleaderboard_solo_id,trialsgrplb_msg_id):
-        global gauntlet_leaderboard_changed,group_leaderboard_changed,solo_leaderboard_changed,session_token,week,current_behemoth,current_rotation_time
+    async def Update_leaderboard(leaderboard_channel):
+        global group_leaderboard_data,solo_leaderboard_data,gauntlet_leaderboard_data,session_token,week,current_behemoth,current_rotation_time,season,timeline
+        
+        response = requests.get(f"https://storage.googleapis.com/dauntless-gauntlet-leaderboard/production-gauntlet-season11.json")
+        data = response.json()
+        data = data["leaderboard"][:5]
+        if data != gauntlet_leaderboard_data:
+            gauntlet_leaderboard_data = data
+            await update_gauntlet_leaderboard(gauntlet_leaderboard_data,leaderboard_channel,gauntletlb_msg_id,season,timeline)
 
-        await leaderboard_changed(week,session_token)
-        if gauntlet_leaderboard_changed:
-            # URL of the webpage
-            url = "https://storage.googleapis.com/dauntless-gauntlet-leaderboard/production-gauntlet-all-seasons.json"
-            # Send a GET request to the webpage
-            response = requests.get(url)
-            data = response.json()
-            current_season =data['active_season']
-            start_date = convert_timestamp(current_season['start_at'])
-            end_date = convert_timestamp(current_season['end_at'])
-            season = current_season['gauntlet_id'][-2:]
-            season = f"Gauntlet Season {season}"
-            timeline = f"{start_date} - {end_date}"
-            await update_gauntlet_leaderboard(leaderboard_channel,gauntletlb_msg_id,season,timeline)
-            
-        if solo_leaderboard_changed:
-            await update_solo_trialsleaderboard(leaderboard_channel,Trialsleaderboard_solo_id,current_behemoth,current_rotation_time)
-            
-        if group_leaderboard_changed:
-            await update_group_trialsleaderboard(leaderboard_channel,trialsgrplb_msg_id,current_behemoth,current_rotation_time)
+        trials_leaderboard = await fetch_trials_leaderboard(week,session_token)
+        group_data = trials_leaderboard["payload"]["world"]["group"]["entries"][:5]
+        solo_data = trials_leaderboard["payload"]["world"]["solo"]["all"]["entries"][:5]
+
+        if group_data != group_leaderboard_data:
+            group_leaderboard_data = group_data
+            await update_group_trialsleaderboard(group_leaderboard_data,leaderboard_channel,trialsgrplb_msg_id,current_behemoth,current_rotation_time)
+
+        if solo_data != solo_leaderboard_data:
+            solo_leaderboard_data = solo_data
+            await update_solo_trialsleaderboard(solo_leaderboard_data,leaderboard_channel,Trialsleaderboard_solo_id,current_behemoth,current_rotation_time)
 
     @bot.event
     async def on_message(message):

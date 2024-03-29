@@ -56,7 +56,7 @@ async def fetch_trials_leaderboard(week,session_token):
             return await response.json()
 
 def convert_to_time(value):
-    if len(str(value)) == 6:  # If the value is 6 digits, convert to minutes
+    if value >= 60000:  # If the value is greater than or equal to 1 minute (60000 milliseconds), convert to minutes
         seconds = value // 1000
         minutes = seconds // 60
         seconds %= 60
@@ -64,6 +64,10 @@ def convert_to_time(value):
     else:  # Otherwise, treat it as seconds
         seconds = value // 1000
         return f"{seconds}.{str(value)[-3:]} sec"
+
+# Example usage:
+print(convert_to_time(65630))
+
 
 def get_path(filename):
    # Get the current directory
