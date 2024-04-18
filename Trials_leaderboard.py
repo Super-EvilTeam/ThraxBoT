@@ -65,10 +65,6 @@ def convert_to_time(value):
         seconds = value // 1000
         return f"{seconds}.{str(value)[-3:]} sec"
 
-# Example usage:
-print(convert_to_time(65630))
-
-
 def get_path(filename):
    # Get the current directory
     current_directory = os.getcwd()
@@ -93,13 +89,14 @@ def prep_paste_img(img_filename,size):
 
 async def getImage_group_leaderboard(leaderboard_data,current_behemoth,current_rotation_time):
     Title_font = ImageFont.truetype(get_path("INFECTED.ttf"), size=106)
-    item_font = ImageFont.truetype(get_path("GothicA1-Medium.ttf"), size=40)
+    # item_font = ImageFont.truetype(get_path("NotoSansJP-Regular.ttf"), size=40)
+    item_font = ImageFont.truetype(get_path("Customfont.ttf"), size=40)
     
     img = Image.new('RGB', (1600, 1100), color='#313338')
     draw = ImageDraw.Draw(img)
 
     draw.text((300, 30), f"Trials Champions Group", fill="white", font=Title_font)
-    draw.text((660, 165), current_rotation_time, fill="#49be25", font=item_font)
+    draw.text((660, 145), current_rotation_time, fill="#49be25", font=item_font)
 
     behemoth_icon = Image.open(get_path(f"{current_behemoth}.png")).resize((290,250))
     img.paste(behemoth_icon, (0, -20), mask=behemoth_icon.split()[3])
@@ -121,8 +118,7 @@ async def getImage_group_leaderboard(leaderboard_data,current_behemoth,current_r
         else:
             fill = "white"
 
-        # Draw guild_name
-        draw.text((x-60, y+60), f"{i+1}", fill=fill, font=item_font)
+        draw.text((x-60, y+50), f"{i+1}", fill=fill, font=item_font)
         
         entry_x = x
         entry_y = y
@@ -133,7 +129,7 @@ async def getImage_group_leaderboard(leaderboard_data,current_behemoth,current_r
 
             img.paste(weapon_icon, (entry_x, entry_y+5), mask=weapon_icon.split()[3])
             img.paste(role_icon, (entry_x+50+20, entry_y+5), mask=role_icon.split()[3])
-            draw.text((entry_x+150, entry_y+25), player_name, fill=fill, font=item_font)
+            draw.text((entry_x+150, entry_y+5), player_name, fill=fill, font=item_font)
             entry_x += 520
             if i == 1:
                 entry_x = x
@@ -141,7 +137,7 @@ async def getImage_group_leaderboard(leaderboard_data,current_behemoth,current_r
 
         # Draw remaining_time
         remaining_time = convert_to_time(trials_Group['completion_time'])
-        draw.text((1270, y+55), f"{remaining_time}", fill=fill, font=item_font)
+        draw.text((1270, y+35), f"{remaining_time}", fill=fill, font=item_font)
 
         y += 170
     img_bytes_io = io.BytesIO()
@@ -152,14 +148,15 @@ async def getImage_group_leaderboard(leaderboard_data,current_behemoth,current_r
 
 async def getImage_solo_leaderboard(leaderboard_data,current_behemoth,current_rotation_time):
     Title_font = ImageFont.truetype(get_path("INFECTED.ttf"), size=75)
-    item_font = ImageFont.truetype(get_path("GothicA1-Medium.ttf"), size=30)
-    
+    # item_font = ImageFont.truetype(get_path("NotoSansJP-Regular.ttf"), size=30)
+    item_font = ImageFont.truetype(get_path("Customfont.ttf"), size=30)
+
     # Open the provided background image
     img = Image.new('RGB', (1024, 700), color='#313338')
     draw = ImageDraw.Draw(img)
 
     draw.text((220, 40), f"Trials Champions Solo", fill="white", font=Title_font)
-    draw.text((420, 145), current_rotation_time, fill="#49be25", font=item_font)
+    draw.text((420, 135), current_rotation_time, fill="#49be25", font=item_font)
     
     behemoth_icon = Image.open(get_path(f"{current_behemoth}.png")).resize((250,240))
     img.paste(behemoth_icon, (-20, -30), mask=behemoth_icon.split()[3])
@@ -183,7 +180,7 @@ async def getImage_solo_leaderboard(leaderboard_data,current_behemoth,current_ro
         else:
             fill = "white"
 
-        draw.text((x-30, y+28), f"{i+1}", fill=fill, font=item_font)
+        draw.text((x-30, y+18), f"{i+1}", fill=fill, font=item_font)
         
         weapon_icon = resized_weapon_icons[str(entry['weapon'])]
         role_icon = resized_role_icons[str(entry['player_role_id'])]
@@ -192,13 +189,13 @@ async def getImage_solo_leaderboard(leaderboard_data,current_behemoth,current_ro
         img.paste(weapon_icon, (x, y+5), mask=weapon_icon.split()[3])
         img.paste(role_icon, (x+50+20, y+5), mask=role_icon.split()[3])
         
-        draw.text((x+150, y+28), entry['platform_name'], fill=fill, font=item_font)
+        draw.text((x+150, y+18), entry['platform_name'], fill=fill, font=item_font)
         width,_ = get_text_dimensions(entry['platform_name'], item_font)
         
         img.paste(platform_icon, (x+160+width, y+15), mask=platform_icon.split()[3])
 
         completion_time = convert_to_time(entry['completion_time'])
-        draw.text((800, y+28), f"{completion_time}", fill=fill, font=item_font)
+        draw.text((800, y+18), f"{completion_time}", fill=fill, font=item_font)
 
         y += 100
     img_bytes_io = io.BytesIO()
